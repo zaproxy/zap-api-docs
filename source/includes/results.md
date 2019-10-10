@@ -19,7 +19,7 @@ zap = ZAPv2(apikey=apiKey)
 
 # Retrieve the alerts using paging in case there are lots of them
 st = 0
-pg = 5
+pg = 5000
 alert_dict = {}
 alert_count = 0
 alerts = zap.alert.alerts(baseurl=target, start=st, count=pg)
@@ -31,7 +31,7 @@ while len(alerts) > 0:
         plugin_id = alert.get('pluginId')
         if plugin_id in blacklist:
             continue
-        if alert.get('risk') == 'Informational':
+        if alert.get('risk') == 'High':
             # Trigger any relevant postprocessing
             continue
         if alert.get('risk') == 'Informational':
@@ -62,8 +62,8 @@ public class Alerts {
             // TODO: Check if the scanning has completed
 
             // Retrieve the alerts using paging in case there are lots of them
-            int start = 900;
-            int count = 10;
+            int start = 0;
+            int count = 5000;
             int alertCount = 0;
             ApiResponse resp = api.alert.alerts(TARGET, String.valueOf(start), String.valueOf(count), null);
 
@@ -97,7 +97,7 @@ public class Alerts {
 
 ```shell
 # To view the alerts
-$ curl "http://localhost:8080/JSON/alert/view/alerts/?apikey=<ZAP_API_KEY>&baseurl=<BASE_URL>&start=0&count=10&riskId="
+$ curl "http://localhost:8080/JSON/alert/view/alerts/?apikey=<ZAP_API_KEY>&baseurl=<BASE_URL>&start=0&count=5000&riskId="
 
 # To view the summay of the alerts
 $ curl "http://localhost:8080/JSON/alert/view/alertsSummary/?apikey=<ZAP_API_KEY>baseurl=<BASE_URL>"
@@ -112,7 +112,6 @@ For example, a high priority risk means that the issues listed in that category 
  
 The [alerts](#alertviewalerts) endpoint provides all the alerts which are identified by ZAP. View the sample code on the right to retrieve the 
 alerts from the alerts endpoint. The results can be used to raise security alerts in the CI/CD pipeline or to trigger any custom workflows. 
-The [alerts summary](#alertviewalertssummary) gets the number of alerts grouped by each risk level and optionally filtering by URL.
 
 ![alert_sample](../images/alerts_results.png)
 
