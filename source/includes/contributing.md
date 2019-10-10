@@ -5,17 +5,17 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 **1. Creating High-level API/Automation Docs**
 
     Create high level docs or example guides on how to use the APIs to perform any action/view with ZAP.
-    The source files for the ZAP API documentation is hosted in Github. The repository is available at [Github](https://github.com/sshniro/zapdocs).
+    The source files for the ZAP API documentation is hosted in Github. The repository is available at [Github](https://github.com/zaproxy/zap-api-docs).
     The source files are in `Markdown` (md) format.
     
 **2. REST API Documentation**
 
     Rest API is documented using the Open API specification. The specification could be improved by enhacing the description of 
-    parameters/ results/ data types etc. The open API specification is avaiable in [Github](https://github.com/sshniro/zap-docs/blob/master/openapi.yaml).
+    parameters/ results/ data types etc. The open API specification is avaiable in [Github](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
 
 **3. Feature Documentation**
 
-    Feature documentation of the ZAP is avaiable in the [Github wiki](https://github.com/sshniro/zapdocs).
+    Feature documentation of the ZAP is avaiable in the [Github wiki](https://github.com/zaproxy/zaproxy/wiki).
 
 
 ## How to Contribute
@@ -47,7 +47,7 @@ ZAP uses git for its code repository.
 To submit a documentation update, use the following steps:
 
 **1. Clone the ZAP Docs repository:** 
-    `git clone https://github.com/sshniro/zapdocs.git`
+    `git clone https://github.com/zaproxy/zap-api-docs`
    
 **2. Navigate to the cloned repository:** 
     `cd zapdocs`
