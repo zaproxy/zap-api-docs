@@ -123,7 +123,7 @@ endpoints for the spider can be found in [spider](#zap-api-spider) section.
 
 ### Start the Spider
 
-The Spiders explore the site and they don't actually do any scanning. THe resource crawled by the Spider are passively scanned 
+The Spiders explore the site and they don't actually do any scanning. The resources crawled by the Spider(s) are passively scanned 
 in the background via the [Passive Scanner](#using-passive-scan). The [scan](#spideractionscan) API runs the spider against the given URL. 
 Optionally, the 'maxChildren' parameter can be set to limit the number of children scanned and the 'recurse' parameter can 
 be used to prevent the spider from seeding recursively. The parameter 'subtreeOnly' allows to restrict the spider under a 
