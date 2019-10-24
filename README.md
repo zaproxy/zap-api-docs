@@ -10,7 +10,7 @@ This repository This provides example guides & API definitions for ZAP APIs.
 
 The live demo can be viewed in the following [URL](https://zaproxy.github.io/zap-api-docs).
 
-# Contributing to the documentation
+# Contributing to the Documentation
 
 The guidelines for contribution is available in the [following page](https://zaproxy.github.io/zap-api-docs/#contributions-welcome).
 ZAP documentation is built using [Slate](https://github.com/tripit/slate). All documentation is in `includes` directory, 

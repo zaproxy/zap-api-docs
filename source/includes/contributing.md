@@ -5,17 +5,18 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 **1. Creating High-level API/Automation Docs**
 
     Create high level docs or example guides on how to use the APIs to perform any action/view with ZAP.
-    The source files for the ZAP API documentation is hosted in Github. The repository is available at [Github](https://github.com/zaproxy/zap-api-docs).
+    The source files for the ZAP API documentation is hosted on Github. The repository is available at [Github](https://github.com/zaproxy/zap-api-docs).
     The source files are in `Markdown` (md) format.
     
 **2. REST API Documentation**
 
-    Rest API is documented using the Open API specification. The specification could be improved by enhacing the description of 
+    ZAP's rest API is documented using the Open API specification. The specification could be improved by enhacing the description of 
     parameters/ results/ data types etc. The open API specification is avaiable in [Github](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
 
 **3. Feature Documentation**
 
-    Feature documentation of the ZAP is avaiable in the [Github wiki](https://github.com/zaproxy/zaproxy/wiki).
+    Feature documentation related to the ZAP is available on [ZAP wiki](https://github.com/zaproxy/zaproxy/wiki), 
+    [ZAP user guide](https://github.com/zaproxy/zap-core-help/wiki), and [ZAP extensions](https://github.com/zaproxy/zap-extensions/wiki) repositories.
 
 
 ## How to Contribute
@@ -29,12 +30,12 @@ There are 2 different workflows which you can use to make changes or PRs. Use wh
 **1. "Edit this File on Github" Option**
     
 You can edit the documentation in the browser via navigating to the relevant source file and clicking the edit this file button.
-This workflow is recommended for minor changes, For example correcting typos/spellings/grammar etc.
+This workflow is recommended for minor changes. For example correcting typos/spellings/grammar etc.
 For extensive changes, please use the local setup and editing option.
 
 **2. Local Setup and Editing**
     
-You can fork the repository in Github and submit the changes via [pull requests](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork). 
+You can fork the repository on Github and submit the changes via [pull requests](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork). 
 Please see the local setup for API docs section to setup and render the docs locally.
 
 <aside class="notice">
@@ -136,7 +137,7 @@ when contributing to the document.
       such as determiners, pronouns, conjunctions, and prepositions. Use the following [link](https://capitalizemytitle.com/#Chicago) for guidance.
       - Recommended: The Spider Tutorial **with** APIs
       
-    * For normal sentences dont [capitalize](https://www.grammarly.com/blog/capitalization-rules/) random words in the middle of the sentences.
+    * For normal sentences don't [capitalize](https://www.grammarly.com/blog/capitalization-rules/) random words in the middle of the sentences.
     
 * Number formatting   
     * In general spell out the number if it starts a sentence or is less than ten or an ordinal number. 
@@ -165,7 +166,7 @@ The API docs are created using standard markdown files. This section contains in
 Refer the [Slate documentation](https://github.com/slatedocs/slate/wiki/Markdown-Syntax). Also Refer this 
 [document](https://github.com/markdownlint/markdownlint/edit/master/docs/RULES.md) to properly lint the Markdown files.
 
-### Writing code
+### Writing Code
 
 **Inline Code**
 
@@ -174,7 +175,7 @@ Put \``backticks`\` around the following symbols when used in text:
 * Data types: `json`, `xml`, `html`
 * File name: `test.py`, `/path-to-your-data/xml/example-name`
 
-**Code block**                                              
+**Code Block**                                              
 
 Use three back ticks to open and close a code block. Specify the programming language after the first backtick group. 
 The documentation currently supports `python`, `java`, and `shell` languages.

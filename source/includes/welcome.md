@@ -1,6 +1,6 @@
-#Introduction
+# Introduction
 
-##Overview
+## Overview
 
 Welcome to ZAP API Documentation! The [OWASP Zed Attack Proxy](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project) (**ZAP**) 
 is one of the world's most popular free security tools which lets you automatically find security vulnerabilities in your 
@@ -26,16 +26,16 @@ The following are some of the features provided by ZAP:
 
 Have a look at the examples below to learn how to use each of these features via ZAP API.
 
-##Documentation Structure
+## Documentation Structure
 
 The API documentation is divided in to eight main parts.
 
-* [**Introduction**](#getting-started) section contains introductory information of ZAP and installation guide to set up ZAP for testing.
+* [**Introduction**](#introduction) section contains introductory information of ZAP and installation guide to set up ZAP for testing.
 * [**Exploring The Apps**](#exploring-the-app) section contains examples on how to explore the web application.
 * [**Attacking The Apps**](#attacking-the-app) section contains examples on how to scan or attack a web application.
 * [**Getting The Results**](#getting-the-results) section contains examples on how to retrieve alerts and generate Reports from ZAP.
-* [**Authentication**](#auth) section contains examples on how to authenticate the web application with ZAP.
-* [**Advanced Settings**](#advanced-settings) section contains advanced configurations on how to fine tune the ZAP results.
+* [**Authentication**](#getting-authenticated) section contains examples on how to authenticate the web application with ZAP.
+* [**Advanced Settings**](#advanced-settings) section contains advanced configurations on how to fine tune ZAP results.
 * [**Contributions**](#contributions-welcome) section contains guidelines and instruction on how to contribute to ZAP's documentations.
 * [**API Catalogue**](#api-catalogue) section contains Open API definitions and auto generated code for ZAP APIs. 
 
@@ -45,11 +45,10 @@ nor arguments are shown. View the API catalog to see all the parameters and scop
 </aside>
 
 
-##Basics on the API Request
+## Basics on the API Request
 
-ZAP APIs provide access to most of the core features of ZAP such as the active scanner and spider. The ZAP API is enabled by default
-in the daemon mode and the desktop mode. If you are using the ZAP desktop, then the API can be configured
-by visiting to the following screen: 
+ZAP APIs provide access to most of the core features of ZAP such as the active scanner and spider. ZAP API is enabled by default
+in the daemon mode and the desktop mode. If you are using ZAP desktop, then the API can be configured by visiting to the following screen: 
 
 `Tools -> Options -> API`.
 
@@ -57,7 +56,7 @@ by visiting to the following screen:
 
 <aside class="notice">
 ZAP requires API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations. 
-The API key is used to prevent malicious sites from accessing the ZAP API. It is strongly recommended that you set a key 
+The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key 
 unless you are using ZAP in a completely isolated environment.
 </aside>
 
@@ -91,17 +90,17 @@ is listening on, e.g. [http://localhost:8080/](http://localhost:8080/).
 By default only the machine ZAP is running on is able to access the APIs. You can allow other machines, that are able to 
 use ZAP as a proxy, access to the API.
 
-###Client SDKs
+### Client SDKs
 
 ZAP provides official clients for Python, Java, and Node JS. Visit the following link to download the [official SDKs](https://github.com/zaproxy/zaproxy/wiki/ApiDetails). 
 
-##Quick Setup Guide
+## Quick Setup Guide
 
 
 The quick setup guide focuses on setting up _ZAP_ and a testing application. If you have already setup ZAP then Jump to 
 specific [example](#exploring-the-app) to experiment with specific features.
 
-###Install  ZAP
+### Start ZAP
 
 ``` shell
 # For Linux/, Option: 1, using "headless/daemon" mode
@@ -109,7 +108,7 @@ $ <ZAP_HOME>./zap.sh -daemon -config api.key=change-me-9203935709
 # For Linux, Option: 2, using normal/ Desktop interface mode
 $ <ZAP_HOME>./zap.sh 
 
-# For Windows, Run the exe file or zap.bat script to start the ZAP
+# For Windows, Run the exe file or zap.bat script to start ZAP
 ```
 
 ``` java
@@ -118,7 +117,7 @@ $ <ZAP_HOME>./zap.sh
 // For Linux, Option: 2, using normal/ Desktop interface mode
 <ZAP_HOME>./zap.sh
 
-# For Windows, Run the exe file or zap.bat script to start the ZAP
+# For Windows, Run the exe file or zap.bat script to start ZAP
 ```
 
 ``` python
@@ -127,14 +126,14 @@ $ <ZAP_HOME>./zap.sh
 # For Linux, Option: 2, using normal/ Desktop interface mode
 <ZAP_HOME>./zap.sh
 
-# For Windows, Run the exe file or zap.bat script to start the ZAP
+# For Windows, Run the exe file or zap.bat script to start ZAP
 ```
 
-To install ZAP, go to the ZAP's [home page](https://github.com/zaproxy/zaproxy/wiki/Downloads) and download the installer specific to the 
+To install ZAP, go to ZAP's [home page](https://github.com/zaproxy/zaproxy/wiki/Downloads) and download the installer specific to the 
 operating system. After extracting the bundle you can start zap by issuing the following command shown in the right column.
 
 The API key must be specified on all API `actions` and some `other` operations. The API key is used to prevent malicious 
-sites from accessing the ZAP API. 
+sites from accessing ZAP API. 
 
 ###Setup a Testing Application
 
@@ -142,10 +141,10 @@ If you already have a website to scan or to perform security testing, then obtai
 The example guide uses [Google's Firing Range](https://github.com/google/firing-range) and 
 [OWASP Juice Shop](https://github.com/bkimminich/juice-shop) to perform the security testing. 
 The Spidering and Attacking examples use the [public instance](https://public-firing-range.appspot.com) of the 
-firing range, and OWASP Juice Shop is used to showcase the Authentication examples of ZAP. 
+firing range, and OWASP Juice Shop are used to showcase the Authentication examples of ZAP. 
 
 The following is a [list](https://www.owasp.org/index.php/OWASP_Vulnerable_Web_Applications_Directory_Project#tab=On-Line_apps) 
-of publicly available vulnerable applications that you can also use in conjunction with ZAP.
+of publicly available vulnerable applications that you can also used in conjunction with ZAP.
 
 <aside class="warning">
 In many jurisdictions it is illegal to "test" web sites/applications without permission. Please be aware that you should 

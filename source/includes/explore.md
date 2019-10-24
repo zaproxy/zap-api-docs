@@ -1,4 +1,4 @@
-#Exploring the App
+# Exploring the App
 
 In order to expose content and functionality for Zap to test the target the web application should be explored before performing 
 any scan or attack. The more you explore your App the more accurate the results will be. If the application is not explored 
@@ -7,7 +7,7 @@ very well then it will impact or reduce the vulnerabilities ZAP can find.
 The following are some of the options to explore the site by using ZAP. You can use multiple approaches in a combination to
 get more complete coverage of the application.
 
-* **Traditional Spider (Crawler):** Use this approach to crawl the HTML resources (hyperlinks etc) in the web application
+* **Traditional Spider (Crawler):** Use this approach to crawl the HTML resources (hyperlinks etc) in the web application.
 
 * **Ajax Spider:** Use this feature if the web application heavily relies with Ajax calls.
 
@@ -17,7 +17,7 @@ to explore the application, if you already have a test suite or unit tests in pl
 * **Open API/SOAP Definition**: Use this approach if you have a well defined Open API definition. The Open API plugin can be downloaded
 via the marketplace.
 
-##Using Spider
+## Using Spider
 
 ```java
 public class Spider {
@@ -119,39 +119,40 @@ The Spider is a tool that is used to automatically discover new resources (URLs)
 list of URLs to visit, called the seeds, which depends on how the Spider is started. The Spider then visits these URLs, 
 it identifies all the hyperlinks in the page and adds them to the list of URLs to visit, and the process continues 
 recursively as long as new resources are found. Each response type is processed differently in ZAP. All the available 
-endpoints for the spider can be found in [spider](#spider_api) section.
+endpoints for the spider can be found in [spider](#zap-api-spider) section.
 
 ### Start the Spider
 
-The Spiders explore the site and they don't actually do any scanning. The [scan](#spider_scan_api) API runs the spider against the given URL. 
+The Spiders explore the site and they don't actually do any scanning. THe resource crawled by the Spider are passively scanned 
+in the background via the [Passive Scanner](#using-passive-scan). The [scan](#spideractionscan) API runs the spider against the given URL. 
 Optionally, the 'maxChildren' parameter can be set to limit the number of children scanned and the 'recurse' parameter can 
 be used to prevent the spider from seeding recursively. The parameter 'subtreeOnly' allows to restrict the spider under a 
-site's subtree (using the specified 'url'). The parameter 'contextName' can be used to constrain the scan to 
-a Context. View the [context example](#context_advanced) to understand how to create a context with ZAP API.   
+site's subtree (using the specified 'URL'). The parameter 'contextName' can be used to constrain the scan to 
+a Context. View the [context example](#context-advanced) to understand how to create a context with ZAP API.   
 
-The code sample on the right recursively scans the web application with the provided URL. The scan ID is returns as a reponse
-when starting the Spider. Use this scan ID to perform any additional actions or to retrive any views from the Spider API.
+The code sample on the right recursively scans the web application with the provided URL. The scan ID is returned as a 
+response when starting the Spider. Use this scan ID to perform any additional actions or to retrieve any views from the Spider API.
 
 ### View Status
 
 The spider scan is a async request and the time to complete the task will vary depending on the complexity of the web application. 
-The scan ID returned via starting the spider should be used to obtain the results of the crawling. Execute the [status](#spider_status_api) 
+The scan ID returned via starting the spider should be used to obtain the results of the crawling. Execute the [status](#spiderviewstatus) 
 API to get the status/percentage of work done by the Spider.
 
 ### View Spider Results
 
-The results of the crawling can be obtained via the [results](#spider_results_api) API. The following image shows the JSON sample 
-response provided by the results API, enlisitng all the resources crawled by Spider.
+The results of the crawling can be obtained via the [results](#spiderviewresults) API. The following image shows the JSON sample 
+response provided by the results API, listing all the resources crawled by Spider.
 
 ![spider results](../images/spider_results.png)
 
 ### Stop or Pause the Spider
 
-If the scanning takes too much time than expected you can stop or pause the scanning via using the [stop](#spider_stop_api) 
-and [pause](#spider_pause_api) APIs. Additional APIs are available in the API Catalogue to pause or resume or to 
-[stop All](#spider_stopAll_api) the scanning processes.
+If the scanning takes too much time than expected you can stop or pause the scanning via using the [stop](#spideractionstop) 
+and [pause](#spideractionpause) APIs. Additional APIs are available in the API Catalogue to pause or resume or to 
+[stop All](#spideractionstopallscans) the scanning processes.
 
-The [advanced section on Spider](#spider_advanced) contains more examples on how to tweak/improve the Spider results.
+The [advanced section on Spider](#spider-settings) contains more examples on how to tweak/improve the Spider results.
 
 ##Using Ajax Spider
 
@@ -256,11 +257,11 @@ of a web application (e.g. to cover HTML comments).
 
 The scan API starts the Ajax Spider to given URL. Similar to the Traditional Spider, Ajax Spider can be also limited to a 
 context or scope. The parameter 'contextName' can be used to constrain the scan to a Context, the option 'in scope' is 
-ignored if a context was also specified. The parameter 'subtreeOnly' allows to restrict the spider under a site's subtree (using the specified 'url'). 
+ignored if a context was also specified. The parameter 'subtreeOnly' allows to restrict the spider under a site's subtree (using the specified 'URL'). 
 
 ### View Status
 
-Unlike the traditional Spider, Ajax Spider does not provide a percentage for the work to be done. Use the [status](#spider_status_api) 
+Unlike the traditional Spider, Ajax Spider does not provide a percentage for the work to be done. Use the [status](#ajaxspiderviewstatus) 
 endpoint to identify whether the Ajax Spider is still active or finished.
 
 
@@ -276,7 +277,7 @@ which are crawled by the Ajax Spider. The following image shows a sample respons
 Ajax spider does not have an indication on how much resources are left to be crawled. Therefor if the Ajax spider takes too much time
 than expected, then it can be stopped by using the [stop](#aspider_stop_api) API.
 
-View the [advanced section on Ajax Spider](#spider_advanced) section to learn more about how to further fine-tune or improve the results of the 
+View the [advanced section on Ajax Spider](#ajax-spider-settings) section to learn more about how to further fine-tune or improve the results of the 
 Ajax Spider.
 
 <aside class="success">
