@@ -1,4 +1,4 @@
-#Contributions Welcome!
+# Contributions Welcome!
 
 Contributions are welcome! There are many ways you can contribute to OWASP ZAP, both as a user and as a developer.
 
@@ -11,11 +11,11 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 **2. REST API Documentation**
 
     ZAP's rest API is documented using the Open API specification. The specification could be improved by enhacing the description of 
-    parameters/ results/ data types etc. The open API specification is avaiable in [Github](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
+    parameters/ results/ data types etc. The open API specification is avaiable via [Github](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
 
 **3. Feature Documentation**
 
-    Feature documentation related to the ZAP is available on [ZAP wiki](https://github.com/zaproxy/zaproxy/wiki), 
+    Feature documentation related to ZAP is available on [ZAP wiki](https://github.com/zaproxy/zaproxy/wiki), 
     [ZAP user guide](https://github.com/zaproxy/zap-core-help/wiki), and [ZAP extensions](https://github.com/zaproxy/zap-extensions/wiki) repositories.
 
 
@@ -39,7 +39,7 @@ You can fork the repository on Github and submit the changes via [pull requests]
 Please see the local setup for API docs section to setup and render the docs locally.
 
 <aside class="notice">
-The API documentation (this document) is built from the master branch of ZapDocs using Slate.
+The API documentation (this document) is built from the master branch of zap-api-docs using Slate.
 </aside>
 
 ## Local Setup for API Docs
@@ -51,7 +51,7 @@ To submit a documentation update, use the following steps:
     `git clone https://github.com/zaproxy/zap-api-docs`
    
 **2. Navigate to the cloned repository:** 
-    `cd zapdocs`
+    `cd zap-api-docs`
     
 **3. Use the following guide to install [Ruby](https://www.ruby-lang.org/en/documentation/installation/)**
 
@@ -152,7 +152,7 @@ when contributing to the document.
 ### Punctuation
     
 *  Commas
-  *Use oxford commas when writing a list of three or more items
+  * Use oxford commas when writing a list of three or more items
       - Recommended: The API can return the results in XML, JSON, and HTML.
       - Not Recommended: The API can return the results in XML, JSON and HTML. <br>
 
@@ -163,7 +163,7 @@ when contributing to the document.
 ## Markdown Syntax
 
 The API docs are created using standard markdown files. This section contains information regarding the syntax and linting of the Markdown files.
-Refer the [Slate documentation](https://github.com/slatedocs/slate/wiki/Markdown-Syntax). Also Refer this 
+Refer to the [Slate documentation](https://github.com/slatedocs/slate/wiki/Markdown-Syntax). Also Refer to this 
 [document](https://github.com/markdownlint/markdownlint/edit/master/docs/RULES.md) to properly lint the Markdown files.
 
 ### Writing Code

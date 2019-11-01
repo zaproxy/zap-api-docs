@@ -1,6 +1,6 @@
-#Attacking the App
+# Attacking the App
 
-The web application should be explored before starting to scan for security vulnerabilities. 
+The application should be explored before starting to scan for security vulnerabilities. 
 If you haven't done that look at the [explore](#exploring-the-app) section on how to explore the web application. 
 The following section provides examples on how to use the Passive and Active Scanner to find security vulnerabilities in 
 the application.
@@ -10,8 +10,7 @@ In many jurisdictions it is illegal to "test" web sites/applications without per
 only use ZAP with targets that you have been specifically given permission to test.
 </aside>
 
-##Using Passive Scan
-
+## Using Passive Scan
 
 ```java
 public class PassiveScan {
@@ -84,7 +83,7 @@ $ curl "http://localhost:8080/JSON/core/view/alerts/?apikey=<ZAP_API_KEY>&baseur
 
 All requests that are proxied through ZAP or initialised by tools like the Spider are passively scanned. You do not have 
 to manually start the passive scan process, ZAP by default passively scans all HTTP messages (requests and responses) sent 
-to the web application being tested. 
+to the application being tested. 
 
 Passive scanning does not change the requests nor the responses in any way and is therefore safe to use.
 This is good for finding problems like missing security headers or missing anti CSRF tokens but is no good for finding 
@@ -98,10 +97,10 @@ has completed the alerts can be obtained via the alerts endpoint(s).
 
 View the [advanced section](#passive-scan-settings) to know how to configure additional parameters of Passive Scan.
 
-##Using Active Scan
+## Using Active Scan
 
 Active scanning attempts to find potential vulnerabilities by using known attacks against the selected targets. Active scanning 
-is an attack on those targets. You should **NOT** use it on web applications that you do not own. 
+is an attack on those targets. You should **NOT** use it on applications that you do not own. 
 
 ### Start Active Scanner
 

@@ -1,11 +1,10 @@
 # Getting the Results
 
-
 ```python
 #!/usr/bin/env python
 from zapv2 import ZAPv2
 
-# The URL of the web application to be tested
+# The URL of the application to be tested
 target = 'https://public-firing-range.appspot.com'
 # Change to match the API key set in ZAP, or use None if the API key is disabled
 apiKey = 'changeMe'
@@ -49,7 +48,7 @@ public class Alerts {
     private static final int ZAP_PORT = 8080;
     // Change to match the API key set in ZAP, or use NULL if the API key is disabled
     private static final String ZAP_API_KEY = "change me";
-    // The URL of the web application to be tested
+    // The URL of the application to be tested
     private static final String TARGET = "https://public-firing-range.appspot.com";
 
     private static List<String> blackListPlugins = Arrays.asList("1000", "1025");
@@ -99,11 +98,11 @@ public class Alerts {
 # To view the alerts
 $ curl "http://localhost:8080/JSON/alert/view/alerts/?apikey=<ZAP_API_KEY>&baseurl=<BASE_URL>&start=0&count=5000&riskId="
 
-# To view the summay of the alerts
+# To view the summary of the alerts
 $ curl "http://localhost:8080/JSON/alert/view/alertsSummary/?apikey=<ZAP_API_KEY>baseurl=<BASE_URL>"
 
 # To view alerts by risk category
-http://localhost:8080/JSON/alert/view/alertsByRisk/?apikey=<ZAP_API_KEY>&url=<BASE_URL>&recurse=
+$ curl "http://localhost:8080/JSON/alert/view/alertsByRisk/?apikey=<ZAP_API_KEY>&url=<BASE_URL>&recurse="
 ```
 
 After the scanning (Active/Passive) completes, ZAP provides the security vulnerabilities in the form of alerts. The alerts
