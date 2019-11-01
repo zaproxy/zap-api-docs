@@ -5,13 +5,13 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 **1. Creating High-level API/Automation Docs**
 
     Create high level docs or example guides on how to use the APIs to perform any action/view with ZAP.
-    The source files for the ZAP API documentation is hosted on Github. The repository is available at [Github](https://github.com/zaproxy/zap-api-docs).
+    The source files for the ZAP API documentation is hosted on GitHub. The repository is available at [Github](https://github.com/zaproxy/zap-api-docs).
     The source files are in `Markdown` (md) format.
     
 **2. REST API Documentation**
 
-    ZAP's rest API is documented using the Open API specification. The specification could be improved by enhacing the description of 
-    parameters/ results/ data types etc. The open API specification is avaiable via [Github](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
+    ZAP's rest API is documented using the OpenAPI specification. The specification could be improved by enhancing the description of 
+    parameters/ results/ data types etc. The open API specification is avaiable via [GitHub](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
 
 **3. Feature Documentation**
 
@@ -23,11 +23,11 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 
 The ZAP API documentation is developed according to the [docs as code](https://www.writethedocs.org/guide/docs-as-code/) philosophy.
 The most direct and effective way to contribute to the docs is to submit a pull request(PR) or raise an 
-issue in the Github repository containing the docs content that you want to change.
+issue in the GitHub repository containing the docs content that you want to change.
 
 There are 2 different workflows which you can use to make changes or PRs. Use what you are most comfortable with!
 
-**1. "Edit this File on Github" Option**
+**1. "Edit this File on GitHub"**
     
 You can edit the documentation in the browser via navigating to the relevant source file and clicking the edit this file button.
 This workflow is recommended for minor changes. For example correcting typos/spellings/grammar etc.
@@ -35,7 +35,7 @@ For extensive changes, please use the local setup and editing option.
 
 **2. Local Setup and Editing**
     
-You can fork the repository on Github and submit the changes via [pull requests](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork). 
+You can fork the repository on GitHub and submit the changes via [pull requests](https://help.github.com/en/articles/creating-a-pull-request-from-a-fork). 
 Please see the local setup for API docs section to setup and render the docs locally.
 
 <aside class="notice">

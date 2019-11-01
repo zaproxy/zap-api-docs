@@ -82,8 +82,8 @@ $ curl "http://localhost:8080/JSON/core/view/alerts/?apikey=<ZAP_API_KEY>&baseur
 ```
 
 All requests that are proxied through ZAP or initialised by tools like the Spider are passively scanned. You do not have 
-to manually start the passive scan process, ZAP by default passively scans all HTTP messages (requests and responses) sent 
-to the application being tested. 
+to manually start the passive scan process, ZAP by default passively scans all HTTP and WebSocket messages (requests and responses)  
+which are sent to the application. 
 
 Passive scanning does not change the requests nor the responses in any way and is therefore safe to use.
 This is good for finding problems like missing security headers or missing anti CSRF tokens but is no good for finding 

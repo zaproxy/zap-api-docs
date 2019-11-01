@@ -4,7 +4,7 @@ The following section shows advanced configurations of the APIs.
 
 ## Spider Settings
 
-The following images shows the advanced configurations tab of Spider in the desktop UI.
+The following image shows the advanced configurations tab of Spider in the desktop UI.
 
 ![spider_advanced](../images/spider_advanced.png)
 
@@ -18,7 +18,7 @@ View the [Spider section](#spider) in the API Catalogue for other additional API
 
 ## Ajax Spider  Settings
 
-The following images shows the advanced configurations tab of Ajax Spider in the desktop UI.
+The following image shows the advanced configurations tab of Ajax Spider in the desktop UI.
 
 ![ajax_spider_advanced](../images/ajax_spider_advanced.png)
 

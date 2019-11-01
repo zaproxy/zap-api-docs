@@ -14,7 +14,7 @@ get more complete coverage of the application.
 * **Proxy Regression / Unit Tests** This is the recommended approach for security regression testing. Use this approach 
 to explore the application, if you already have a test suite or unit tests in place. 
 
-* **Open API/SOAP Definition**: Use this approach if you have a well defined Open API definition. The Open API plugin can be downloaded
+* **OpenAPI/SOAP Definition**: Use this approach if you have a well defined OpenAPI definition. The OpenAPI plugin can be downloaded
 via the marketplace.
 
 ## Using Spider
