@@ -11,7 +11,7 @@ This document provides example guides & API definitions for ZAP APIs. You can vi
 the right; switch the programming language of the examples with the tabs on the top right. 
 If anything is missing or seems incorrect, please check the [FAQs](https://github.com/zaproxy/zaproxy/wiki/FAQtoplevel) or the
 [GitHub issues](https://github.com/zaproxy/zaproxy/issues) for existing known issues.
-Also, if you are new to ZAP, then check out the [getting started guide](https://github.com/zaproxy/zaproxy/releases/download/2.8.0/ZAPGettingStartedGuide-2.8.pdf) 
+Also, if you are new to ZAP, then check out the [getting started guide](https://github.com/zaproxy/zaproxy/releases/download/v2.8.0/ZAPGettingStartedGuide-2.8.pdf) 
 to learn the basic concepts behind ZAP. 
 
 The following are some of the features provided by ZAP:
@@ -27,13 +27,13 @@ Have a look at the examples below to learn how to use each of these features via
 
 ## Documentation Structure
 
-The API documentation is divided in to eight main sections.
+The API documentation is divided into eight main sections.
 
 * [**Introduction**](#introduction) section contains introductory information of ZAP and installation guide to set up ZAP for testing.
-* [**Exploring The App**](#exploring-the-app) section contains examples on how to explore the web application.
-* [**Attacking The App**](#attacking-the-app) section contains examples on how to scan or attack a web application.
-* [**Getting The Results**](#getting-the-results) section contains examples on how to retrieve alerts and generate Reports from ZAP.
-* [**Authentication**](#getting-authenticated) section contains examples on how to authenticate the web application with ZAP.
+* [**Exploring the App**](#exploring-the-app) section contains examples on how to explore the web application.
+* [**Attacking the App**](#attacking-the-app) section contains examples on how to scan or attack a web application.
+* [**Getting the Results**](#getting-the-results) section contains examples on how to retrieve alerts and generate Reports from ZAP.
+* [**Getting Authenticated**](#getting-authenticated) section contains examples on how to authenticate the web application with ZAP.
 * [**Advanced Settings**](#advanced-settings) section contains advanced configurations on how to fine tune ZAP results.
 * [**Contributions**](#contributions-welcome) section contains guidelines and instructions on how to contribute to ZAP's documentations.
 * [**API Catalogue**](#api-catalogue) section contains OpenAPI definitions and auto generated code for ZAP APIs. 
@@ -63,8 +63,8 @@ Future versions of ZAP will increase the functionality/scope available via the A
 
 ### API URL Format
 
-The API is available via `GET` and `POST` endpoints and the response is available in `JSON`, `XML`, and `HTML` formats. All the 
-response formats return the same information, just in a different format. Based on the use case, choose the appropriate format. 
+The API is available via `GET` and `POST` endpoints and the response is available in `JSON`, `XML`, `HTML`, and `OTHER` (custom formats, e.g. HAR) formats. 
+All the response formats return the same information, just in a different format. Based on the use case, choose the appropriate format. 
 For example, to generate easily readable reports use the HTML format and use XML/JSON based response to parse the results quickly.
 
 The following example shows the API URL format of ZAP:
@@ -90,7 +90,7 @@ that are able to use ZAP as a proxy, access to the API.
 ### Client SDKs
 
 ZAP provides official clients for many languages such as Python, Java, NodeJS, and .Net. Visit the following link to 
-view and to download all supported [SDKs](https://github.com/zaproxy/zaproxy/wiki/ApiDetails). 
+view and download all supported [SDKs](https://github.com/zaproxy/zaproxy/wiki/ApiDetails). 
 
 ## Quick Setup Guide
 
@@ -102,7 +102,7 @@ specific [example](#exploring-the-app) to experiment with specific features.
 ``` python
 # For Linux, Option: 1, using "headless/daemon" mode
 <ZAP_HOME>./zap.sh -daemon -config api.key=change-me-9203935709
-# For Linux, Option: 2, using ZAP dekstop App
+# For Linux, Option: 2, using ZAP desktop App
 <ZAP_HOME>./zap.sh
 
 # For Windows, Run the exe file or zap.bat script to start ZAP
@@ -111,7 +111,7 @@ specific [example](#exploring-the-app) to experiment with specific features.
 ``` java
 // For Linux, Option: 1, using "headless/daemon" mode
 <ZAP_HOME>./zap.sh -daemon -config api.key=change-me-9203935709
-// For Linux, Option: 2, using ZAP dekstop App
+// For Linux, Option: 2, using ZAP desktop App
 <ZAP_HOME>./zap.sh
 
 // For Windows, Run the exe file or zap.bat script to start ZAP
@@ -120,7 +120,7 @@ specific [example](#exploring-the-app) to experiment with specific features.
 ``` shell
 # For Linux, Option: 1, using "headless/daemon" mode
 $ <ZAP_HOME>./zap.sh -daemon -config api.key=change-me-9203935709
-# For Linux, Option: 2, using ZAP dekstop App
+# For Linux, Option: 2, using ZAP desktop App
 $ <ZAP_HOME>./zap.sh 
 
 # For Windows, Run the exe file or zap.bat script to start ZAP
