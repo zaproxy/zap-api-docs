@@ -11,7 +11,7 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 **2. REST API Documentation**
 
     ZAP's rest API is documented using the OpenAPI specification. The specification could be improved by enhancing the description of 
-    parameters/ results/ data types etc. The open API specification is avaiable via [GitHub](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
+    parameters/ results/ data types etc. The open API specification is available via [GitHub](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
 
 **3. Feature Documentation**
 

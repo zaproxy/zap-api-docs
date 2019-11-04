@@ -14,7 +14,7 @@ where 0 means no limit. The [setOptionMaxDuration](#spideractionsetoptionmaxdura
 Use the [setOptionMaxParseSizeBytes](#spideractionsetoptionmaxparsesizebytes) to limit the amount of data parsed by the spider. 
 This allows the spider to skip big responses/files. 
 
-View the [Spider section](#spider) in the API Catalogue for other additional APIs.
+View the [Spider section](#spider) in the API Catalogue for additional APIs.
 
 ## Ajax Spider  Settings
 
