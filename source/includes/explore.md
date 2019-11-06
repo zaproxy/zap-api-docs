@@ -275,7 +275,7 @@ which are crawled by the Ajax Spider. The following image shows a sample respons
 Ajax spider does not have an indication on how much resources are left to be crawled. Therefore if the Ajax spider takes too much time
 than expected, then it can be stopped by using the [stop](#aspider_stop_api) API.
 
-View the [advanced section on Ajax Spider](#ajax-spider-settings) section to learn more about how to further fine-tune the results of the 
+View the [advanced section on Ajax Spider](#ajax-spider-settings) to learn more about how to further fine-tune the results of the 
 Ajax Spider.
 
 <aside class="success">
