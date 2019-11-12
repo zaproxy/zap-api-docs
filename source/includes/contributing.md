@@ -163,7 +163,7 @@ when contributing to the document.
 ## Markdown Syntax
 
 The API docs are created using standard markdown files. This section contains information regarding the syntax and linting of the Markdown files.
-Refer to the [Slate documentation](https://github.com/slatedocs/slate/wiki/Markdown-Syntax). Also Refer to this 
+Refer to the [Slate documentation](https://github.com/slatedocs/slate/wiki/Markdown-Syntax). Also refer to this 
 [document](https://github.com/markdownlint/markdownlint/edit/master/docs/RULES.md) to properly lint the Markdown files.
 
 ### Writing Code

@@ -35,7 +35,7 @@ The API documentation is divided into eight main sections.
 * [**Getting the Results**](#getting-the-results) section contains examples on how to retrieve alerts and generate Reports from ZAP.
 * [**Getting Authenticated**](#getting-authenticated) section contains examples on how to authenticate the web application with ZAP.
 * [**Advanced Settings**](#advanced-settings) section contains advanced configurations on how to fine tune ZAP results.
-* [**Contributions**](#contributions-welcome) section contains guidelines and instructions on how to contribute to ZAP's documentations.
+* [**Contributions**](#contributions-welcome) section contains guidelines and instructions on how to contribute to ZAP's documentation.
 * [**API Catalogue**](#api-catalogue) section contains OpenAPI definitions and auto generated code for ZAP APIs. 
 
 <aside class="notice">

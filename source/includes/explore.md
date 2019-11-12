@@ -248,7 +248,7 @@ $ curl "http://localhost:8080/JSON/AjaxSpider/view/fullResults/?apikey=<ZAP_API_
 $ curl "http://localhost:8080/JSON/AjaxSpider/action/stop/?apikey=<ZAP_API_KEY>"
 ```
  
-Use the Ajax Spider if you have applications which heavily dependent on Ajax or JavaScript. The Ajax Spider allows you to crawl web applications 
+Use the Ajax Spider if you have applications which heavily depend on Ajax or JavaScript. The Ajax Spider allows you to crawl web applications 
 written in Ajax in far more depth than the traditional Spider.You should also use the traditional Spider as well for complete coverage 
 of a application (e.g. to cover HTML comments).
 
