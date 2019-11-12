@@ -327,7 +327,7 @@ The authMethodConfigParams requires the loginUrl and loginRequestData. Therefore
 
 The values for authMethodConfigParams parameters must be URL encoded, in this case loginRequestData is `username={%username%}&password={%password%}`.
 
-#### Set up login and logout indicators
+#### Set Login and Logout Indicators
 
 Use the [setLoggedOutIndicator](#authenticationactionsetloggedoutindicator) to set the logout indicators of the application.
 The Following is the regex command to match the successful response with the Bodgeit application.
