@@ -22,3 +22,11 @@ build/
 _yardoc
 doc/
 .idea/
+
+# Eclipse
+*.project
+*.settings
+
+# JS
+node_modules/
+dist/
