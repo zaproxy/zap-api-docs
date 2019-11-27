@@ -16,7 +16,7 @@ The third example shows a more complicated authentication workflow using the JSO
 
 <aside class="info">
 It's recommended to configure the authentication using the desktop UI before automating it using the ZAP APIs. The examples
-below shows how to configure authentication with ZAP desktop and provides automation scripts on how to perform the similar using 
+below show how to configure authentication with ZAP desktop and provides automation scripts on how to perform the similar using 
 ZAP APIs.
 </aside>
 
@@ -27,8 +27,8 @@ The following are the general steps when configuring the application authenticat
 **Step 1. Define a context**
 
 Contexts are a way of relating a set of URLs together. The URLs are defined as a set of regular expressions (regex). 
-You should include the target application inside the context and excluded the unwanted URLs, such as the logout page, in 
-the exclude in the context section.
+You should include the target application inside the context. The unwanted URLs such as the logout page, password change functionality
+should be added to the exclude in context section.
 
 **Step 2. Set the authentication mechanism**
 
@@ -50,7 +50,7 @@ indicate if the user is logged in or logged out.
 
 **Step 5. Add a valid user and password**
 
-Create a user account (an existing user in your application) with valid credentials in ZAP. You can create multiple users 
+Add a user account (an existing user in your application) with valid credentials in ZAP. You can create multiple users 
 if your application exposes different functionality based on user roles. Additionally, you should also set valid session 
 management when configuring the authentication for your application. Currently, ZAP supports cookie-based session management 
 and HTTP authentication based session management.
@@ -59,7 +59,12 @@ and HTTP authentication based session management.
 
 Now enable the ![](https://github.com/zaproxy/zap-core-help/wiki/images/fugue/forcedUserOff.png) "[Forced User Mode disabled - click to enable](https://github.com/zaproxy/zap-core-help/wiki/HelpUiTltoolbar#--forced-user-mode-on--off)" 
 button. Pressing this button will cause ZAP to resend the authentication request whenever it detects that the user is no 
-longer logged in, ie by using the 'logged in' or 'logged out' indicator.
+longer logged in, ie by using the 'logged in' or 'logged out' indicator. But the forced used mode is ignored for scans that already have a user set. 
+
+<aside class="info">
+In order for auth to work one of the indicators(logged in/out) needs to be set, however, ZAP will allow users to proceed without having to set 
+them because there are other methods of setting them. However, if one isn't set, then the auth won't work.
+</aside>
 
 ## Form Based Authentication
 
@@ -283,15 +288,15 @@ For the purpose of this example, use the following credentials.
 ### Login
 
 After registering the user, browse (proxied via ZAP) to the following URL ([http://localhost:8090/bodgeit/login.jsp](http://localhost:8090/bodgeit/login.jsp)), 
-and log in to the application. When you log in to the application, the  request will be added to the `History` tab in ZAP. 
+and log in to the application. When you log in to the application, the request will be added to the `History` tab in ZAP. 
 Search for the POST request to the following URL: [http://localhost:8090/bodgeit/login.jsp](http://localhost:8090/bodgeit/login.jsp).
 Right-click on the post request, and select `Flag as Context -> Default Context : Form based Login Request` option. This will 
 open the context authentication editor. You can notice it has auto-selected the form-based authentication, auto-filled the login URL, and the post data.
-Select the correct JSON attribute as the username and password in the dropdown and click Ok.
+Select the correct form parameter as the username and password in the dropdown and click Ok.
 
 Now you need to inform ZAP whether the application is logged in or out. The Bodgeit application includes the logout URL 
 `<a href="logout.jsp">Logout</a>` as the successful response. You can view this by navigating to the response tab of the login request.
-Highlight the text and right click  and select the `Flag as Context -> Default Context, Loggedin Indicator` option. This will autofill
+Highlight the text and right click and select the `Flag as Context -> Default Context, Loggedin Indicator` option. This will autofill
 the regex needed for the login indicator. The following image shows the completed set up for the authentication tab of the context menu.
 
 ![auth](../images/auth_bodgeit_form_settings.png)
@@ -302,6 +307,10 @@ mode in the desktop UI to forcefully authenticate the user prior to the testing 
 
 Now let's test the authentication by performing an authenticated Spidering with ZAP. To accomplish this, go to the Spider and select the `default` 
 context and the `test user` to perform the authentication. After this, you should see the Spider crawling all the protected resources.
+
+<aside class="info">
+It's not madatory to set the forced used mode, if you manually set a user for ZAP activities such as scanning.
+</aside>
 
 ### Steps to Reproduce via API
 
