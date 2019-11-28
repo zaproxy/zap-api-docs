@@ -346,3 +346,299 @@ The Following is the regex command to match the successful response with the Bod
 
 Now add the user credentials via the [setAuthenticationCredentials](#usersactionsetauthenticationcredentials) API and use
 the [SetForcedUserModeEnabled](#forceduseractionsetforcedusermodeenabled) to enable the forced user mode in ZAP.
+
+## Script Based Authentication
+
+```python
+#!/usr/bin/env python
+import urllib.parse
+from zapv2 import ZAPv2
+
+context_id = 1
+apiKey = 'changeMe'
+context_name = 'Default Context'
+target_url = 'http://localhost:3000'
+
+# By default ZAP API client will connect to port 8080
+zap = ZAPv2(apikey=apiKey)
+
+# Use the line below if ZAP is not listening on port 8080, for example, if listening on port 8090
+# zap = ZAPv2(apikey=apikey, proxies={'http': 'http://127.0.0.1:8090', 'https': 'http://127.0.0.1:8090'})
+
+
+def set_include_in_context():
+    include_url = 'http://localhost:3000.*'
+    exclude_url = '\Qhttp://localhost:3000/logout.php\E'
+    
+    zap.context.include_in_context(context_name, include_url, apiKey)
+    zap.context.exclude_from_context(context_name, exclude_url, apiKey)
+    print('Configured include and exclude regex(s) in context')
+
+
+def set_logged_in_indicator():
+
+    logged_in_regex = '\Q<a href="logout.php">Logout</a>\E'
+    logged_out_regex = '(?:Location: [./]*login\.php)|(?:\Q<form action="login.php" method="post">\E)'
+
+    zap.authentication.set_logged_in_indicator(context_id, logged_in_regex, apiKey)
+    zap.authentication.set_logged_out_indicator(context_id, logged_out_regex, apiKey)
+    print('Configured logged in indicator regex: ')
+
+
+def set_form_based_auth():
+    login_url = "http://localhost:3000/login.php"
+    login_request_data = "scriptName=authscript.js&Login URL=http://localhost:3000/login.php&CSRF Field=user_token" \
+                         "&POST Data=username={%username%}&password={%password%}&Login=Login&user_token={%user_token%}"
+
+    form_based_config = 'loginUrl=' + urllib.parse.quote(login_url) + '&loginRequestData=' + urllib.parse.quote(login_request_data)
+    zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', form_based_config, apiKey)
+    print('Configured form based authentication')
+
+
+def set_user_auth_config():
+    user = 'Administrator'
+    username = 'admin'
+    password = 'password'
+
+    user_id = zap.users.new_user(context_id, user, apiKey)
+    user_auth_config = 'username=' + urllib.parse.quote(username) + '&password=' + urllib.parse.quote(password)
+    zap.users.set_authentication_credentials(context_id, user_id, user_auth_config, apiKey)
+
+
+def upload_script():
+    script_name = 'authscript.js'
+    script_type = 'authentication'
+    script_engine = 'Oracle Nashorn'
+    file_name = '/home/nirojan/Desktop/authscript.js'
+    charset = 'UTF-8'
+    zap.script.load(script_name, script_type, script_engine, file_name, charset=charset)
+
+
+set_include_in_context()
+upload_script()
+set_form_based_auth()
+set_logged_in_indicator()
+set_user_auth_config()
+```
+
+```java
+
+public class ScriptAuth {
+
+    private static final String ZAP_ADDRESS = "localhost";
+    private static final int ZAP_PORT = 8080;
+    private static final String ZAP_API_KEY = null;
+    private static final String contextId = "1";
+    private static final String contextName = "Default Context";
+    private static final String target = "http://localhost:8090/bodgeit";
+
+    private static void setIncludeAndExcludeInContext(ClientApi clientApi) throws UnsupportedEncodingException, ClientApiException {
+        String includeInContext = "http://localhost:3000.*";
+        String excludeInContext = "\\Qhttp://localhost:3000/logout.php\\E";
+
+        clientApi.context.includeInContext(contextName, includeInContext);
+        clientApi.context.excludeFromContext(contextName, excludeInContext);
+    }
+
+
+    private static void setLoggedInIndicator(ClientApi clientApi) throws UnsupportedEncodingException, ClientApiException {
+        // Prepare values to set, with the logged in indicator as a regex matching the logout link
+        String loggedInIndicator = "\\Q<a href=\"logout.php\">Logout</a>\\E";
+        String loggedOutIndicator = "(?:Location: [./]*login\\.php)|(?:\\Q<form action=\"login.php\" method=\"post\">\\E)";
+
+        // Actually set the logged in indicator
+        clientApi.authentication.setLoggedInIndicator( contextId, loggedInIndicator);
+        clientApi.authentication.setLoggedOutIndicator( contextId, loggedOutIndicator);
+
+        // Check out the logged in indicator that is set
+        System.out.println("Configured logged in indicator regex: "
+                + ((ApiResponseElement) clientApi.authentication.getLoggedInIndicator(contextId)).getValue());
+    }
+
+    private static void setFormBasedAuthenticationForBodgeit(ClientApi clientApi) throws ClientApiException,
+            UnsupportedEncodingException {
+        // Setup the authentication method
+
+        String loginUrl = "http://localhost:3000/login.php";
+        String loginRequestData = "scriptName=authscript.js&Login URL=http://localhost:3000/login.php&CSRF Field=user_token" +
+                "&POST Data=username={%username%}&password={%password%}&Login=Login&user_token={%user_token%}";
+
+        // Prepare the configuration in a format similar to how URL parameters are formed. This
+        // means that any value we add for the configuration values has to be URL encoded.
+        StringBuilder formBasedConfig = new StringBuilder();
+        formBasedConfig.append("loginUrl=").append(URLEncoder.encode(loginUrl, "UTF-8"));
+        formBasedConfig.append("&loginRequestData=").append(URLEncoder.encode(loginRequestData, "UTF-8"));
+
+        System.out.println("Setting form based authentication configuration as: " + formBasedConfig.toString());
+        clientApi.authentication.setAuthenticationMethod(contextId, "scriptBasedAuthentication", formBasedConfig.toString());
+
+        // Check if everything is set up ok
+        System.out.println("Authentication config: " + clientApi.authentication.getAuthenticationMethod(contextId).toString(0));
+    }
+
+    private static String setUserAuthConfigForBodgeit(ClientApi clientApi) throws ClientApiException, UnsupportedEncodingException {
+        // Prepare info
+        String user = "Administrator";
+        String username = "admin";
+        String password = "password";
+
+        // Make sure we have at least one user
+        String userId = extractUserId(clientApi.users.newUser(ZAP_API_KEY, contextId, user));
+
+        // Prepare the configuration in a format similar to how URL parameters are formed. This
+        // means that any value we add for the configuration values has to be URL encoded.
+        StringBuilder userAuthConfig = new StringBuilder();
+        userAuthConfig.append("username=").append(URLEncoder.encode(username, "UTF-8"));
+        userAuthConfig.append("&password=").append(URLEncoder.encode(password, "UTF-8"));
+
+        System.out.println("Setting user authentication configuration as: " + userAuthConfig.toString());
+        clientApi.users.setAuthenticationCredentials(ZAP_API_KEY, contextId, userId, userAuthConfig.toString());
+        clientApi.users.setUserEnabled(contextId, userId, "true");
+        clientApi.forcedUser.setForcedUser(contextId, userId);
+        clientApi.forcedUser.setForcedUserModeEnabled(true);
+
+        // Check if everything is set up ok
+        System.out.println("Authentication config: " + clientApi.users.getUserById(contextId, userId).toString(0));
+        return userId;
+    }
+
+    private static void uploadScript(ClientApi clientApi) throws ClientApiException {
+        String script_name = "authscript.js";
+        String script_type = "authentication";
+        String script_engine = "Oracle Nashorn";
+        String file_name = "/home/nirojan/Desktop/authscript.js";
+
+        clientApi.script.load(script_name, script_type, script_engine, file_name, null);
+    }
+
+    private static String extractUserId(ApiResponse response) {
+        return ((ApiResponseElement) response).getValue();
+    }
+
+    private static void scanAsUser(ClientApi clientApi, String userId) throws ClientApiException {
+        clientApi.spider.scanAsUser(contextId, userId, target, null, "true", null);
+    }
+
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     * @throws ClientApiException
+     * @throws UnsupportedEncodingException
+     */
+    public static void main(String[] args) throws ClientApiException, UnsupportedEncodingException {
+        ClientApi clientApi = new ClientApi(ZAP_ADDRESS, ZAP_PORT);
+
+        uploadScript(clientApi);
+        setIncludeAndExcludeInContext(clientApi);
+        setFormBasedAuthenticationForBodgeit(clientApi);
+        setLoggedInIndicator(clientApi);
+        String userId = setUserAuthConfigForBodgeit(clientApi);
+        scanAsUser(clientApi, userId);
+    }
+}
+```
+
+```shell
+
+# To add in default context
+
+# To upload the script
+curl 'http://localhost:8080/JSON/script/action/load/?scriptName=authscript.js&scriptType=authentication&scriptEngine=Oracle+Nashorn&fileName=%2Ftmp%2Fauthscript.js&scriptDescription=&charset=UTF-8`
+
+# To set up authentication information
+curl 'http://localhost:8080/JSON/authentication/action/setAuthenticationMethod/?contextId=1&authMethodName=scriptBasedAuthentication&authMethodConfigParams=scriptName%3Dauthscript.js%26Login+URL%3Dhttp%3A%2F%2Flocalhost%3A3000%2Flogin.php%26CSRF+Field%3Duser_token%26POST+Data%3Dusername%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D%26Login%3DLogin%26user_token%3D%7B%25user_token%25%7D'
+
+# To set the login indicator
+curl 'http://localhost:8080/JSON/authentication/action/setLoggedInIndicator/?contextId=1&loggedInIndicatorRegex=%5CQ%3Ca+href%3D%22logout.jsp%22%3ELogout%3C%2Fa%3E%5CE'
+
+# To create a user (The first user id is: 0)
+curl 'http://localhost:8080/JSON/users/action/newUser/?contextId=1&name=Test+User'
+
+# To add the credentials for the user
+curl 'http://localhost:8080/JSON/users/action/setAuthenticationCredentials/?contextId=1&userId=0&authCredentialsConfigParams=username%3Dtest%40example.com%26password%3DweakPassword'
+
+# To enable the user
+curl 'http://localhost:8080/JSON/users/action/setUserEnabled/?contextId=1&userId=0&enabled=true'
+
+# To set forced user
+curl 'http://localhost:8080/JSON/forcedUser/action/setForcedUser/?contextId=1&userId=0'
+
+# To enable forced user mode
+curl 'http://localhost:8080/JSON/forcedUser/action/setForcedUserModeEnabled/?boolean=true'
+```
+
+ZAP has scripting support for most of the popular languages. The following are some of the scripting languages supported by ZAP.
+
+- Java
+- Javascript
+- Python
+
+ZAP has an Add-on Marketplace where you can add support for additional scripting engines. Click the red blue green & blue box stacked 
+icon in ZAP to bring up the marketplace modal. After it pops up, switch to the Marketplace and install the appropriate scripting engine.
+
+The following example performs a script based authentication for the Damn Vulnerable Web Application. Similar to the
+Bodgeit example DVWP also uses `POST` request to authenticate the users. But apart from username and password DVWA sends an 
+additional token to protect against the Cross-Site request forgery attacks. This token is obtained from the the landing page.
+The following image shows the embedded token in the login page.
+
+![csrf_token](../images/auth_dvwa_token_html.png)
+
+If the token is not included with the login script as a POST parameter, the request will be rejected. Inorder to send this 
+token, lets use the script based authentication technique. The authentication script will parse the HTML content and extract
+the token and append it in the POST request.
+
+### Setup Target Application
+
+Use the following docker command to start the DVWA. Inorder to fully complete the setup you need to login ([http://localhost:3000](http://localhost:3000)) 
+to the application and press the configure button. Use the default credentials of the application to login and finish the setup (Username: admin, Password: password). 
+
+`docker run --rm -it -p 3000:80 vulnerables/web-dvwa`
+
+### Upload the script
+
+Go to the script tab and create a new script under the authentication section. Provide a name to the script and select 
+`JavaScript/Nashorn` as the engine and replace the script contents with the following [script](https://github.com/zaproxy/zap-api-docs/source/scripts/auth-dvwa.js). 
+
+![script_tab](../images/auth_dvwa_zap_script.png)
+
+### Configure Context Authentication
+
+Now navigate to [http://localhost:3000](http://localhost:3000) and add the URL to the default context. Then double click
+on the default context and select the script-based authentication as the authentication method. Now load the script from the 
+drop down provided and the following parameter values.
+
+* Login URL: `http://localhost:3000/login.php`
+* CSRF Field: `user_token`
+* POST Data: `username={%username%}&password={%password%}&Login=Login&user_token={%user_token%}`
+* Logged in regex: `\Q<a href="logout.php">Logout</a>\E`
+* Logged out regex: `(?:Location: [./]*login\.php)|(?:\Q<form action="login.php" method="post">\E)`
+
+Now add the default admin user to the users tab and enable the user.
+
+* User Name: `Administrator`
+* Username: `admin`
+* Password: `password`
+
+![context_auth](../images/auth_dvwa_cotext_auth.png)
+
+As the login operation is performed by the script lets add the login URL as out of context. Additionally you should add 
+pages which will disrupt the login process to out of context so Spider will not trigger unwanted log outs. Thus in "Exclude from Context" tab 
+add the following regex(s).
+
+* `\Qhttp://localhost:3000/login.php\E`
+* `\Qhttp://localhost:3000/logout.php\E`
+* `\Qhttp://localhost:3000/setup.php\E`
+* `\Qhttp://localhost:3000/security.php\E`
+
+Now enable the forced used mode and start the Spider by selecting the default context and the admin user. After this you should
+see the Spider crawling all the protected resources. The authentication results will be available through the Output panel and
+you can also select the login POST request in the history tab to verify the token has been sent to the application.
+
+### Steps to Reproduce via API
+
+Use the scripts endpoint to upload the script file. Thereafter the configurations are very similar to the form based authentication
+with the Bodgeit application. Use the [includeInContext](#contextactionincludeincontext) API to add the URL to the default context
+and use the [setAuthenticationMethod](#authenticationactionsetauthenticationmethod) to setup the authentication method and 
+the configuration parameters. Finally use the users API to create the admin user. Refer the script in the right column
+on how to use the above APIs.
