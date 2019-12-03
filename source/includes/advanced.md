@@ -37,3 +37,12 @@ automatic tagging are provided by default. These can be changed, deleted or adde
 
 Content in progress!
 
+## Troubleshooting
+
+This section has troubleshooting procedures for the following problems that people may encounter with ZAP APIs:
+
+**No Implementor Error**
+
+- Check that the necessary addon or component is installed and enabled. (For example if you receive "no_implementor" in relation 
+to Ajax Spider calls, perhaps the Ajax Spider addon isn't installed.)
+
