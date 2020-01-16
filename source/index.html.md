@@ -7,7 +7,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - shell
 
 toc_footers:
-  - <a href='https://github.com/zaproxy/zaproxy/wiki'>ZAP Wiki</a>
+  - <a href='https://www.zaproxy.org/'>ZAP Website</a>
 
 includes:
   - welcome

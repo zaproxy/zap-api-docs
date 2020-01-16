@@ -16,7 +16,7 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 **3. Feature Documentation**
 
     Feature documentation related to ZAP is available on [ZAP wiki](https://github.com/zaproxy/zaproxy/wiki), 
-    [ZAP user guide](https://github.com/zaproxy/zap-core-help/wiki), and [ZAP extensions](https://github.com/zaproxy/zap-extensions/wiki) repositories.
+    [ZAP user guide](https://www.zaproxy.org/docs/desktop/), and [ZAP extensions](https://github.com/zaproxy/zap-extensions/wiki) repositories.
 
 
 ## How to Contribute
