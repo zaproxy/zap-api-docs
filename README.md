@@ -25,4 +25,15 @@ To deploy to https://zaproxy.org/
 1. Copy the build directory to your own clone of https://github.com/zaproxy/zaproxy.github.io e.g.
     - `cp -R build/* ../zaproxy.github.io/docs/api/`
 1. Commit and push any changes then open a PR on https://github.com/zaproxy/zaproxy.github.io
- 
+
+# Generate OPEN API MD
+
+The Open API markdown is auto generated from the `openapi.yaml` file and the [Widdershins](https://github.com/Mermade/widdershins) 
+node package is used to auto generate the markdown file.
+
+```bash
+# To install the widdershins package
+npm i -g widdershins
+# To generate the markdown file
+widdershins --search false --language_tabs 'python:Python' 'java:Java' 'shell:Shell' --summary openapi.yaml source/includes/api.md
+``` 
