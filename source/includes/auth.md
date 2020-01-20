@@ -574,23 +574,23 @@ ZAP has scripting support for most of the popular languages. The following are s
 - Javascript
 - Python
 
-ZAP has an Add-on Marketplace where you can add support for additional scripting engines. Click the red blue green & blue box stacked 
+ZAP has an Add-on Marketplace where you can add support for additional scripting engines. Click the red, blue, & green box stacked 
 icon in ZAP to bring up the marketplace modal. After it pops up, switch to the Marketplace and install the appropriate scripting engine.
 
 The following example performs a script based authentication for the Damn Vulnerable Web Application. Similar to the
-Bodgeit example DVWP also uses `POST` request to authenticate the users. But apart from username and password DVWA sends an 
+Bodgeit example DVWA also uses `POST` request to authenticate the users. But apart from username and password DVWA sends an 
 additional token to protect against the Cross-Site request forgery attacks. This token is obtained from the the landing page.
 The following image shows the embedded token in the login page.
 
 ![csrf_token](../images/auth_dvwa_token_html.png)
 
-If the token is not included with the login script as a POST parameter, the request will be rejected. Inorder to send this 
+If the token is not included with the login script as a POST parameter, the request will be rejected. In order to send this 
 token, lets use the script based authentication technique. The authentication script will parse the HTML content and extract
 the token and append it in the POST request.
 
 ### Setup Target Application
 
-Use the following docker command to start the DVWA. Inorder to fully complete the setup you need to login ([http://localhost:3000](http://localhost:3000)) 
+Use the following docker command to start the DVWA. In order to fully complete the setup you need to login ([http://localhost:3000](http://localhost:3000)) 
 to the application and press the configure button. Use the default credentials of the application to login and finish the setup (Username: admin, Password: password). 
 
 `docker run --rm -it -p 3000:80 vulnerables/web-dvwa`
@@ -631,9 +631,13 @@ add the following regex(s).
 * `\Qhttp://localhost:3000/setup.php\E`
 * `\Qhttp://localhost:3000/security.php\E`
 
-Now enable the forced used mode and start the Spider by selecting the default context and the admin user. After this you should
+Now enable the forced user mode and start the Spider by selecting the default context and the admin user. After this you should
 see the Spider crawling all the protected resources. The authentication results will be available through the Output panel and
 you can also select the login POST request in the history tab to verify the token has been sent to the application.
+
+<aside class="info">
+It's not madatory to set the forced used mode, if you manually set a user for ZAP activities such as scanning.
+</aside>
 
 ### Steps to Reproduce via API
 
