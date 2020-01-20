@@ -68,6 +68,9 @@ The numbers can be deconstructed in the following manner:
 Thus, to change the values of `Injectable targets` and `Input Vector Handlers` calculate the exact values and 
 use the [setoptiontargetparamsinjectable](#ascanactionsetoptiontargetparamsinjectable) and [setoptiontargetparamsenabledrpc](#ascanactionsetoptiontargetparamsenabledrpc) APIs accordingly.
 
+The `Add URL query parameter` option under the `Injectable Tragets` sets whether or not the active scanner should add a query param 
+to GET requests which do not have parameters to start with. This option can be enable using the [setoptionaddqueryparam](#ascanactionsetoptionaddqueryparam) API.
+
 ### Technology
 
 ![technology](../images/ascan_advanced_tech.png)
