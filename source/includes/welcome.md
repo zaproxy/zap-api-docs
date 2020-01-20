@@ -11,7 +11,7 @@ This document provides example guides & API definitions for ZAP APIs. You can vi
 the right; switch the programming language of the examples with the tabs on the top right. 
 If anything is missing or seems incorrect, please check the [FAQs](https://www.zaproxy.org/faq/) or the
 [GitHub issues](https://github.com/zaproxy/zaproxy/issues) for existing known issues.
-Also, if you are new to ZAP, then check out the [getting started guide](https://www.zaproxy.org/pdf/ZAPGettingStartedGuide-2.8.pdf) 
+Also, if you are new to ZAP, then check out the [getting started guide](https://www.zaproxy.org/getting-started/) 
 to learn the basic concepts behind ZAP. 
 
 The following are some of the features provided by ZAP:
