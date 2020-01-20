@@ -2,7 +2,7 @@
 
 # Introduction
 
-Welcome to ZAP API Documentation! The [OWASP Zed Attack Proxy](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project) (**ZAP**) 
+Welcome to ZAP API Documentation! The [OWASP Zed Attack Proxy](https://www.zaproxy.org/) (**ZAP**) 
 is one of the world's most popular free security tools which lets you automatically find security vulnerabilities in your 
 applications. ZAP also has an extremely powerful API that allows you to do nearly everything that possible via the desktop interface.
 This allows the developers to automate pentesting and security regression testing of the application in the CI/CD pipeline.
