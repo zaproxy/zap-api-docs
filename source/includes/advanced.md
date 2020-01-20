@@ -60,7 +60,7 @@ scanning time and accuracy of the results. For example, for the following config
 [optionTargetParamsEnabledRPC](#ascanviewoptiontargetparamsenabledrpc) will yield the results of 11 and 39. 
 The numbers can be deconstructed in the following manner:
 
-- 1+2+9 = 11 [Query String(1), Post Data(2), HTTP Headers(0)]
+- 1+2+8 = 11 [Query String(1), Post Data(2), HTTP Headers(8)]
 - 1+2+4+32 = 39 [Multipart (1), XML (2), JSON (4), DWR (32)]
  
 ![input_vectors_code](../images/ascan_advanced_input_vectors_code.png)
@@ -69,7 +69,7 @@ Thus, to change the values of `Injectable targets` and `Input Vector Handlers` c
 use the [setoptiontargetparamsinjectable](#ascanactionsetoptiontargetparamsinjectable) and [setoptiontargetparamsenabledrpc](#ascanactionsetoptiontargetparamsenabledrpc) APIs accordingly.
 
 The `Add URL query parameter` option under the `Injectable Tragets` sets whether or not the active scanner should add a query param 
-to GET requests which do not have parameters to start with. This option can be enable using the [setoptionaddqueryparam](#ascanactionsetoptionaddqueryparam) API.
+to GET requests which do not have parameters to start with. This option can be enabled using the [setoptionaddqueryparam](#ascanactionsetoptionaddqueryparam) API.
 
 ### Technology
 
