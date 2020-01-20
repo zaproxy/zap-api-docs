@@ -55,14 +55,18 @@ the API Catalogue for additional information regarding the APIs.
 
 ### Input Vectors
 
-![input_vectors](../images/ascan_advanced_input_vectors.png)
-
 Input vectors refers to the elements that Active Scan will target. Specifying the exact elements to target will improve the
-scanning time and accuracy of the results. For an example, if you do not need ZAP to target on the
-multipart from data then it should be disabled via the [setOptionTargetParamsEnabledRPC](#ascanactionsetoptiontargetparamsenabledrpc) endpoint. 
-You need to send a map of key value pairs as the input with the corresponding bit values.
+scanning time and accuracy of the results. For example, for the following configuration the [optionTargetParamsInjectable](#ascanviewoptiontargetparamsinjectable) and 
+[optionTargetParamsEnabledRPC](#ascanviewoptiontargetparamsenabledrpc) will yield the results of 11 and 39. 
+The numbers can be deconstructed in the following manner:
 
-![input_vectors_code](../images/ascan_advanced_input_vector_code.png)
+- 1+2+9 = 11 [Query String(1), Post Data(2), HTTP Headers(0)]
+- 1+2+4+32 = 39 [Multipart (1), XML (2), JSON (4), DWR (32)]
+ 
+![input_vectors_code](../images/ascan_advanced_input_vectors_code.png)
+
+Thus, to change the values of `Injectable targets` and `Input Vector Handlers` calculate the exact values and 
+use the [setoptiontargetparamsinjectable](#ascanactionsetoptiontargetparamsinjectable) and [setoptiontargetparamsenabledrpc](#ascanactionsetoptiontargetparamsenabledrpc) APIs accordingly.
 
 ### Technology
 
