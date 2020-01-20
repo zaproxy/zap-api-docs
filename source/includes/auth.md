@@ -57,7 +57,7 @@ and HTTP authentication based session management.
  
 **Step 6. Enable forced user mode (Optional)**
 
-Now enable the ![](https://github.com/zaproxy/zap-core-help/wiki/images/fugue/forcedUserOff.png) "[Forced User Mode disabled - click to enable](https://github.com/zaproxy/zap-core-help/wiki/HelpUiTltoolbar#--forced-user-mode-on--off)" 
+Now enable the ![](https://www.zaproxy.org/docs/desktop/images/fugue/forcedUserOff.png) "[Forced User Mode disabled - click to enable](https://www.zaproxy.org/docs/desktop/ui/tltoolbar/#--forced-user-mode-on--off)" 
 button. Pressing this button will cause ZAP to resend the authentication request whenever it detects that the user is no 
 longer logged in, ie by using the 'logged in' or 'logged out' indicator. But the forced used mode is ignored for scans that already have a user set. 
 
@@ -269,7 +269,7 @@ curl 'http://localhost:8080/JSON/forcedUser/action/setForcedUser/?contextId=1&us
 curl 'http://localhost:8080/JSON/forcedUser/action/setForcedUserModeEnabled/?boolean=true'
 ```
 
-The following example performs a simple [form-based authentication]((https://github.com/zaproxy/zaproxy/wiki/FAQformauth)) using 
+The following example performs a simple [form-based authentication](https://www.zaproxy.org/faq/how-can-zap-automatically-authenticate-via-forms/) using 
 the Bodgeit vulnerable application. It's recommended that you configure the authentication via the desktop UI before attempting the APIs.
 
 ### Setup Target Application
@@ -302,7 +302,7 @@ the regex needed for the login indicator. The following image shows the complete
 ![auth](../images/auth_bodgeit_form_settings.png)
 
 Now let's add the user credentials by going to the `context -> users -> Add` section. After adding the credentials, enable 
-the ![](https://github.com/zaproxy/zap-core-help/wiki/images/fugue/forcedUserOff.png) "[Forced User](https://github.com/zaproxy/zap-core-help/wiki/HelpUiTltoolbar#--forced-user-mode-on--off)"
+the ![](https://www.zaproxy.org/docs/desktop/images/fugue/forcedUserOff.png) "[Forced User](https://www.zaproxy.org/docs/desktop/ui/tltoolbar/#--forced-user-mode-on--off)"
 mode in the desktop UI to forcefully authenticate the user prior to the testing of the application. 
 
 Now let's test the authentication by performing an authenticated Spidering with ZAP. To accomplish this, go to the Spider and select the `default` 

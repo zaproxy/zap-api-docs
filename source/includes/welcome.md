@@ -9,9 +9,9 @@ This allows the developers to automate pentesting and security regression testin
 
 This document provides example guides & API definitions for ZAP APIs. You can view code examples in the dark area to 
 the right; switch the programming language of the examples with the tabs on the top right. 
-If anything is missing or seems incorrect, please check the [FAQs](https://github.com/zaproxy/zaproxy/wiki/FAQtoplevel) or the
+If anything is missing or seems incorrect, please check the [FAQs](https://www.zaproxy.org/faq/) or the
 [GitHub issues](https://github.com/zaproxy/zaproxy/issues) for existing known issues.
-Also, if you are new to ZAP, then check out the [getting started guide](https://www.zaproxy.org/getting-started/) 
+Also, if you are new to ZAP, then check out the [getting started guide](https://www.zaproxy.org/pdf/ZAPGettingStartedGuide-2.8.pdf) 
 to learn the basic concepts behind ZAP. 
 
 The following are some of the features provided by ZAP:
@@ -84,7 +84,7 @@ when you are proxying through ZAP, or via the host and port ZAP is listening on,
 
 ![zap_api_ui](../images/zap_api_ui.png)
 
-By default only the machine ZAP is running on is able to access the APIs. You can [allow other machines](https://github.com/zaproxy/zaproxy/wiki/FAQremote), 
+By default only the machine ZAP is running on is able to access the APIs. You can [allow other machines](https://www.zaproxy.org/faq/how-can-i-connect-to-zap-remotely/), 
 that are able to use ZAP as a proxy, access to the API.
 
 ### Client SDKs
@@ -134,7 +134,7 @@ $ <ZAP_HOME>./zap.sh
 # For Windows, Run the exe file or zap.bat script to start ZAP
 ```
 
-To install ZAP, go to ZAP's [home page](https://github.com/zaproxy/zaproxy/wiki/Downloads) and download the installer specific to the 
+To install ZAP, go to ZAP's [home page](https://www.zaproxy.org/download/) and download the installer specific to the 
 operating system. After extracting the bundle you can start ZAP by issuing the following command shown in the right column.
 
 The API key must be specified on all API `actions` and some `other` operations. The API key is used to prevent malicious 
