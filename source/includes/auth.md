@@ -319,7 +319,7 @@ If you have configured the authentication via the desktop UI, then export the co
 
 #### Include in Context
 
-Inorder to proceed with authentication, the URL of the application should be added to the context. As the Bodgit is available
+In order to proceed with authentication, the URL of the application should be added to the context. As the Bodgit is available
 via [http://localhost:8090/bodgeit](http://localhost:8090/bodgeit) use the [includeInContext](#contextactionincludeincontext) API to add the
 URL to a context.
 
@@ -595,7 +595,7 @@ to the application and press the configure button. Use the default credentials o
 
 `docker run --rm -it -p 3000:80 vulnerables/web-dvwa`
 
-### Upload the script
+### Upload the Script
 
 Go to the script tab and create a new script under the authentication section. Provide a name to the script and select 
 `JavaScript/Nashorn` as the engine and replace the script contents with the following [script](https://github.com/zaproxy/zap-api-docs/source/scripts/auth-dvwa.js). 
@@ -623,8 +623,8 @@ Now add the default admin user to the users tab and enable the user.
 ![context_auth](../images/auth_dvwa_cotext_auth.png)
 
 As the login operation is performed by the script lets add the login URL as out of context. Additionally you should add 
-pages which will disrupt the login process to out of context so Spider will not trigger unwanted log outs. Thus in "Exclude from Context" tab 
-add the following regex(s).
+pages which will disrupt the login process to out of context so Spider will not trigger unwanted log outs. Thus in "Exclude from Context" tab
+so Zap will not trigger unwanted log outs (ex.: logout/logoff/password change, etc.). Now add the following regex(s) "Exclude from Context" tab.
 
 * `\Qhttp://localhost:3000/login.php\E`
 * `\Qhttp://localhost:3000/logout.php\E`
