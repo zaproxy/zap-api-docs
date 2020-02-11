@@ -59,7 +59,7 @@ and HTTP authentication based session management.
 
 Now enable the ![](https://www.zaproxy.org/docs/desktop/images/fugue/forcedUserOff.png) "[Forced User Mode disabled - click to enable](https://www.zaproxy.org/docs/desktop/ui/tltoolbar/#--forced-user-mode-on--off)" 
 button. Pressing this button will cause ZAP to resend the authentication request whenever it detects that the user is no 
-longer logged in, ie by using the 'logged in' or 'logged out' indicator. But the forced used mode is ignored for scans that already have a user set. 
+longer logged in, ie by using the 'logged in' or 'logged out' indicator. But the forced user mode is ignored for scans that already have a user set. 
 
 <aside class="info">
 In order for auth to work one of the indicators(logged in/out) needs to be set, however, ZAP will allow users to proceed without having to set 
@@ -309,7 +309,7 @@ Now let's test the authentication by performing an authenticated Spidering with 
 context and the `test user` to perform the authentication. After this, you should see the Spider crawling all the protected resources.
 
 <aside class="info">
-It's not mandatory to set the forced used mode, if you manually set a user for ZAP activities such as scanning.
+It's not mandatory to set the forced user mode, if you manually set a user for ZAP activities such as scanning.
 </aside>
 
 ### Steps to Reproduce via API
