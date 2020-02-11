@@ -247,7 +247,7 @@ public class FormAuth {
 # To include in default context
 curl 'http://localhost:8080/JSON/context/action/includeInContext/?contextName=Default+Context&regex=http%3A%2F%2Flocalhost%3A8090%2Fbodgeit.*'
 
-# Set login details (URL Endoded)
+# Set login details (URL Encoded)
 curl 'http://localhost:8080/JSON/authentication/action/setAuthenticationMethod/?contextId=1&authMethodName=formBasedAuthentication&authMethodConfigParams=loginUrl%3Dhttp%3A%2F%2Flocalhost%3A8090%2Fbodgeit%2Flogin.jsp%26loginRequestData%3Dusername%253D%257B%2525username%2525%257D%2526password%253D%257B%2525password%2525%257D'
 
 # To set the login indicator
@@ -309,7 +309,7 @@ Now let's test the authentication by performing an authenticated Spidering with 
 context and the `test user` to perform the authentication. After this, you should see the Spider crawling all the protected resources.
 
 <aside class="info">
-It's not madatory to set the forced used mode, if you manually set a user for ZAP activities such as scanning.
+It's not mandatory to set the forced used mode, if you manually set a user for ZAP activities such as scanning.
 </aside>
 
 ### Steps to Reproduce via API
@@ -319,7 +319,7 @@ If you have configured the authentication via the desktop UI, then export the co
 
 #### Include in Context
 
-Inorder to proceed with authentication, the URL of the application should be added to the context. As the Bodgit is available
+In order to proceed with authentication, the URL of the application should be added to the context. As the Bodgit is available
 via [http://localhost:8090/bodgeit](http://localhost:8090/bodgeit) use the [includeInContext](#contextactionincludeincontext) API to add the
 URL to a context.
 
