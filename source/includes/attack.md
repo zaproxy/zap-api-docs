@@ -25,7 +25,7 @@ public class PassiveScan {
         
         try {
             // TODO : explore the app (Spider, etc) before using the Passive Scan API, Refer the explore section for details
-            // Loop until the ajax spider has finished or the timeout has exceeded
+            // Loop until the passive scan has finished
             while (true) {
                 Thread.sleep(2000);
                 api.pscan.recordsToScan();
@@ -61,7 +61,7 @@ zap = ZAPv2(apikey=apiKey, proxies={'http': 'http://127.0.0.1:8080', 'https': 'h
 
 # TODO : explore the app (Spider, etc) before using the Passive Scan API, Refer the explore section for details
 while int(zap.pscan.records_to_scan) > 0:
-    # Loop until the ajax spider has finished or the timeout has exceeded
+    # Loop until the passive scan has finished
     print('Records to passive scan : ' + zap.pscan.records_to_scan)
     time.sleep(2)
 
@@ -100,7 +100,7 @@ View the [advanced section](#passive-scan-settings) to know how to configure add
 ## Using Active Scan
 
 Active scanning attempts to find potential vulnerabilities by using known attacks against the selected targets. Active scanning 
-is an attack on those targets. You should **NOT** use it on applications that you do not own. 
+is an attack on those targets. You should **NOT** use it on applications that you do not have permission to. 
 
 ### Start Active Scanner
 

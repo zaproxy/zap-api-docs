@@ -233,19 +233,19 @@ public class AjaxSpider {
 
 ```shell
 # To start the Ajax Spider
-$ curl "http://localhost:8080/JSON/AjaxSpider/action/scan/?apikey=<ZAP_API_KEY>&url=<URL>&inScope=&contextName=&subtreeOnly="
+$ curl "http://localhost:8080/JSON/ajaxSpider/action/scan/?apikey=<ZAP_API_KEY>&url=<URL>&inScope=&contextName=&subtreeOnly="
 
 # To view the status
-$ curl "http://localhost:8080/JSON/AjaxSpider/view/status/?apikey=<ZAP_API_KEY>"
+$ curl "http://localhost:8080/JSON/ajaxSpider/view/status/?apikey=<ZAP_API_KEY>"
 
 # To view the number of results
-$ curl "http://localhost:8080/JSON/AjaxSpider/view/numberOfResults/?apikey=<ZAP_API_KEY>"
+$ curl "http://localhost:8080/JSON/ajaxSpider/view/numberOfResults/?apikey=<ZAP_API_KEY>"
 
 # To view the results
-$ curl "http://localhost:8080/JSON/AjaxSpider/view/fullResults/?apikey=<ZAP_API_KEY>"
+$ curl "http://localhost:8080/JSON/ajaxSpider/view/fullResults/?apikey=<ZAP_API_KEY>"
 
 # To stop the Ajax Spider
-$ curl "http://localhost:8080/JSON/AjaxSpider/action/stop/?apikey=<ZAP_API_KEY>"
+$ curl "http://localhost:8080/JSON/ajaxSpider/action/stop/?apikey=<ZAP_API_KEY>"
 ```
  
 Use the Ajax Spider if you have applications which heavily depend on Ajax or JavaScript. The Ajax Spider allows you to crawl web applications 
