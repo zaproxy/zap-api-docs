@@ -385,7 +385,7 @@ def set_logged_in_indicator():
     print('Configured logged in indicator regex: ')
 
 
-def set_form_based_auth():
+def set_script_based_auth():
     login_url = "http://localhost:3000/login.php"
     login_request_data = "scriptName=authscript.js&Login URL=http://localhost:3000/login.php&CSRF Field=user_token" \
                          "&POST Data=username={%username%}&password={%password%}&Login=Login&user_token={%user_token%}"
@@ -409,14 +409,14 @@ def upload_script():
     script_name = 'authscript.js'
     script_type = 'authentication'
     script_engine = 'Oracle Nashorn'
-    file_name = '/home/nirojan/Desktop/authscript.js'
+    file_name = '/tmp/authscript.js'
     charset = 'UTF-8'
     zap.script.load(script_name, script_type, script_engine, file_name, charset=charset)
 
 
 set_include_in_context()
 upload_script()
-set_form_based_auth()
+set_script_based_auth()
 set_logged_in_indicator()
 set_user_auth_config()
 ```
@@ -455,7 +455,7 @@ public class ScriptAuth {
                 + ((ApiResponseElement) clientApi.authentication.getLoggedInIndicator(contextId)).getValue());
     }
 
-    private static void setFormBasedAuthenticationForBodgeit(ClientApi clientApi) throws ClientApiException,
+    private static void setScriptBasedAuthenticationForDVWP(ClientApi clientApi) throws ClientApiException,
             UnsupportedEncodingException {
         // Setup the authentication method
 
@@ -506,7 +506,7 @@ public class ScriptAuth {
         String script_name = "authscript.js";
         String script_type = "authentication";
         String script_engine = "Oracle Nashorn";
-        String file_name = "/home/nirojan/Desktop/authscript.js";
+        String file_name = "/tmp/authscript.js";
 
         clientApi.script.load(script_name, script_type, script_engine, file_name, null);
     }
@@ -531,7 +531,7 @@ public class ScriptAuth {
 
         uploadScript(clientApi);
         setIncludeAndExcludeInContext(clientApi);
-        setFormBasedAuthenticationForBodgeit(clientApi);
+        setScriptBasedAuthenticationForDVWP(clientApi);
         setLoggedInIndicator(clientApi);
         String userId = setUserAuthConfigForBodgeit(clientApi);
         scanAsUser(clientApi, userId);
@@ -570,8 +570,7 @@ curl 'http://localhost:8080/JSON/forcedUser/action/setForcedUserModeEnabled/?boo
 
 ZAP has scripting support for most of the popular languages. The following are some of the scripting languages supported by ZAP.
 
-- Java
-- Javascript
+- JavaScript
 - Python
 
 ZAP has an Add-on Marketplace where you can add support for additional scripting engines. Click the red, blue, & green box stacked 
@@ -579,8 +578,14 @@ icon in ZAP to bring up the marketplace modal. After it pops up, switch to the M
 
 The following example performs a script based authentication for the Damn Vulnerable Web Application. Similar to the
 Bodgeit example DVWA also uses `POST` request to authenticate the users. But apart from username and password DVWA sends an 
-additional token to protect against the Cross-Site request forgery attacks. This token is obtained from the the landing page.
+additional token to protect against the Cross-Site request forgery attacks. This token is obtained from the landing page.
 The following image shows the embedded token in the login page.
+
+<aside class="info">
+The newer ZAP versions support anti-CSRF tokens with the form-based authentication. The example provided below shows how the
+script-based authentication method can be used to perform custom workflows in ZAP.
+</aside>
+
 
 ![csrf_token](../images/auth_dvwa_token_html.png)
 
@@ -595,7 +600,7 @@ to the application and press the configure button. Use the default credentials o
 
 `docker run --rm -it -p 3000:80 vulnerables/web-dvwa`
 
-### Upload the Script
+### Create the Script
 
 Go to the script tab and create a new script under the authentication section. Provide a name to the script and select 
 `JavaScript/Nashorn` as the engine and replace the script contents with the following [script](https://github.com/zaproxy/zap-api-docs/source/scripts/auth-dvwa.js). 
@@ -624,7 +629,7 @@ Now add the default admin user to the users tab and enable the user.
 
 As the login operation is performed by the script lets add the login URL as out of context. Additionally you should add 
 pages which will disrupt the login process to out of context so Spider will not trigger unwanted log outs. Thus in "Exclude from Context" tab
-so Zap will not trigger unwanted log outs (ex.: logout/logoff/password change, etc.). Now add the following regex(s) "Exclude from Context" tab.
+so ZAP will not trigger unwanted log outs (ex.: logout/logoff/password change, etc.). Now add the following regex(s) "Exclude from Context" tab.
 
 * `\Qhttp://localhost:3000/login.php\E`
 * `\Qhttp://localhost:3000/logout.php\E`
@@ -636,7 +641,7 @@ see the Spider crawling all the protected resources. The authentication results 
 you can also select the login POST request in the history tab to verify the token has been sent to the application.
 
 <aside class="info">
-It's not madatory to set the forced used mode, if you manually set a user for ZAP activities such as scanning.
+It's not mandatory to set the forced user mode, if you manually set a user for ZAP activities such as scanning.
 </aside>
 
 ### Steps to Reproduce via API
