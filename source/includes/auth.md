@@ -572,6 +572,9 @@ ZAP has scripting support for most of the popular languages. The following are s
 
 - JavaScript
 - Python
+- Ruby
+- Groovy
+- Zest
 
 ZAP has an Add-on Marketplace where you can add support for additional scripting engines. Click the red, blue, & green box stacked 
 icon in ZAP to bring up the marketplace modal. After it pops up, switch to the Marketplace and install the appropriate scripting engine.
