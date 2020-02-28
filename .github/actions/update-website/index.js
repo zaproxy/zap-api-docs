@@ -26,10 +26,10 @@ async function run() {
     await io.rmRF(websiteDocsDir)
     await io.cp(path.resolve(docsDir, 'build'), websiteDocsDir, { recursive: true })
 
-    core.debug(`Checking for changes...`)
+    core.info('Checking for changes...')
     await git(websiteDir, ['add', '.'])
     const code = await git(websiteDir, ['diff-index', '--cached', '--quiet', 'HEAD', '--'], { ignoreReturnCode: true })
-    core.debug(`Result: ${code}`)
+    core.info(`Result: ${code}`)
     if (code === 0) {
       return
     }
@@ -52,40 +52,41 @@ async function run() {
       state: 'open'
     })
 
-    let pullId
+    let pullNumber
     if (pulls.data.length !== 0) {
-      pullId = pulls.data[0].id
+      pullNumber = pulls.data[0].number
+      core.info(`Found existing pull request: #${pullNumber}`)
     }
 
-    const gitHubBaseUrl = `https://github.com`
+    const gitHubBaseUrl = 'https://github.com'
     const title = 'Update API docs'
     const body = `From:\n${owner}/${repo}@${github.context.sha}`
     const commitMessage = `${title}\n\n${body}`
 
-    core.debug('Setting user configs...')
+    core.info('Setting user configs...')
     await git(websiteDir, ['config', '--local', 'user.name', user])
     await git(websiteDir, ['config', '--local', 'user.email', email])
     const authHeader = `Authorization: Basic ${Buffer.from(`${user}:${authToken}`).toString('base64')}`
     await git(websiteDir, ['config', '--local', `http.${gitHubBaseUrl}/.extraheader`, authHeader], { silent: true })
-    core.debug('Changing remote...')
+    core.info('Changing remote...')
     await git(websiteDir, ['remote', 'set-url', 'origin', `${gitHubBaseUrl}/${user}/${websiteRepoName}`])
-    core.debug('Checking out branch...')
+    core.info('Checking out branch...')
     await git(websiteDir, ['checkout', '-b', branch])
-    core.debug('Committing...')
+    core.info('Committing...')
     await git(websiteDir, ['commit', '-sm', commitMessage])
-    core.debug('Pushing...')
+    core.info('Pushing...')
     await git(websiteDir, ['push', '-f', 'origin', branch])
 
-    if (pullId) {
-      core.debug('Updating pull request...')
+    if (pullNumber) {
+      core.info('Updating pull request...')
       await octokit.pulls.update({
         owner: owner,
         repo: websiteRepoName,
-        pull_number: pullId,
+        pull_number: pullNumber,
         body: body,
       })
     } else {
-      core.debug('Creating pull request...')
+      core.info('Creating pull request...')
       await octokit.pulls.create({
         ...pullRequestParams,
         title: title,
