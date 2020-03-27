@@ -390,9 +390,9 @@ def set_script_based_auth():
     login_request_data = "scriptName=authscript.js&Login URL=http://localhost:3000/login.php&CSRF Field=user_token" \
                          "&POST Data=username={%username%}&password={%password%}&Login=Login&user_token={%user_token%}"
 
-    form_based_config = 'loginUrl=' + urllib.parse.quote(login_url) + '&loginRequestData=' + urllib.parse.quote(login_request_data)
-    zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', form_based_config, apiKey)
-    print('Configured form based authentication')
+    script_based_config = 'loginUrl=' + urllib.parse.quote(login_url) + '&loginRequestData=' + urllib.parse.quote(login_request_data)
+    zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', script_based_config, apiKey)
+    print('Configured script based authentication')
 
 
 def set_user_auth_config():
@@ -455,7 +455,7 @@ public class ScriptAuth {
                 + ((ApiResponseElement) clientApi.authentication.getLoggedInIndicator(contextId)).getValue());
     }
 
-    private static void setScriptBasedAuthenticationForDVWP(ClientApi clientApi) throws ClientApiException,
+    private static void setScriptBasedAuthenticationForDVWA(ClientApi clientApi) throws ClientApiException,
             UnsupportedEncodingException {
         // Setup the authentication method
 
@@ -531,7 +531,7 @@ public class ScriptAuth {
 
         uploadScript(clientApi);
         setIncludeAndExcludeInContext(clientApi);
-        setScriptBasedAuthenticationForDVWP(clientApi);
+        setScriptBasedAuthenticationForDVWA(clientApi);
         setLoggedInIndicator(clientApi);
         String userId = setUserAuthConfigForBodgeit(clientApi);
         scanAsUser(clientApi, userId);
