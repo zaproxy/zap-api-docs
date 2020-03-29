@@ -422,7 +422,6 @@ set_user_auth_config()
 ```
 
 ```java
-
 public class ScriptAuth {
 
     private static final String ZAP_ADDRESS = "localhost";
@@ -431,77 +430,55 @@ public class ScriptAuth {
     private static final String contextId = "1";
     private static final String contextName = "Default Context";
     private static final String target = "http://localhost:8090/bodgeit";
-
     private static void setIncludeAndExcludeInContext(ClientApi clientApi) throws UnsupportedEncodingException, ClientApiException {
         String includeInContext = "http://localhost:3000.*";
         String excludeInContext = "\\Qhttp://localhost:3000/logout.php\\E";
-
         clientApi.context.includeInContext(contextName, includeInContext);
         clientApi.context.excludeFromContext(contextName, excludeInContext);
     }
-
-
     private static void setLoggedInIndicator(ClientApi clientApi) throws UnsupportedEncodingException, ClientApiException {
         // Prepare values to set, with the logged in indicator as a regex matching the logout link
         String loggedInIndicator = "\\Q<a href=\"logout.php\">Logout</a>\\E";
         String loggedOutIndicator = "(?:Location: [./]*login\\.php)|(?:\\Q<form action=\"login.php\" method=\"post\">\\E)";
-
         // Actually set the logged in indicator
         clientApi.authentication.setLoggedInIndicator( contextId, loggedInIndicator);
         clientApi.authentication.setLoggedOutIndicator( contextId, loggedOutIndicator);
-
         // Check out the logged in indicator that is set
         System.out.println("Configured logged in indicator regex: "
                 + ((ApiResponseElement) clientApi.authentication.getLoggedInIndicator(contextId)).getValue());
     }
-
     private static void setScriptBasedAuthenticationForDVWA(ClientApi clientApi) throws ClientApiException,
             UnsupportedEncodingException {
-        // Setup the authentication method
+        String postDataEncode = URLEncoder.encode("username={%username%}&password={%password%}", "UTF-8");
+        String tokenEncode = URLEncoder.encode("{%user_token%}", "UTF-8");
+        String sb = ("scriptName=authscript.js&Login+URL=http://localhost:3000/login.php&CSRF+Field=user_token&")
+                .concat("POST+Data=").concat(postDataEncode)
+                .concat("&Login=Login&user_token=").concat(tokenEncode);
 
-        String loginUrl = "http://localhost:3000/login.php";
-        String loginRequestData = "scriptName=authscript.js&Login URL=http://localhost:3000/login.php&CSRF Field=user_token" +
-                "&POST Data=username={%username%}&password={%password%}&Login=Login&user_token={%user_token%}";
-
-        // Prepare the configuration in a format similar to how URL parameters are formed. This
-        // means that any value we add for the configuration values has to be URL encoded.
-        StringBuilder formBasedConfig = new StringBuilder();
-        formBasedConfig.append("loginUrl=").append(URLEncoder.encode(loginUrl, "UTF-8"));
-        formBasedConfig.append("&loginRequestData=").append(URLEncoder.encode(loginRequestData, "UTF-8"));
-
-        System.out.println("Setting form based authentication configuration as: " + formBasedConfig.toString());
-        clientApi.authentication.setAuthenticationMethod(contextId, "scriptBasedAuthentication", formBasedConfig.toString());
-
-        // Check if everything is set up ok
+        clientApi.authentication.setAuthenticationMethod(contextId, "scriptBasedAuthentication", sb);
         System.out.println("Authentication config: " + clientApi.authentication.getAuthenticationMethod(contextId).toString(0));
     }
-
     private static String setUserAuthConfigForBodgeit(ClientApi clientApi) throws ClientApiException, UnsupportedEncodingException {
         // Prepare info
         String user = "Administrator";
         String username = "admin";
         String password = "password";
-
         // Make sure we have at least one user
         String userId = extractUserId(clientApi.users.newUser(ZAP_API_KEY, contextId, user));
-
         // Prepare the configuration in a format similar to how URL parameters are formed. This
         // means that any value we add for the configuration values has to be URL encoded.
         StringBuilder userAuthConfig = new StringBuilder();
         userAuthConfig.append("username=").append(URLEncoder.encode(username, "UTF-8"));
         userAuthConfig.append("&password=").append(URLEncoder.encode(password, "UTF-8"));
-
         System.out.println("Setting user authentication configuration as: " + userAuthConfig.toString());
         clientApi.users.setAuthenticationCredentials(ZAP_API_KEY, contextId, userId, userAuthConfig.toString());
         clientApi.users.setUserEnabled(contextId, userId, "true");
         clientApi.forcedUser.setForcedUser(contextId, userId);
         clientApi.forcedUser.setForcedUserModeEnabled(true);
-
         // Check if everything is set up ok
         System.out.println("Authentication config: " + clientApi.users.getUserById(contextId, userId).toString(0));
         return userId;
     }
-
     private static void uploadScript(ClientApi clientApi) throws ClientApiException {
         String script_name = "authscript.js";
         String script_type = "authentication";
@@ -510,15 +487,12 @@ public class ScriptAuth {
 
         clientApi.script.load(script_name, script_type, script_engine, file_name, null);
     }
-
     private static String extractUserId(ApiResponse response) {
         return ((ApiResponseElement) response).getValue();
     }
-
     private static void scanAsUser(ClientApi clientApi, String userId) throws ClientApiException {
         clientApi.spider.scanAsUser(contextId, userId, target, null, "true", null);
     }
-
     /**
      * The main method.
      *
@@ -528,7 +502,6 @@ public class ScriptAuth {
      */
     public static void main(String[] args) throws ClientApiException, UnsupportedEncodingException {
         ClientApi clientApi = new ClientApi(ZAP_ADDRESS, ZAP_PORT);
-
         uploadScript(clientApi);
         setIncludeAndExcludeInContext(clientApi);
         setScriptBasedAuthenticationForDVWA(clientApi);
@@ -537,6 +510,7 @@ public class ScriptAuth {
         scanAsUser(clientApi, userId);
     }
 }
+
 ```
 
 ```shell
