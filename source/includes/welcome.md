@@ -27,7 +27,7 @@ Have a look at the examples below to learn how to use each of these features via
 
 ## Documentation Structure
 
-The API documentation is divided into eight main sections.
+The API documentation is divided into nine main sections.
 
 * [**Introduction**](#introduction) section contains introductory information of ZAP and installation guide to set up ZAP for testing.
 * [**Exploring the App**](#exploring-the-app) section contains examples on how to explore the web application.
@@ -37,6 +37,7 @@ The API documentation is divided into eight main sections.
 * [**Advanced Settings**](#advanced-settings) section contains advanced configurations on how to fine tune ZAP results.
 * [**Contributions**](#contributions-welcome) section contains guidelines and instructions on how to contribute to ZAP's documentation.
 * [**API Catalogue**](#api-catalogue) section contains OpenAPI definitions and auto generated code for ZAP APIs. 
+* [**FAQ**](#faq) section contains the frequently asked questions regarding ZAP APIs. 
 
 <aside class="notice">
 The examples show some usages with the minimal required arguments. However, this is not a reference, and not all APIs 

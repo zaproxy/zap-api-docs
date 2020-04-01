@@ -17,6 +17,7 @@ includes:
   - auth
   - advanced
   - contributing
+  - faq
   - apis
 
 search: true

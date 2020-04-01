@@ -68,6 +68,85 @@ them because there are other methods of setting them. However, if one isn't set,
 
 ## Form Based Authentication
 
+The following example performs a simple [form-based authentication](https://www.zaproxy.org/faq/how-can-zap-automatically-authenticate-via-forms/) using 
+the Bodgeit vulnerable application. It's recommended that you configure the authentication via the desktop UI before attempting the APIs.
+
+### Setup Target Application
+
+Bodgeit uses a simple form-based authentication to authenticate the users to the application. Use the following command 
+to start a docker instance of the Bodgeit application: `docker run --rm -p 8090:8080 -i -t psiinon/bodgeit` 
+
+### Register a User
+
+Register a user in the application by navigating to the following URL: [http://localhost:8090/bodgeit/register.jsp](http://localhost:8090/bodgeit/register.jsp).
+For the purpose of this example, use the following credentials.
+
+* username: test@gmail.com
+* password: weakPass
+
+### Login
+
+After registering the user, browse (proxied via ZAP) to the following URL ([http://localhost:8090/bodgeit/login.jsp](http://localhost:8090/bodgeit/login.jsp)), 
+and log in to the application. When you log in to the application, the request will be added to the `History` tab in ZAP. 
+Search for the POST request to the following URL: [http://localhost:8090/bodgeit/login.jsp](http://localhost:8090/bodgeit/login.jsp).
+Right-click on the post request, and select `Flag as Context -> Default Context : Form based Login Request` option. This will 
+open the context authentication editor. You can notice it has auto-selected the form-based authentication, auto-filled the login URL, and the post data.
+Select the correct form parameter as the username and password in the dropdown and click Ok.
+
+Now you need to inform ZAP whether the application is logged in or out. The Bodgeit application includes the logout URL 
+`<a href="logout.jsp">Logout</a>` as the successful response. You can view this by navigating to the response tab of the login request.
+Highlight the text and right click and select the `Flag as Context -> Default Context, Loggedin Indicator` option. This will autofill
+the regex needed for the login indicator. The following image shows the completed set up for the authentication tab of the context menu.
+
+![auth](../images/auth_bodgeit_form_settings.png)
+
+Now let's add the user credentials by going to the `context -> users -> Add` section. After adding the credentials, enable 
+the ![](https://www.zaproxy.org/docs/desktop/images/fugue/forcedUserOff.png) "[Forced User](https://www.zaproxy.org/docs/desktop/ui/tltoolbar/#--forced-user-mode-on--off)"
+mode in the desktop UI to forcefully authenticate the user prior to the testing of the application. 
+
+Now let's test the authentication by performing an authenticated Spidering with ZAP. To accomplish this, go to the Spider and select the `default` 
+context and the `test user` to perform the authentication. After this, you should see the Spider crawling all the protected resources.
+
+<aside class="info">
+It's not mandatory to set the forced user mode, if you manually set a user for ZAP activities such as scanning.
+</aside>
+
+### Steps to Reproduce via API
+
+If you have configured the authentication via the desktop UI, then export the context and import it using the 
+[importContext](#contextactionimportcontext) API. Otherwise follow the steps below to configure the authentication setting for the context. 
+
+#### Include in Context
+
+In order to proceed with authentication, the URL of the application should be added to the context. As the Bodgit is available
+via [http://localhost:8090/bodgeit](http://localhost:8090/bodgeit) use the [includeInContext](#contextactionincludeincontext) API to add the
+URL to a context.
+
+#### Set Authentication Method
+
+Use the [setAuthenticationMethod](#authenticationactionsetauthenticationmethod) to set up the authentication method and 
+the configuration parameters. The `setAuthenticationMethod` takes `contextId`, `authMethodName`, and `authMethodConfigParams` as
+parameters. As Bodgeit uses the form-based authentication, use `formBasedAuthentication` for the authMethodName and use the contextID
+from Step 1 as the `contextId` parameter. 
+
+The authMethodConfigParams requires the loginUrl and loginRequestData. Therefore you should set the values to authMethodConfigParams in the following format:
+
+`authMethodConfigParams : loginUrl=http://localhost:8090/bodgeit/login.jsp&loginRequestData=username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D`
+
+The values for authMethodConfigParams parameters must be URL encoded, in this case loginRequestData is `username={%username%}&password={%password%}`.
+
+#### Set Login and Logout Indicators
+
+Use the [setLoggedOutIndicator](#authenticationactionsetloggedoutindicator) to set the logout indicators of the application.
+The Following is the regex command to match the successful response with the Bodgeit application.
+`\Q<a href=\"logout.jsp\"></a>\E`
+
+#### Create User and Enable Forced User Mode
+
+Now add the user credentials via the [setAuthenticationCredentials](#usersactionsetauthenticationcredentials) API and use
+the [SetForcedUserModeEnabled](#forceduseractionsetforcedusermodeenabled) to enable the forced user mode in ZAP.
+
+
 ```python
 #!/usr/bin/env python
 import urllib.parse
@@ -268,81 +347,3 @@ curl 'http://localhost:8080/JSON/forcedUser/action/setForcedUser/?contextId=1&us
 # To enable forced user mode
 curl 'http://localhost:8080/JSON/forcedUser/action/setForcedUserModeEnabled/?boolean=true'
 ```
-
-The following example performs a simple [form-based authentication](https://www.zaproxy.org/faq/how-can-zap-automatically-authenticate-via-forms/) using 
-the Bodgeit vulnerable application. It's recommended that you configure the authentication via the desktop UI before attempting the APIs.
-
-### Setup Target Application
-
-Bodgeit uses a simple form-based authentication to authenticate the users to the application. Use the following command 
-to start a docker instance of the Bodgeit application: `docker run --rm -p 8090:8080 -i -t psiinon/bodgeit` 
-
-### Register a User
-
-Register a user in the application by navigating to the following URL: [http://localhost:8090/bodgeit/register.jsp](http://localhost:8090/bodgeit/register.jsp).
-For the purpose of this example, use the following credentials.
-
-* username: test@gmail.com
-* password: weakPass
-
-### Login
-
-After registering the user, browse (proxied via ZAP) to the following URL ([http://localhost:8090/bodgeit/login.jsp](http://localhost:8090/bodgeit/login.jsp)), 
-and log in to the application. When you log in to the application, the request will be added to the `History` tab in ZAP. 
-Search for the POST request to the following URL: [http://localhost:8090/bodgeit/login.jsp](http://localhost:8090/bodgeit/login.jsp).
-Right-click on the post request, and select `Flag as Context -> Default Context : Form based Login Request` option. This will 
-open the context authentication editor. You can notice it has auto-selected the form-based authentication, auto-filled the login URL, and the post data.
-Select the correct form parameter as the username and password in the dropdown and click Ok.
-
-Now you need to inform ZAP whether the application is logged in or out. The Bodgeit application includes the logout URL 
-`<a href="logout.jsp">Logout</a>` as the successful response. You can view this by navigating to the response tab of the login request.
-Highlight the text and right click and select the `Flag as Context -> Default Context, Loggedin Indicator` option. This will autofill
-the regex needed for the login indicator. The following image shows the completed set up for the authentication tab of the context menu.
-
-![auth](../images/auth_bodgeit_form_settings.png)
-
-Now let's add the user credentials by going to the `context -> users -> Add` section. After adding the credentials, enable 
-the ![](https://www.zaproxy.org/docs/desktop/images/fugue/forcedUserOff.png) "[Forced User](https://www.zaproxy.org/docs/desktop/ui/tltoolbar/#--forced-user-mode-on--off)"
-mode in the desktop UI to forcefully authenticate the user prior to the testing of the application. 
-
-Now let's test the authentication by performing an authenticated Spidering with ZAP. To accomplish this, go to the Spider and select the `default` 
-context and the `test user` to perform the authentication. After this, you should see the Spider crawling all the protected resources.
-
-<aside class="info">
-It's not mandatory to set the forced user mode, if you manually set a user for ZAP activities such as scanning.
-</aside>
-
-### Steps to Reproduce via API
-
-If you have configured the authentication via the desktop UI, then export the context and import it using the 
-[importContext](#contextactionimportcontext) API. Otherwise follow the steps below to configure the authentication setting for the context. 
-
-#### Include in Context
-
-In order to proceed with authentication, the URL of the application should be added to the context. As the Bodgit is available
-via [http://localhost:8090/bodgeit](http://localhost:8090/bodgeit) use the [includeInContext](#contextactionincludeincontext) API to add the
-URL to a context.
-
-#### Set Authentication Method
-
-Use the [setAuthenticationMethod](#authenticationactionsetauthenticationmethod) to set up the authentication method and 
-the configuration parameters. The `setAuthenticationMethod` takes `contextId`, `authMethodName`, and `authMethodConfigParams` as
-parameters. As Bodgeit uses the form-based authentication, use `formBasedAuthentication` for the authMethodName and use the contextID
-from Step 1 as the `contextId` parameter. 
-
-The authMethodConfigParams requires the loginUrl and loginRequestData. Therefore you should set the values to authMethodConfigParams in the following format:
-
-`authMethodConfigParams : loginUrl=http://localhost:8090/bodgeit/login.jsp&loginRequestData=username%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D`
-
-The values for authMethodConfigParams parameters must be URL encoded, in this case loginRequestData is `username={%username%}&password={%password%}`.
-
-#### Set Login and Logout Indicators
-
-Use the [setLoggedOutIndicator](#authenticationactionsetloggedoutindicator) to set the logout indicators of the application.
-The Following is the regex command to match the successful response with the Bodgeit application.
-`\Q<a href=\"logout.jsp\"></a>\E`
-
-#### Create User and Enable Forced User Mode
-
-Now add the user credentials via the [setAuthenticationCredentials](#usersactionsetauthenticationcredentials) API and use
-the [SetForcedUserModeEnabled](#forceduseractionsetforcedusermodeenabled) to enable the forced user mode in ZAP.
