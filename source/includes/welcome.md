@@ -57,6 +57,9 @@ in the daemon mode and the desktop mode. If you are using ZAP desktop, then the 
 ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations. 
 The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key 
 unless you are using ZAP in a completely isolated environment.
+
+Also make sure that you have installed the necessary addons while invoking features which are not bundled with the ZAP core.
+For example, if you receive "no_implementor error" in relation to Ajax Spider calls, perhaps the Ajax Spider addon isn't installed.
 </aside>
 
 Please note that not all the operations which are available in the desktop interface are available via the APIs. 
