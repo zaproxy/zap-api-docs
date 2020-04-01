@@ -451,14 +451,14 @@ public class ScriptAuth {
             UnsupportedEncodingException {
         String postDataEncode = URLEncoder.encode("username={%username%}&password={%password%}", "UTF-8");
         String tokenEncode = URLEncoder.encode("{%user_token%}", "UTF-8");
-        String sb = ("scriptName=authscript.js&Login+URL=http://localhost:3000/login.php&CSRF+Field=user_token&")
-                .concat("POST+Data=").concat(postDataEncode)
+        String sb = ("scriptName=authscript.js&Login_URL=http://localhost:3000/login.php&CSRF_Field=user_token&")
+                .concat("POST_Data=").concat(postDataEncode)
                 .concat("&Login=Login&user_token=").concat(tokenEncode);
 
-        clientApi.authentication.setAuthenticationMethod(contextId, "scriptBasedAuthentication", sb);
+        clientApi.authentication.setAuthenticationMethod(contextId, "scriptBasedAuthentication", sb.toString());
         System.out.println("Authentication config: " + clientApi.authentication.getAuthenticationMethod(contextId).toString(0));
     }
-    private static String setUserAuthConfigForBodgeit(ClientApi clientApi) throws ClientApiException, UnsupportedEncodingException {
+    private static String setUserAuthConfigForDVWA(ClientApi clientApi) throws ClientApiException, UnsupportedEncodingException {
         // Prepare info
         String user = "Administrator";
         String username = "admin";
@@ -484,7 +484,6 @@ public class ScriptAuth {
         String script_type = "authentication";
         String script_engine = "Oracle Nashorn";
         String file_name = "/tmp/authscript.js";
-
         clientApi.script.load(script_name, script_type, script_engine, file_name, null);
     }
     private static String extractUserId(ApiResponse response) {
@@ -506,11 +505,10 @@ public class ScriptAuth {
         setIncludeAndExcludeInContext(clientApi);
         setScriptBasedAuthenticationForDVWA(clientApi);
         setLoggedInIndicator(clientApi);
-        String userId = setUserAuthConfigForBodgeit(clientApi);
+        String userId = setUserAuthConfigForDVWA(clientApi);
         scanAsUser(clientApi, userId);
     }
 }
-
 ```
 
 ```shell
