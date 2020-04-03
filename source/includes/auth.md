@@ -368,31 +368,34 @@ zap = ZAPv2(apikey=apiKey)
 
 def set_include_in_context():
     include_url = 'http://localhost:3000.*'
-    exclude_url = '\Qhttp://localhost:3000/logout.php\E'
-    
+
     zap.context.include_in_context(context_name, include_url, apiKey)
-    zap.context.exclude_from_context(context_name, exclude_url, apiKey)
+
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/login.php\\E', apiKey)
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/logout.php\\E', apiKey)
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/setup.php\\E', apiKey)
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/security.php\\E', apiKey)
     print('Configured include and exclude regex(s) in context')
 
 
 def set_logged_in_indicator():
 
-    logged_in_regex = '\Q<a href="logout.php">Logout</a>\E'
-    logged_out_regex = '(?:Location: [./]*login\.php)|(?:\Q<form action="login.php" method="post">\E)'
+    logged_in_regex = "\\Q<a href=\"logout.php\">Logout</a>\\E"
+    logged_out_regex = "(?:Location: [./]*login\\.php)|(?:\\Q<form action=\"login.php\" method=\"post\">\\E)"
 
     zap.authentication.set_logged_in_indicator(context_id, logged_in_regex, apiKey)
     zap.authentication.set_logged_out_indicator(context_id, logged_out_regex, apiKey)
-    print('Configured logged in indicator regex: ')
+    print('Configured logged in indicator regex ')
 
 
 def set_script_based_auth():
-    login_url = "http://localhost:3000/login.php"
-    login_request_data = "scriptName=authscript.js&Login URL=http://localhost:3000/login.php&CSRF Field=user_token" \
-                         "&POST Data=username={%username%}&password={%password%}&Login=Login&user_token={%user_token%}"
+    post_data = "username={%username%}&password={%password%}" + "&Login=Login&user_token={%user_token%}"
+    post_data_encoded = urllib.parse.quote(post_data)
+    login_request_data = "scriptName=auth-dvwa.js&Login_URL=http://localhost:3000/login.php&CSRF_Field=user_token" \
+                         "&POST_Data=" + post_data_encoded
 
-    script_based_config = 'loginUrl=' + urllib.parse.quote(login_url) + '&loginRequestData=' + urllib.parse.quote(login_request_data)
-    zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', script_based_config, apiKey)
-    print('Configured script based authentication')
+    zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', login_request_data, apiKey)
+    print('Configured form based authentication')
 
 
 def set_user_auth_config():
@@ -401,24 +404,35 @@ def set_user_auth_config():
     password = 'password'
 
     user_id = zap.users.new_user(context_id, user, apiKey)
-    user_auth_config = 'username=' + urllib.parse.quote(username) + '&password=' + urllib.parse.quote(password)
+    user_auth_config = 'Username=' + urllib.parse.quote(username) + '&Password=' + urllib.parse.quote(password)
     zap.users.set_authentication_credentials(context_id, user_id, user_auth_config, apiKey)
+    zap.users.set_user_enabled(context_id, user_id, 'true', apiKey)
+    zap.forcedUser.set_forced_user(context_id, user_id, apiKey)
+    zap.forcedUser.set_forced_user_mode_enabled('true', apiKey)
+    print('User Auth Configured')
+    return user_id
 
 
 def upload_script():
     script_name = 'authscript.js'
     script_type = 'authentication'
     script_engine = 'Oracle Nashorn'
-    file_name = '/tmp/authscript.js'
+    file_name = '/tmp/auth-dvwa.js'
     charset = 'UTF-8'
     zap.script.load(script_name, script_type, script_engine, file_name, charset=charset)
+
+
+def start_spider(user_id):
+    zap.spider.scan_as_user(context_id, user_id, target_url, recurse='true')
+    print('Started Scanning with Authentication')
 
 
 set_include_in_context()
 upload_script()
 set_script_based_auth()
 set_logged_in_indicator()
-set_user_auth_config()
+user_id_response = set_user_auth_config()
+start_spider(user_id_response)
 ```
 
 ```java
@@ -453,7 +467,7 @@ public class ScriptAuth {
             UnsupportedEncodingException {
         String postData = "username={%username%}&password={%password%}" + "&Login=Login&user_token={%user_token%}";
         String postDataEncode = URLEncoder.encode(postData, "UTF-8");
-        String sb = ("scriptName=authscript.js&Login_URL=http://localhost:3000/login.php&CSRF_Field=user_token&")
+        String sb = ("scriptName=auth-dvwa.js&Login_URL=http://localhost:3000/login.php&CSRF_Field=user_token&")
                 .concat("POST_Data=").concat(postDataEncode);
 
         clientApi.authentication.setAuthenticationMethod(contextId, "scriptBasedAuthentication", sb.toString());
@@ -521,19 +535,19 @@ public class ScriptAuth {
 # To add in default context
 
 # To upload the script
-curl 'http://localhost:8080/JSON/script/action/load/?scriptName=authscript.js&scriptType=authentication&scriptEngine=Oracle+Nashorn&fileName=%2Ftmp%2Fauthscript.js&scriptDescription=&charset=UTF-8`
+curl 'http://localhost:8080/JSON/script/action/load/?scriptName=authscript.js&scriptType=authentication&scriptEngine=Oracle+Nashorn&fileName=%2Ftmp%2Fauth-dvwa.js&scriptDescription=&charset=UTF-8`
 
 # To set up authentication information
-curl 'http://localhost:8080/JSON/authentication/action/setAuthenticationMethod/?contextId=1&authMethodName=scriptBasedAuthentication&authMethodConfigParams=scriptName%3Dauthscript.js%26Login+URL%3Dhttp%3A%2F%2Flocalhost%3A3000%2Flogin.php%26CSRF+Field%3Duser_token%26POST+Data%3Dusername%3D%7B%25username%25%7D%26password%3D%7B%25password%25%7D%26Login%3DLogin%26user_token%3D%7B%25user_token%25%7D'
+curl 'http://localhost:8080/JSON/authentication/action/setAuthenticationMethod/?contextId=1&authMethodName=scriptBasedAuthentication&authMethodConfigParams=scriptName%3Dauth-dvwa.js%26Login%2BURL%3Dhttp%3A%2F%2Flocalhost%3A3000%2Flogin.php%26CSRF%2BField%3Duser_token%26POST%2BData%3Dusername%253D%257B%2525username%2525%257D%2526password%253D%257B%2525password%2525%257D%26Login%3DLogin%26user_token%3D%257B%2525user_token%2525%257D'
 
 # To set the login indicator
-curl 'http://localhost:8080/JSON/authentication/action/setLoggedInIndicator/?contextId=1&loggedInIndicatorRegex=%5CQ%3Ca+href%3D%22logout.jsp%22%3ELogout%3C%2Fa%3E%5CE'
+curl 'http://localhost:8080/JSON/authentication/action/setLoggedInIndicator/?contextId=1&loggedInIndicatorRegex=%5CQ%3Ca+href%3D%22logout.php%22%3ELogout%3C%2Fa%3E%5CE'
 
 # To create a user (The first user id is: 0)
 curl 'http://localhost:8080/JSON/users/action/newUser/?contextId=1&name=Test+User'
 
 # To add the credentials for the user
-curl 'http://localhost:8080/JSON/users/action/setAuthenticationCredentials/?contextId=1&userId=0&authCredentialsConfigParams=username%3Dtest%40example.com%26password%3DweakPassword'
+curl 'http://localhost:8080/JSON/users/action/setAuthenticationCredentials/?contextId=1&userId=0&authCredentialsConfigParams=Username%3Dadmin%26Password%3Dpassword'
 
 # To enable the user
 curl 'http://localhost:8080/JSON/users/action/setUserEnabled/?contextId=1&userId=0&enabled=true'
