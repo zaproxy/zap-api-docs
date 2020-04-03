@@ -13,10 +13,10 @@
 //					The credential values can be obtained via calls to the getParam(paramName) method. The param names are the ones
 //					returned by the getCredentialsParamsNames() below
 function authenticate(helper, paramsValues, credentials) {
-  var loginUrl = paramsValues.get("Login URL");
-  var csrfTokenName = paramsValues.get("CSRF Field");
+  var loginUrl = paramsValues.get("Login_URL");
+  var csrfTokenName = paramsValues.get("CSRF_Field");
   var csrfTokenValue = extractInputFieldValue(getPageContent(helper, loginUrl), csrfTokenName);
-  var postData = paramsValues.get("POST Data");
+  var postData = paramsValues.get("POST_Data");
 
   postData = postData.replace('{%username%}', encodeURIComponent(credentials.getParam("Username")));
   postData = postData.replace('{%password%}', encodeURIComponent(credentials.getParam("Password")));
@@ -26,22 +26,14 @@ function authenticate(helper, paramsValues, credentials) {
   return msg;
 }
 
-// This function is called during the script loading to obtain a list of the names of the required configuration parameters,
-// that will be shown in the Session Properties -> Authentication panel for configuration. They can be used
-// to input dynamic data into the script, from the user interface (e.g. a login URL, name of POST parameters etc.)
 function getRequiredParamsNames() {
-  return [ "Login URL", "CSRF Field", "POST Data" ];
+  return [ "Login_URL", "CSRF_Field", "POST_Data" ];
 }
 
-// This function is called during the script loading to obtain a list of the names of the optional configuration parameters,
-// that will be shown in the Session Properties -> Authentication panel for configuration. They can be used
-// to input dynamic data into the script, from the user interface (e.g. a login URL, name of POST parameters etc.)
 function getOptionalParamsNames() {
   return [];
 }
 
-// This function is called during the script loading to obtain a list of the names of the parameters that are required,
-// as credentials, for each User configured corresponding to an Authentication using this script
 function getCredentialsParamsNames() {
   return [ "Username", "Password" ];
 }

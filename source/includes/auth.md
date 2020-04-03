@@ -429,12 +429,14 @@ public class ScriptAuth {
     private static final String ZAP_API_KEY = null;
     private static final String contextId = "1";
     private static final String contextName = "Default Context";
-    private static final String target = "http://localhost:8090/bodgeit";
+    private static final String target = "http://localhost:3000";
     private static void setIncludeAndExcludeInContext(ClientApi clientApi) throws UnsupportedEncodingException, ClientApiException {
         String includeInContext = "http://localhost:3000.*";
-        String excludeInContext = "\\Qhttp://localhost:3000/logout.php\\E";
         clientApi.context.includeInContext(contextName, includeInContext);
-        clientApi.context.excludeFromContext(contextName, excludeInContext);
+        clientApi.context.excludeFromContext(contextName, "\\Qhttp://localhost:3000/login.php\\E");
+        clientApi.context.excludeFromContext(contextName, "\\Qhttp://localhost:3000/logout.php\\E");
+        clientApi.context.excludeFromContext(contextName, "\\Qhttp://localhost:3000/setup.php\\E");
+        clientApi.context.excludeFromContext(contextName, "\\Qhttp://localhost:3000/security.php\\E");
     }
     private static void setLoggedInIndicator(ClientApi clientApi) throws UnsupportedEncodingException, ClientApiException {
         // Prepare values to set, with the logged in indicator as a regex matching the logout link
@@ -449,32 +451,35 @@ public class ScriptAuth {
     }
     private static void setScriptBasedAuthenticationForDVWA(ClientApi clientApi) throws ClientApiException,
             UnsupportedEncodingException {
-        String postDataEncode = URLEncoder.encode("username={%username%}&password={%password%}", "UTF-8");
-        String tokenEncode = URLEncoder.encode("{%user_token%}", "UTF-8");
+        String postData = "username={%username%}&password={%password%}" + "&Login=Login&user_token={%user_token%}";
+        String postDataEncode = URLEncoder.encode(postData, "UTF-8");
         String sb = ("scriptName=authscript.js&Login_URL=http://localhost:3000/login.php&CSRF_Field=user_token&")
-                .concat("POST_Data=").concat(postDataEncode)
-                .concat("&Login=Login&user_token=").concat(tokenEncode);
+                .concat("POST_Data=").concat(postDataEncode);
 
         clientApi.authentication.setAuthenticationMethod(contextId, "scriptBasedAuthentication", sb.toString());
         System.out.println("Authentication config: " + clientApi.authentication.getAuthenticationMethod(contextId).toString(0));
     }
     private static String setUserAuthConfigForDVWA(ClientApi clientApi) throws ClientApiException, UnsupportedEncodingException {
         // Prepare info
-        String user = "Administrator";
+        String user = "Admin";
         String username = "admin";
         String password = "password";
+
         // Make sure we have at least one user
         String userId = extractUserId(clientApi.users.newUser(ZAP_API_KEY, contextId, user));
+
         // Prepare the configuration in a format similar to how URL parameters are formed. This
         // means that any value we add for the configuration values has to be URL encoded.
         StringBuilder userAuthConfig = new StringBuilder();
-        userAuthConfig.append("username=").append(URLEncoder.encode(username, "UTF-8"));
-        userAuthConfig.append("&password=").append(URLEncoder.encode(password, "UTF-8"));
+        userAuthConfig.append("Username=").append(URLEncoder.encode(username, "UTF-8"));
+        userAuthConfig.append("&Password=").append(URLEncoder.encode(password, "UTF-8"));
+
         System.out.println("Setting user authentication configuration as: " + userAuthConfig.toString());
         clientApi.users.setAuthenticationCredentials(ZAP_API_KEY, contextId, userId, userAuthConfig.toString());
         clientApi.users.setUserEnabled(contextId, userId, "true");
         clientApi.forcedUser.setForcedUser(contextId, userId);
         clientApi.forcedUser.setForcedUserModeEnabled(true);
+
         // Check if everything is set up ok
         System.out.println("Authentication config: " + clientApi.users.getUserById(contextId, userId).toString(0));
         return userId;
@@ -483,7 +488,7 @@ public class ScriptAuth {
         String script_name = "authscript.js";
         String script_type = "authentication";
         String script_engine = "Oracle Nashorn";
-        String file_name = "/tmp/authscript.js";
+        String file_name = "/tmp/auth-dvwa.js";
         clientApi.script.load(script_name, script_type, script_engine, file_name, null);
     }
     private static String extractUserId(ApiResponse response) {
