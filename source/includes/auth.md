@@ -319,7 +319,7 @@ If you have configured the authentication via the desktop UI, then export the co
 
 #### Include in Context
 
-In order to proceed with authentication, the URL of the application should be added to the context. As the Bodgit is available
+In order to proceed with authentication, the URL of the application should be added to the context. As Bodgit is available
 via [http://localhost:8090/bodgeit](http://localhost:8090/bodgeit) use the [includeInContext](#contextactionincludeincontext) API to add the
 URL to a context.
 
@@ -369,12 +369,12 @@ zap = ZAPv2(apikey=apiKey)
 def set_include_in_context():
     include_url = 'http://localhost:3000.*'
 
-    zap.context.include_in_context(context_name, include_url, apiKey)
+    zap.context.include_in_context(context_name, include_url)
 
-    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/login.php\\E', apiKey)
-    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/logout.php\\E', apiKey)
-    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/setup.php\\E', apiKey)
-    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/security.php\\E', apiKey)
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/login.php\\E')
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/logout.php\\E')
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/setup.php\\E')
+    zap.context.exclude_from_context(context_name, '\\Qhttp://localhost:3000/security.php\\E')
     print('Configured include and exclude regex(s) in context')
 
 
@@ -383,8 +383,8 @@ def set_logged_in_indicator():
     logged_in_regex = "\\Q<a href=\"logout.php\">Logout</a>\\E"
     logged_out_regex = "(?:Location: [./]*login\\.php)|(?:\\Q<form action=\"login.php\" method=\"post\">\\E)"
 
-    zap.authentication.set_logged_in_indicator(context_id, logged_in_regex, apiKey)
-    zap.authentication.set_logged_out_indicator(context_id, logged_out_regex, apiKey)
+    zap.authentication.set_logged_in_indicator(context_id, logged_in_regex)
+    zap.authentication.set_logged_out_indicator(context_id, logged_out_regex)
     print('Configured logged in indicator regex ')
 
 
@@ -394,7 +394,7 @@ def set_script_based_auth():
     login_request_data = "scriptName=auth-dvwa.js&Login_URL=http://localhost:3000/login.php&CSRF_Field=user_token" \
                          "&POST_Data=" + post_data_encoded
 
-    zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', login_request_data, apiKey)
+    zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', login_request_data)
     print('Configured form based authentication')
 
 
@@ -405,16 +405,16 @@ def set_user_auth_config():
 
     user_id = zap.users.new_user(context_id, user, apiKey)
     user_auth_config = 'Username=' + urllib.parse.quote(username) + '&Password=' + urllib.parse.quote(password)
-    zap.users.set_authentication_credentials(context_id, user_id, user_auth_config, apiKey)
-    zap.users.set_user_enabled(context_id, user_id, 'true', apiKey)
-    zap.forcedUser.set_forced_user(context_id, user_id, apiKey)
-    zap.forcedUser.set_forced_user_mode_enabled('true', apiKey)
+    zap.users.set_authentication_credentials(context_id, user_id, user_auth_config)
+    zap.users.set_user_enabled(context_id, user_id, 'true')
+    zap.forcedUser.set_forced_user(context_id, user_id)
+    zap.forcedUser.set_forced_user_mode_enabled('true')
     print('User Auth Configured')
     return user_id
 
 
 def upload_script():
-    script_name = 'authscript.js'
+    script_name = 'auth-dvwa.js'
     script_type = 'authentication'
     script_engine = 'Oracle Nashorn'
     file_name = '/tmp/auth-dvwa.js'
@@ -480,7 +480,7 @@ public class ScriptAuth {
         String password = "password";
 
         // Make sure we have at least one user
-        String userId = extractUserId(clientApi.users.newUser(ZAP_API_KEY, contextId, user));
+        String userId = extractUserId(clientApi.users.newUser(contextId, user));
 
         // Prepare the configuration in a format similar to how URL parameters are formed. This
         // means that any value we add for the configuration values has to be URL encoded.
@@ -489,7 +489,7 @@ public class ScriptAuth {
         userAuthConfig.append("&Password=").append(URLEncoder.encode(password, "UTF-8"));
 
         System.out.println("Setting user authentication configuration as: " + userAuthConfig.toString());
-        clientApi.users.setAuthenticationCredentials(ZAP_API_KEY, contextId, userId, userAuthConfig.toString());
+        clientApi.users.setAuthenticationCredentials(contextId, userId, userAuthConfig.toString());
         clientApi.users.setUserEnabled(contextId, userId, "true");
         clientApi.forcedUser.setForcedUser(contextId, userId);
         clientApi.forcedUser.setForcedUserModeEnabled(true);
@@ -499,7 +499,7 @@ public class ScriptAuth {
         return userId;
     }
     private static void uploadScript(ClientApi clientApi) throws ClientApiException {
-        String script_name = "authscript.js";
+        String script_name = "auth-dvwa.js";
         String script_type = "authentication";
         String script_engine = "Oracle Nashorn";
         String file_name = "/tmp/auth-dvwa.js";
@@ -519,7 +519,7 @@ public class ScriptAuth {
      * @throws UnsupportedEncodingException
      */
     public static void main(String[] args) throws ClientApiException, UnsupportedEncodingException {
-        ClientApi clientApi = new ClientApi(ZAP_ADDRESS, ZAP_PORT);
+        ClientApi clientApi = new ClientApi(ZAP_ADDRESS, ZAP_PORT, ZAP_API_KEY);
         uploadScript(clientApi);
         setIncludeAndExcludeInContext(clientApi);
         setScriptBasedAuthenticationForDVWA(clientApi);
@@ -533,15 +533,22 @@ public class ScriptAuth {
 ```shell
 
 # To add in default context
+curl 'http://localhost:8080/JSON/context/action/includeInContext/?contextName=Default+Context&regex=http%3A%2F%2Flocalhost%3A3000.*'
+
+# To add exclude in context
+curl 'http://localhost:8080/JSON/context/action/excludeFromContext/?contextName=Default+Context&regex=%5CQhttp%3A%2F%2Flocalhost%3A3000%2Flogout.php%5CE'
 
 # To upload the script
-curl 'http://localhost:8080/JSON/script/action/load/?scriptName=authscript.js&scriptType=authentication&scriptEngine=Oracle+Nashorn&fileName=%2Ftmp%2Fauth-dvwa.js&scriptDescription=&charset=UTF-8`
+curl 'http://localhost:8080/JSON/script/action/load/?scriptName=auth-dvwa.js&scriptType=authentication&scriptEngine=Oracle+Nashorn&fileName=%2Ftmp%2Fauth-dvwa.js&scriptDescription=&charset='
 
 # To set up authentication information
-curl 'http://localhost:8080/JSON/authentication/action/setAuthenticationMethod/?contextId=1&authMethodName=scriptBasedAuthentication&authMethodConfigParams=scriptName%3Dauth-dvwa.js%26Login%2BURL%3Dhttp%3A%2F%2Flocalhost%3A3000%2Flogin.php%26CSRF%2BField%3Duser_token%26POST%2BData%3Dusername%253D%257B%2525username%2525%257D%2526password%253D%257B%2525password%2525%257D%26Login%3DLogin%26user_token%3D%257B%2525user_token%2525%257D'
+curl 'http://localhost:8080/JSON/authentication/action/setAuthenticationMethod/?contextId=1&authMethodName=scriptBasedAuthentication&authMethodConfigParams=scriptName%3Dauth-dvwa.js%26Login_URL%3Dhttp%3A%2F%2Flocalhost%3A3000%2Flogin.php%26CSRF_Field%3Duser_token%26POST_Data%3Dusername%253D%257B%2525username%2525%257D%2526password%253D%257B%2525password%2525%257D%2526Login%253DLogin%2526user_token%253D%257B%2525user_token%2525%257D'
 
 # To set the login indicator
-curl 'http://localhost:8080/JSON/authentication/action/setLoggedInIndicator/?contextId=1&loggedInIndicatorRegex=%5CQ%3Ca+href%3D%22logout.php%22%3ELogout%3C%2Fa%3E%5CE'
+curl 'http://localhost:8080/JSON/authentication/action/setLoggedInIndicator/?contextId=1&loggedInIndicatorRegex=%5CQ%3Ca+href%3D%5C%22logout.php%5C%22%3ELogout%3C%2Fa%3E%5CE'
+
+# To set logged out indicator
+curl 'http://localhost:8080/JSON/authentication/action/setLoggedOutIndicator/?contextId=1&loggedOutIndicatorRegex=%28%3F%3ALocation%3A+%5B.%2F%5D*login%5C.php%29%7C%28%3F%3A%5CQ%3Cform+action%3D%22login.php%22+method%3D%22post%22%3E%5CE%29'
 
 # To create a user (The first user id is: 0)
 curl 'http://localhost:8080/JSON/users/action/newUser/?contextId=1&name=Test+User'
@@ -567,7 +574,7 @@ ZAP has scripting support for most of the popular languages. The following are s
 - Groovy
 - Zest
 
-ZAP has an Add-on Marketplace where you can add support for additional scripting engines. Click the red, blue, & green box stacked 
+ZAP has an Add-on Marketplace where you can get add-ons for additional scripting engines. Click the red, blue, & green box stacked 
 icon in ZAP to bring up the marketplace modal. After it pops up, switch to the Marketplace and install the appropriate scripting engine.
 
 The following example performs a script based authentication for the Damn Vulnerable Web Application. Similar to the
@@ -596,7 +603,7 @@ to the application and press the configure button. Use the default credentials o
 
 ### Create the Script
 
-Go to the script tab and create a new script under the authentication section. Provide a name to the script and select 
+Go to the Scripts tab and create a new Authentication script. Provide a name to the script and select 
 `JavaScript/Nashorn` as the engine and replace the script contents with the following [script](https://github.com/zaproxy/zap-api-docs/source/scripts/auth-dvwa.js). 
 
 ![script_tab](../images/auth_dvwa_zap_script.png)
@@ -613,26 +620,27 @@ drop down provided and the following parameter values.
 * Logged in regex: `\Q<a href="logout.php">Logout</a>\E`
 * Logged out regex: `(?:Location: [./]*login\.php)|(?:\Q<form action="login.php" method="post">\E)`
 
+![context_auth](../images/auth_dvwa_context_auth.png)
+
 Now add the default admin user to the users tab and enable the user.
 
 * User Name: `Administrator`
 * Username: `admin`
 * Password: `password`
 
-![context_auth](../images/auth_dvwa_cotext_auth.png)
-
 As the login operation is performed by the script lets add the login URL as out of context. Additionally you should add 
-pages which will disrupt the login process to out of context so Spider will not trigger unwanted log outs. Thus in "Exclude from Context" tab
-so ZAP will not trigger unwanted log outs (ex.: logout/logoff/password change, etc.). Now add the following regex(s) "Exclude from Context" tab.
+pages which will disrupt the login process to out of context. For example, by not excluding the logout URL, the Spider will 
+trigger unwanted logouts (ex.: logoff/password change, etc.). Therefore, add the following regex(s) to the "Exclude from Context" tab.
 
 * `\Qhttp://localhost:3000/login.php\E`
 * `\Qhttp://localhost:3000/logout.php\E`
 * `\Qhttp://localhost:3000/setup.php\E`
 * `\Qhttp://localhost:3000/security.php\E`
 
-Now enable the forced user mode and start the Spider by selecting the default context and the admin user. After this you should
-see the Spider crawling all the protected resources. The authentication results will be available through the Output panel and
-you can also select the login POST request in the history tab to verify the token has been sent to the application.
+Now you can enable the forced user mode and start the Spider or manually select the admin user for the Spider scan. 
+If you have selected the forced user mode and also manually selected a user; then the manually selected user/context will supersede the forced user mode.
+After this you should see the Spider crawling all the protected resources. The authentication results will be available through the Output panel and
+you can also select the login POST request in the History tab to verify the token has been sent to the application.
 
 <aside class="info">
 It's not mandatory to set the forced user mode, if you manually set a user for ZAP activities such as scanning.
