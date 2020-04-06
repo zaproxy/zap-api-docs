@@ -395,7 +395,7 @@ def set_script_based_auth():
                          "&POST_Data=" + post_data_encoded
 
     zap.authentication.set_authentication_method(context_id, 'scriptBasedAuthentication', login_request_data)
-    print('Configured form based authentication')
+    print('Configured script based authentication')
 
 
 def set_user_auth_config():
