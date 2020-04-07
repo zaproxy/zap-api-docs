@@ -319,7 +319,7 @@ If you have configured the authentication via the desktop UI, then export the co
 
 #### Include in Context
 
-In order to proceed with authentication, the URL of the application should be added to the context. As Bodgit is available
+In order to proceed with authentication, the URL of the application should be added to the context. As Bodgeit is available
 via [http://localhost:8090/bodgeit](http://localhost:8090/bodgeit) use the [includeInContext](#contextactionincludeincontext) API to add the
 URL to a context.
 
@@ -403,7 +403,7 @@ def set_user_auth_config():
     username = 'admin'
     password = 'password'
 
-    user_id = zap.users.new_user(context_id, user, apiKey)
+    user_id = zap.users.new_user(context_id, user)
     user_auth_config = 'Username=' + urllib.parse.quote(username) + '&Password=' + urllib.parse.quote(password)
     zap.users.set_authentication_credentials(context_id, user_id, user_auth_config)
     zap.users.set_user_enabled(context_id, user_id, 'true')
