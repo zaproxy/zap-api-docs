@@ -159,7 +159,7 @@ public class FormAuth {
         String loggedInIndicator = "<a href=\"logout.jsp\">Logout</a>";
 
         // Actually set the logged in indicator
-        clientApi.authentication.setLoggedInIndicator(ZAP_API_KEY, contextId, java.util.regex.Pattern.quote(loggedInIndicator));
+        clientApi.authentication.setLoggedInIndicator(contextId, java.util.regex.Pattern.quote(loggedInIndicator));
 
         // Check out the logged in indicator that is set
         System.out.println("Configured logged in indicator regex: "
@@ -181,7 +181,7 @@ public class FormAuth {
 
         System.out.println("Setting form based authentication configuration as: "
                 + formBasedConfig.toString());
-        clientApi.authentication.setAuthenticationMethod(ZAP_API_KEY, contextId, "formBasedAuthentication",
+        clientApi.authentication.setAuthenticationMethod(contextId, "formBasedAuthentication",
                 formBasedConfig.toString());
 
         // Check if everything is set up ok
@@ -196,7 +196,7 @@ public class FormAuth {
         String password = "weakPassword";
 
         // Make sure we have at least one user
-        String userId = extractUserId(clientApi.users.newUser(ZAP_API_KEY, contextId, user));
+        String userId = extractUserId(clientApi.users.newUser(contextId, user));
 
         // Prepare the configuration in a format similar to how URL parameters are formed. This
         // means that any value we add for the configuration values has to be URL encoded.
@@ -205,7 +205,7 @@ public class FormAuth {
         userAuthConfig.append("&password=").append(URLEncoder.encode(password, "UTF-8"));
 
         System.out.println("Setting user authentication configuration as: " + userAuthConfig.toString());
-        clientApi.users.setAuthenticationCredentials(ZAP_API_KEY, contextId, userId, userAuthConfig.toString());
+        clientApi.users.setAuthenticationCredentials(contextId, userId, userAuthConfig.toString());
         clientApi.users.setUserEnabled(contextId, userId, "true");
         clientApi.forcedUser.setForcedUser(contextId, userId);
         clientApi.forcedUser.setForcedUserModeEnabled(true);
@@ -231,7 +231,7 @@ public class FormAuth {
      * @throws UnsupportedEncodingException
      */
     public static void main(String[] args) throws ClientApiException, UnsupportedEncodingException {
-        ClientApi clientApi = new ClientApi(ZAP_ADDRESS, ZAP_PORT);
+        ClientApi clientApi = new ClientApi(ZAP_ADDRESS, ZAP_PORT, ZAP_API_KEY);
 
         setIncludeAndExcludeInContext(clientApi);
         setFormBasedAuthenticationForBodgeit(clientApi);
