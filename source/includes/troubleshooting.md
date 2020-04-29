@@ -1,4 +1,4 @@
-# FAQ
+# Troubleshooting
 
 The following section contains the frequently asked questions regarding ZAP APIs.
 
