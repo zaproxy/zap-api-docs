@@ -618,3 +618,7 @@ html, body {
 .highlight, .highlight .w {
   background-color: $code-bg;
 }
+
+div.highlight {
+  clear: none;
+}
