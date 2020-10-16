@@ -6,6 +6,7 @@ This section explains how to troubleshoot issues that might occur when interacti
 
 While developing scripts/programs that interact with ZAP API it's recommended that the following [ZAP API options](https://www.zaproxy.org/docs/desktop/ui/dialogs/options/api/) 
 are enabled, to have more information about possible errors:
+
  - `Report permission errors via API`
  - `Report error details via API`
 
@@ -54,11 +55,11 @@ url: http://zap/JSON/spider/action/scan/?apikey=changeMe&url=https%3A%2F%2Fexamp
 There are several reasons that the API client might not be able to connect to ZAP:
 
  - ZAP is not yet started, some clients might have methods to wait for ZAP;
- - ZAP is not listening on the address, for example, if the API client is connecting from an external machine the ZAP will have to listen on the external address (or all addresses `0.0.0.0`)
+ - ZAP is not listening on the address, for example, if the API client is connecting from an external machine then ZAP will have to listen on the external address (or all addresses `0.0.0.0`)
  - The API client is not configured with correct address/port;
 
 ### Error: No Implementor
 
-If you come across the `No Implementor Error` while invoking the APIs: Check the necessary addon or component is installed and enabled. 
-(For example if you receive "no_implementor" in relation to Ajax Spider calls, perhaps the Ajax Spider addon isn't installed.)
+If you come across the `No Implementor Error` while invoking the APIs: Check the necessary add-on or component is installed and enabled. 
+(For example if you receive "no_implementor" in relation to Ajax Spider calls, perhaps the Ajax Spider add-on isn't installed.)
 

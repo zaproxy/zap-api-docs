@@ -60,8 +60,8 @@ unless you are using ZAP in a completely isolated environment.
 </aside>
 
 <aside class="warning">
-Also make sure that you have installed the necessary addons while invoking features which are not bundled with the ZAP core.
-For example, if you receive "no_implementor error" in relation to Ajax Spider calls, perhaps the Ajax Spider addon isn't installed.
+Also make sure that you have installed the necessary add-ons while invoking features which are not bundled with the ZAP core.
+For example, if you receive "no_implementor error" in relation to Ajax Spider calls, perhaps the Ajax Spider add-on isn't installed.
 </aside>
 
 Please note that not all the operations which are available in the desktop interface are available via the APIs. 
