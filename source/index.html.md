@@ -17,6 +17,7 @@ includes:
   - auth
   - advanced
   - contributing
+  - troubleshooting
   - apis
 
 search: true

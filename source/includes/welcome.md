@@ -27,7 +27,7 @@ Have a look at the examples below to learn how to use each of these features via
 
 ## Documentation Structure
 
-The API documentation is divided into eight main sections.
+The API documentation is divided into nine main sections.
 
 * [**Introduction**](#introduction) section contains introductory information of ZAP and installation guide to set up ZAP for testing.
 * [**Exploring the App**](#exploring-the-app) section contains examples on how to explore the web application.
@@ -37,6 +37,7 @@ The API documentation is divided into eight main sections.
 * [**Advanced Settings**](#advanced-settings) section contains advanced configurations on how to fine tune ZAP results.
 * [**Contributions**](#contributions-welcome) section contains guidelines and instructions on how to contribute to ZAP's documentation.
 * [**API Catalogue**](#api-catalogue) section contains OpenAPI definitions and auto generated code for ZAP APIs. 
+* [**Troubleshooting**](#troubleshooting) section contains solutions for trouble shooting ZAP API related issues. 
 
 <aside class="notice">
 The examples show some usages with the minimal required arguments. However, this is not a reference, and not all APIs 
@@ -56,6 +57,11 @@ in the daemon mode and the desktop mode. If you are using ZAP desktop, then the 
 ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations. 
 The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key 
 unless you are using ZAP in a completely isolated environment.
+</aside>
+
+<aside class="warning">
+Also make sure that you have installed the necessary add-ons while invoking features which are not bundled with the ZAP core.
+For example, if you receive "no_implementor error" in relation to Ajax Spider calls, perhaps the Ajax Spider add-on isn't installed.
 </aside>
 
 Please note that not all the operations which are available in the desktop interface are available via the APIs. 
