@@ -710,7 +710,7 @@ def set_user_auth_config():
 
 def add_script():
     script_name = 'jwtScript.js'
-    script_type = 'HTTP Sender'
+    script_type = 'httpsender'
     script_engine = 'Oracle Nashorn'
     file_name = '/tmp/jwtScript.js'
     zap.script.load(script_name, script_type, script_engine, file_name)
@@ -778,7 +778,7 @@ public class JSONAuth {
     private static void addScript(ClientApi clientApi) throws ClientApiException {
 
         String script_name = "jwtScript.js";
-        String script_type = "HTTP Sender";
+        String script_type = "httpsender";
         String script_engine = "Oracle Nashorn";
         String file_name = "/tmp/authscript.js";
 
