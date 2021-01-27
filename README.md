@@ -12,7 +12,7 @@ The live documentation can be viewed in the following [URL](https://zaproxy.org/
 # Contributing to the Documentation
 
 The guidelines for contribution is available in the [following page](https://zaproxy.org/docs/api/#contributions-welcome).
-ZAP documentation is built using [Slate](https://github.com/tripit/slate). The source files for the documentation are available 
+ZAP documentation is built using [Slate](https://github.com/slatedocs/slate). The source files for the documentation are available 
 in the `source/includes` directory. View the contribution guide on how to start contributing to the document.
 
 # Deploying
