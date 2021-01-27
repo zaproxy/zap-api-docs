@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.com/zaproxy/zap-api-docs.svg?branch=master)](https://travis-ci.com/zaproxy/zap-api-docs)
 
 # Introduction
 
