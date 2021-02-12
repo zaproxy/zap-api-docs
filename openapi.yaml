@@ -481,6 +481,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /JSON/pscan/action/enableAllTags/:
+    get:
+      description: >-
+        Enables all passive scan Tags
+      operationId: pscanActionEnableAllTags
+      tags:
+        - pscan
+      responses:
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /JSON/pscan/action/disableAllTags/:
+    get:
+      description: >-
+        Disables all passive scan Tags
+      operationId: pscanActionDisableAllTags
+      tags:
+        - pscan
+      responses:
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /JSON/pscan/action/enableScanners/:
     get:
       description: >-
