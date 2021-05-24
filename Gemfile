@@ -10,7 +10,7 @@ gem 'middleman-autoprefixer', '~> 2.10.1'
 gem 'middleman-sprockets', '~> 4.1.1'
 gem 'rouge', '~> 3.26.0'
 gem 'redcarpet', '~> 3.5.1'
-gem 'nokogiri', '~> 1.11.4'
+gem 'nokogiri', '~> 1.11.5'
 
 # Lock sprockets/sass, newer version (4.0.0) uses sassc which leads to an error:
 # "Error: File to import not found or unreadable: normalize."
