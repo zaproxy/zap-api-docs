@@ -11,7 +11,7 @@
     "@actions/core": "^1.2.6",
     "@actions/exec": "^1.0.1",
     "@actions/github": "^1.1.0",
-    "@actions/io": "^1.0.1",
+    "@actions/io": "^1.1.1",
     "@octokit/rest": "^16.43.1"
   },
   "devDependencies": {
