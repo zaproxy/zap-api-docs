@@ -6928,14 +6928,18 @@ paths:
         deprecated: false
         description: ""
         schema:
-          type: string
+          type: array
+          items:
+            type: string
       - name: excRegexs
         in: query
         required: true
         deprecated: false
         description: ""
         schema:
-          type: string
+          type: array
+          items:
+            type: string
   /JSON/context/action/newContext/:
     get:
       description: >-
