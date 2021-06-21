@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Middleman
 # Lock to 4.3.8 for now, 4.3.9 does not work correctly:
 # https://github.com/middleman/middleman/issues/2375
-gem 'middleman', '= 4.3.8'
+gem 'middleman', '4.4.0'
 gem 'middleman-syntax', '~> 3.2.0'
 gem 'middleman-autoprefixer', '~> 3.0.0'
 gem 'middleman-sprockets', '~> 4.1.1'
