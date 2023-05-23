@@ -8,7 +8,7 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
-    autoprefixer-rails (10.4.7.0)
+    autoprefixer-rails (10.4.13.0)
       execjs (~> 2)
     backports (3.24.1)
     coffee-script (2.4.1)
@@ -23,9 +23,8 @@ GEM
     fast_blank (1.0.1)
     fastimage (2.2.6)
     ffi (1.15.5)
-    haml (6.1.1)
-      temple (>= 0.8.2)
-      thor
+    haml (5.2.2)
+      temple (>= 0.8.0)
       tilt
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
@@ -80,10 +79,8 @@ GEM
     middleman-syntax (3.3.0)
       middleman-core (>= 3.2)
       rouge (~> 3.2)
-    mini_portile2 (2.8.2)
     minitest (5.18.0)
-    nokogiri (1.15.1)
-      mini_portile2 (~> 2.8.2)
+    nokogiri (1.15.1-x86_64-linux)
       racc (~> 1.4)
     padrino-helpers (0.15.3)
       i18n (>= 0.6.7, < 2)
@@ -124,9 +121,10 @@ GEM
     webrick (1.8.1)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
+  haml (>= 4.0.5, < 6.0)
   middleman (= 4.5.0)
   middleman-autoprefixer (~> 3.0.0)
   middleman-sprockets (~> 4.1.1)
@@ -138,7 +136,7 @@ DEPENDENCIES
   sprockets (= 3.7.2)
 
 RUBY VERSION
-   ruby 3.2.0p0
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   2.1.4
+   2.4.10
