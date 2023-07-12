@@ -11,7 +11,7 @@ Contributions are welcome! There are many ways you can contribute to OWASP ZAP, 
 **2. REST API Documentation**
 
     ZAP's rest API is documented using the OpenAPI specification. The specification could be improved by enhancing the description of 
-    parameters/ results/ data types etc. The open API specification is available via [GitHub](https://github.com/zaproxy/zap-api-docs/blob/master/openapi.yaml).
+    parameters/ results/ data types etc. The open API specification is available via [GitHub](https://github.com/zaproxy/zap-api-docs/blob/main/openapi.yaml).
 
 **3. Feature Documentation**
 
@@ -39,7 +39,7 @@ You can fork the repository on GitHub and submit the changes via [pull requests]
 Please see the local setup for API docs section to setup and render the docs locally.
 
 <aside class="notice">
-The API documentation (this document) is built from the master branch of zap-api-docs using Slate.
+The API documentation (this document) is built from the default branch of zap-api-docs using Slate.
 </aside>
 
 ## Local Setup for API Docs
