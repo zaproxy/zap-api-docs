@@ -604,7 +604,7 @@ to the application and press the configure button. Use the default credentials o
 ### Create the Script
 
 Go to the Scripts tab and create a new Authentication script. Provide a name to the script and select 
-`JavaScript/Nashorn` as the engine and replace the script contents with the following [script](https://github.com/zaproxy/zap-api-docs/blob/master/source/scripts/auth-dvwa.js). 
+`JavaScript/Nashorn` as the engine and replace the script contents with the following [script](https://github.com/zaproxy/zap-api-docs/blob/main/source/scripts/auth-dvwa.js). 
 
 ![script_tab](../images/auth_dvwa_zap_script.png)
 
