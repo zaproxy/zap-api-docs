@@ -1,9 +1,8 @@
 const path = require('path')
 const core = require('@actions/core')
 const exec = require('@actions/exec')
-const github = require('@actions/github')
+const { getOctokit, context } = require('@actions/github')
 const io = require('@actions/io')
-const { Octokit } = require("@octokit/rest")
 
 async function git(dir, args, options) {
   return exec.exec('git', args, { ...{ cwd: dir }, ...options })
@@ -15,8 +14,8 @@ function getRequiredInput(name) {
 
 async function run() {
   try {
-    const owner = github.context.repo.owner
-    const repo = github.context.repo.repo
+    const owner = context.repo.owner
+    const repo = context.repo.repo
 
     const docsDir = path.resolve(process.env.GITHUB_WORKSPACE, repo)
     const websiteRepoName = getRequiredInput('repo')
@@ -45,7 +44,7 @@ async function run() {
       head: `${user}:${branch}`
     }
 
-    const octokit = new Octokit({ auth: authToken })
+    const octokit = getOctokit(authToken).rest;
 
     const pulls = await octokit.pulls.list({
       ...pullRequestParams,
@@ -60,7 +59,7 @@ async function run() {
 
     const gitHubBaseUrl = 'https://github.com'
     const title = 'Update API docs'
-    const body = `From:\n${owner}/${repo}@${github.context.sha}`
+    const body = `From:\n${owner}/${repo}@${context.sha}`
     const commitMessage = `${title}\n\n${body}`
 
     core.info('Setting user configs...')
