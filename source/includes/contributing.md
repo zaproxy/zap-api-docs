@@ -1,6 +1,6 @@
 # Contributions Welcome!
 
-Contributions are welcome! There are many ways you can contribute to OWASP ZAP, both as a user and as a developer.
+Contributions are welcome! There are many ways you can contribute to ZAP, both as a user and as a developer.
 
 **1. Creating High-level API/Automation Docs**
 
@@ -61,7 +61,7 @@ To submit a documentation update, use the following steps:
 
 ## Documentation Style
 
-This style guide provides a set of editorial guidelines for anyone writing documentation for OWASP ZAP.
+This style guide provides a set of editorial guidelines for anyone writing documentation for ZAP.
 
 ### General Guidelines
 
