@@ -3,7 +3,7 @@ info:
   title: ZAP API
   description: The HTTP API for controlling and accessing ZAP.
   contact:
-    name: OWASP ZAP User Group
+    name: ZAP User Group
     url: https://groups.google.com/group/zaproxy-users
     email: zaproxy-users@googlegroups.com
   license:

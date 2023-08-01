@@ -30,7 +30,7 @@ Base URLs:
 
     * **port** - The port ZAP is bound to. Default: 8080
 
-Email: <a href="mailto:zaproxy-users@googlegroups.com">OWASP ZAP User Group</a> Web: <a href="https://groups.google.com/group/zaproxy-users">OWASP ZAP User Group</a> 
+Email: <a href="mailto:zaproxy-users@googlegroups.com">ZAP User Group</a> Web: <a href="https://groups.google.com/group/zaproxy-users">ZAP User Group</a> 
 License: <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>
 
 # Authentication
