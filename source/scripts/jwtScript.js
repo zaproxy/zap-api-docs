@@ -3,7 +3,6 @@ function logger() {
   print('[' + this['zap.script.name'] + '] ' + arguments[0]);
 }
 
-// Control.getSingleton().getExtensionLoader().getExtension(ExtensionUserManagement.class);
 var HttpSender    = Java.type('org.parosproxy.paros.network.HttpSender');
 var ScriptVars    = Java.type('org.zaproxy.zap.extension.script.ScriptVars');
 var HtmlParameter = Java.type('org.parosproxy.paros.network.HtmlParameter')
