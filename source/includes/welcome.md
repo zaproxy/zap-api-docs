@@ -80,7 +80,7 @@ The following example shows the API URL format of ZAP:
 The format can be either `JSON`, `XML` or `HTML`. The operation can be either `view` or `action` or `other`. The `view` operation is used to return
 information and the `action` is used to control ZAP. For example, `views` can be used to generated reports or retrieve results and 
 `action` can be used to start or stop the Spider. The components, operation names and parameters can all be discovered by 
-browsing the [API Catalogue](#api_catalogue).
+browsing the [API Catalogue](#api-catalogue).
 
 ### Access the API
 
@@ -164,7 +164,7 @@ only use ZAP with targets that you have been specifically given permission to te
 
 ##Getting Help
 
-All available APIs are documented in the [API Catalogue](#api_catalogue). If you are new to ZAP, then it's highly 
+All available APIs are documented in the [API Catalogue](#api-catalogue). If you are new to ZAP, then it's highly 
 recommended that you experiment with the desktop UI before trying out the APIs. Because ZAP's APIs strongly resemble 
 the desktop UI. Therefore by working with the UI, you will get a good understanding on how to orchestrate ZAP's APIs.
 Also, use the export config functionality from the desktop UI to export complex configurations such as contexts, scan policies, etc.
