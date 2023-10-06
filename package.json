@@ -5,6 +5,6 @@
     "build": "widdershins --search false --language_tabs 'shell:Shell' 'java:Java' 'python:Python' --summary openapi.yaml source/includes/apis.md"
   },
   "dependencies": {
-    "widdershins": "^3.6.7"
+    "widdershins": "^4.0.1"
   }
 }
