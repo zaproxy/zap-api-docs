@@ -30,3 +30,6 @@ doc/
 # JS
 node_modules/
 /dist/
+
+# Generated
+/source/includes/apis.md

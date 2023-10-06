@@ -12,6 +12,9 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.2
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
     - uses: actions/checkout@v3
       with:
         path: zap-api-docs
@@ -22,9 +25,13 @@ jobs:
         persist-credentials: false
         path: zaproxy.github.io
         fetch-depth: 0
-    - name: Build API docs
+    - name: Generate apis.md
       run: |
         cd zap-api-docs
+        npm install
+        npm run build
+    - name: Build API docs
+      run: |
         gem install bundler
         bundle install
         bundle exec middleman build --clean 
