@@ -1,0 +1,10 @@
+{
+  "name": "zap-api-docs",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "widdershins --search false --language_tabs 'shell:Shell' 'java:Java' 'python:Python' --summary openapi.yaml source/includes/apis.md"
+  },
+  "dependencies": {
+    "widdershins": "^3.6.7"
+  }
+}

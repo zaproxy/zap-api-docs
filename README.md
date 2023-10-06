@@ -32,7 +32,7 @@ node package is used to auto generate the markdown file.
 
 ```bash
 # To install the widdershins package
-npm i -g widdershins
+npm install
 # To generate the markdown file
-widdershins --search false --language_tabs 'shell:Shell' 'java:Java' 'python:Python' --summary openapi.yaml source/includes/apis.md
+npm run build
 ``` 
