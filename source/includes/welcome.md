@@ -14,6 +14,10 @@ If anything is missing or seems incorrect, please check the [FAQs](https://www.z
 Also, if you are new to ZAP, then check out the [getting started guide](https://www.zaproxy.org/getting-started/) 
 to learn the basic concepts behind ZAP. 
 
+An [OpenAPI definition](https://swagger.io/) for the ZAP API is [available in the main repository](https://raw.githubusercontent.com/zaproxy/zap-api-docs/main/openapi.yaml), which can be used to generate custom API clients.
+This definition is planned to be kept up to date for the latest core and add-on releases.
+Note that currently the definition does not declare the most appropriate types for the parameters and does not contain the responses.
+
 The following are some of the features provided by ZAP:
 
 * Intercepting Proxy
