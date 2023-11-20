@@ -1,7 +1,7 @@
 ruby '>=3.2'
 source 'https://rubygems.org'
 
-gem 'middleman', '4.5.0'
+gem 'middleman', '4.5.1'
 gem 'middleman-syntax', '~> 3.3.0'
 gem 'middleman-autoprefixer', '~> 3.0.0'
 gem 'middleman-sprockets', '~> 4.1.1'
