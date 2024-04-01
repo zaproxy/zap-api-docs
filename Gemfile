@@ -13,5 +13,5 @@ gem 'nokogiri', '~> 1.16.3'
 gem 'haml', '>= 4.0.5', '< 6.0'
 # Lock sprockets/sass, newer version (4.0.0) uses sassc which leads to an error:
 # "Error: File to import not found or unreadable: normalize."
-gem 'sprockets', '= 3.7.2'
+gem 'sprockets', '= 3.7.3'
 gem 'sass', '3.7.4'
