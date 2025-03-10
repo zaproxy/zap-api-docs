@@ -6,7 +6,7 @@ gem 'middleman-syntax', '~> 3.4.0'
 gem 'middleman-autoprefixer', '~> 3.0.0'
 gem 'middleman-sprockets', '~> 4.1.1'
 gem 'rouge', '~> 3.30.0'
-gem 'redcarpet', '~> 3.6.0'
+gem 'redcarpet', '~> 3.6.1'
 gem 'nokogiri', '~> 1.18.3'
 
 # Lock haml https://github.com/middleman/middleman-syntax/issues/80
