@@ -10,7 +10,7 @@ info:
   license:
     name: "Apache 2.0"
     url: "https://www.apache.org/licenses/LICENSE-2.0.html"
-  version: "Dev Build"
+  version: "2.16.1"
 servers:
 - url: "http://zap"
   description: "The URL while proxying through ZAP."
@@ -34,16 +34,16 @@ components:
       name: "apikey"
       in: "query"
   responses:
-    ErrorOther:
-      description: "Error of OTHER endpoints."
-      content:
-        '*/*': {}
     ErrorJson:
       description: "Error of JSON endpoints."
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorJson"
+    ErrorOther:
+      description: "Error of OTHER endpoints."
+      content:
+        '*/*': {}
   schemas:
     ErrorJson:
       type: "object"
@@ -531,8 +531,8 @@ paths:
         type: "string"
   /JSON/ajaxSpider/action/setOptionClickDefaultElems/:
     get:
-      description: "Sets whether or not the the AJAX Spider will only click on the\
-        \ default HTML elements."
+      description: "Sets whether or not the AJAX Spider will only click on the default\
+        \ HTML elements."
       operationId: "ajaxSpiderActionSetOptionClickDefaultElems"
       tags:
       - "ajaxSpider"
@@ -567,6 +567,22 @@ paths:
         \ considerably more time (default is true)."
       schema:
         type: "boolean"
+  /JSON/ajaxSpider/action/setOptionEnableExtensions/:
+    get:
+      description: ""
+      operationId: "ajaxSpiderActionSetOptionEnableExtensions"
+      tags:
+      - "ajaxSpider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
   /JSON/ajaxSpider/action/setOptionEventWait/:
     get:
       description: "Sets the time to wait after an event (in milliseconds). For example:\
@@ -586,6 +602,24 @@ paths:
         \ is 1000 milliseconds)."
       schema:
         type: "integer"
+  /JSON/ajaxSpider/action/setOptionLogoutAvoidance/:
+    get:
+      description: "Sets whether or not the AJAX Spider should avoid clicking logout\
+        \ elements."
+      operationId: "ajaxSpiderActionSetOptionLogoutAvoidance"
+      tags:
+      - "ajaxSpider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: "A boolean (true/false) indicating if logout elements should be\
+        \ avoided (default is false)."
+      schema:
+        type: "boolean"
   /JSON/ajaxSpider/action/setOptionMaxCrawlDepth/:
     get:
       description: "Sets the maximum depth that the crawler can reach."
@@ -692,6 +726,23 @@ paths:
         \ page is loaded (default is 1000)."
       schema:
         type: "integer"
+  /JSON/ajaxSpider/action/setOptionScopeCheck/:
+    get:
+      description: "Sets the scope check."
+      operationId: "ajaxSpiderActionSetOptionScopeCheck"
+      tags:
+      - "ajaxSpider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "String"
+      in: "query"
+      required: true
+      description: "The scope check, either Strict or Flexible. Any other value will\
+        \ result in setting the default (Strict)."
+      schema:
+        type: "string"
   /JSON/ajaxSpider/action/stop/:
     get:
       description: "Stops the AJAX Spider."
@@ -779,12 +830,30 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/ajaxSpider/view/optionEnableExtensions/:
+    get:
+      description: ""
+      operationId: "ajaxSpiderViewOptionEnableExtensions"
+      tags:
+      - "ajaxSpider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
   /JSON/ajaxSpider/view/optionEventWait/:
     get:
       description: "Gets the time to wait after an event (in milliseconds). For example:\
         \ the wait delay after the cursor hovers over an element, in order for a menu\
         \ to display, etc."
       operationId: "ajaxSpiderViewOptionEventWait"
+      tags:
+      - "ajaxSpider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/ajaxSpider/view/optionLogoutAvoidance/:
+    get:
+      description: "Gets the value of the Logout Avoidance option."
+      operationId: "ajaxSpiderViewOptionLogoutAvoidance"
       tags:
       - "ajaxSpider"
       responses:
@@ -842,6 +911,15 @@ paths:
       description: "Gets the configured time to wait after reloading the page, this\
         \ value is in milliseconds."
       operationId: "ajaxSpiderViewOptionReloadWait"
+      tags:
+      - "ajaxSpider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/ajaxSpider/view/optionScopeCheck/:
+    get:
+      description: "Gets the configured scope check."
+      operationId: "ajaxSpiderViewOptionScopeCheck"
       tags:
       - "ajaxSpider"
       responses:
@@ -1283,7 +1361,7 @@ paths:
         type: "string"
   /JSON/alertFilter/action/addAlertFilter/:
     get:
-      description: "Adds a new alert filter for the context with the given ID. "
+      description: "Adds a new alert filter for the context with the given ID."
       operationId: "alertFilterActionAddAlertFilter"
       tags:
       - "alertFilter"
@@ -1294,74 +1372,76 @@ paths:
     - name: "contextId"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric ID of the context for which the filter should be added."
       schema:
         type: "string"
     - name: "ruleId"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric ID of the rule for which the filter should apply."
       schema:
         type: "string"
     - name: "newLevel"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric risk representation ('0 - Informational' through '3\
+        \ - High') ['-1 - False Positive']."
       schema:
         type: "string"
     - name: "url"
       in: "query"
-      description: ""
+      description: "The URL for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "urlIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the URL is a regex."
       schema:
         type: "string"
     - name: "parameter"
       in: "query"
-      description: ""
+      description: "The parameter name for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "enabled"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the filter should be enabled."
       schema:
         type: "string"
     - name: "parameterIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the parameter name is a regex."
       schema:
         type: "string"
     - name: "attack"
       in: "query"
-      description: ""
+      description: "The attack value for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "attackIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the attack value is a regex."
       schema:
         type: "string"
     - name: "evidence"
       in: "query"
-      description: ""
+      description: "The evidence value for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "evidenceIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the evidence value is a regex."
       schema:
         type: "string"
     - name: "methods"
       in: "query"
-      description: ""
+      description: "The HTTP methods (comma separated) for which the filter should\
+        \ apply."
       schema:
         type: "string"
   /JSON/alertFilter/action/addGlobalAlertFilter/:
     get:
-      description: "Adds a new global alert filter. "
+      description: "Adds a new global alert filter."
       operationId: "alertFilterActionAddGlobalAlertFilter"
       tags:
       - "alertFilter"
@@ -1372,63 +1452,65 @@ paths:
     - name: "ruleId"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric ID of the rule for which the filter should apply."
       schema:
         type: "string"
     - name: "newLevel"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric risk representation ('0 - Informational' through '3\
+        \ - High') ['-1 - False Positive']."
       schema:
         type: "string"
     - name: "url"
       in: "query"
-      description: ""
+      description: "The URL for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "urlIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the URL is a regex."
       schema:
         type: "string"
     - name: "parameter"
       in: "query"
-      description: ""
+      description: "The parameter name for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "enabled"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the filter should be enabled."
       schema:
         type: "string"
     - name: "parameterIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the parameter name is a regex."
       schema:
         type: "string"
     - name: "attack"
       in: "query"
-      description: ""
+      description: "The attack value for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "attackIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the attack value is a regex."
       schema:
         type: "string"
     - name: "evidence"
       in: "query"
-      description: ""
+      description: "The evidence value for which the filter should apply (can be regex)."
       schema:
         type: "string"
     - name: "evidenceIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the evidence value is a regex."
       schema:
         type: "string"
     - name: "methods"
       in: "query"
-      description: ""
+      description: "The HTTP methods (comma separated) for which the filter should\
+        \ apply."
       schema:
         type: "string"
   /JSON/alertFilter/action/applyAll/:
@@ -1471,69 +1553,70 @@ paths:
     - name: "contextId"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric ID of the context for which the filter should be removed."
       schema:
         type: "string"
     - name: "ruleId"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric ID of the rule for which the filter applies."
       schema:
         type: "string"
     - name: "newLevel"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric risk representation ('0 - Informational' through '3\
+        \ - High') ['-1 - False Positive']."
       schema:
         type: "string"
     - name: "url"
       in: "query"
-      description: ""
+      description: "The URL for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "urlIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the URL is a regex."
       schema:
         type: "string"
     - name: "parameter"
       in: "query"
-      description: ""
+      description: "The parameter name for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "enabled"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the filter should be enabled."
       schema:
         type: "string"
     - name: "parameterIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the parameter name is a regex."
       schema:
         type: "string"
     - name: "attack"
       in: "query"
-      description: ""
+      description: "The attack value for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "attackIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the attack value is a regex."
       schema:
         type: "string"
     - name: "evidence"
       in: "query"
-      description: ""
+      description: "The evidence value for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "evidenceIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the evidence value is a regex."
       schema:
         type: "string"
     - name: "methods"
       in: "query"
-      description: ""
+      description: "The HTTP methods (comma separated) for which the filter applies."
       schema:
         type: "string"
   /JSON/alertFilter/action/removeGlobalAlertFilter/:
@@ -1549,63 +1632,64 @@ paths:
     - name: "ruleId"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric ID of the rule for which the filter applies."
       schema:
         type: "string"
     - name: "newLevel"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric risk representation ('0 - Informational' through '3\
+        \ - High') ['-1 - False Positive']."
       schema:
         type: "string"
     - name: "url"
       in: "query"
-      description: ""
+      description: "The URL for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "urlIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the URL is a regex."
       schema:
         type: "string"
     - name: "parameter"
       in: "query"
-      description: ""
+      description: "The parameter name for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "enabled"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the filter should be enabled."
       schema:
         type: "string"
     - name: "parameterIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the parameter name is a regex."
       schema:
         type: "string"
     - name: "attack"
       in: "query"
-      description: ""
+      description: "The attack value for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "attackIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the attack value is a regex."
       schema:
         type: "string"
     - name: "evidence"
       in: "query"
-      description: ""
+      description: "The evidence value for which the filter applies (can be regex)."
       schema:
         type: "string"
     - name: "evidenceIsRegex"
       in: "query"
-      description: ""
+      description: "A boolean indicating whether or not the evidence value is a regex."
       schema:
         type: "string"
     - name: "methods"
       in: "query"
-      description: ""
+      description: "The HTTP methods (comma separated) for which the filter applies."
       schema:
         type: "string"
   /JSON/alertFilter/action/testAll/:
@@ -1648,7 +1732,8 @@ paths:
     - name: "contextId"
       in: "query"
       required: true
-      description: ""
+      description: "The numeric ID of the context for which the filters should be\
+        \ listed."
       schema:
         type: "string"
   /JSON/alertFilter/view/globalAlertFilterList/:
@@ -2174,6 +2259,22 @@ paths:
       description: ""
       schema:
         type: "integer"
+  /JSON/ascan/action/setOptionEncodeCookieValues/:
+    get:
+      description: "Sets whether or not the active scanner should encode cookie values."
+      operationId: "ascanActionSetOptionEncodeCookieValues"
+      tags:
+      - "ascan"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
   /JSON/ascan/action/setOptionHandleAntiCSRFTokens/:
     get:
       description: ""
@@ -2764,6 +2865,15 @@ paths:
         \ in the 'network' component instead."
       deprecated: true
       operationId: "ascanViewOptionDelayInMs"
+      tags:
+      - "ascan"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/ascan/view/optionEncodeCookieValues/:
+    get:
+      description: "Tells whether or not the active scanner should encode cookie values."
+      operationId: "ascanViewOptionEncodeCookieValues"
       tags:
       - "ascan"
       responses:
@@ -3850,6 +3960,22 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/client/action/exportClientMap/:
+    get:
+      description: "Exports the Client Map to a file."
+      operationId: "clientActionExportClientMap"
+      tags:
+      - "client"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "pathYaml"
+      in: "query"
+      required: true
+      description: "The file system path to the file."
+      schema:
+        type: "string"
   /JSON/client/action/reportEvent/:
     get:
       description: ""
@@ -3914,97 +4040,83 @@ paths:
       description: ""
       schema:
         type: "string"
-  /JSON/codedx/action/generateAndUpload/:
+  /JSON/clientSpider/action/scan/:
     get:
-      description: ""
-      operationId: "codedxActionGenerateAndUpload"
+      description: "Starts a client spider scan."
+      operationId: "clientSpiderActionScan"
       tags:
-      - "codedx"
+      - "clientSpider"
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
     parameters:
-    - name: "serverUrl"
+    - name: "browser"
       in: "query"
-      required: true
-      description: ""
+      description: "The ID of the browser. See Selenium documentation for valid IDs."
       schema:
         type: "string"
-    - name: "codeDxApiKey"
+    - name: "url"
       in: "query"
-      required: true
-      description: ""
+      description: "The URL from where to start the spider."
       schema:
         type: "string"
-    - name: "projectId"
+    - name: "contextName"
       in: "query"
-      required: true
-      description: ""
+      description: "The name of the context."
       schema:
         type: "string"
-    - name: "fingerprint"
+    - name: "userName"
       in: "query"
-      description: ""
+      description: "The name of the user."
       schema:
         type: "string"
-    - name: "acceptPermanently"
+    - name: "subtreeOnly"
       in: "query"
-      description: ""
+      description: "true to spider only under the subtree, false otherwise."
       schema:
         type: "string"
-  /JSON/codedx/action/uploadReport/:
+    - name: "maxCrawlDepth"
+      in: "query"
+      description: "Maximum Crawl Depth (0 is unlimited)."
+      schema:
+        type: "string"
+    - name: "pageLoadTime"
+      in: "query"
+      description: "Page Load Time (seconds)."
+      schema:
+        type: "string"
+  /JSON/clientSpider/action/stop/:
     get:
-      description: ""
-      operationId: "codedxActionUploadReport"
+      description: "Stops a client spider scan."
+      operationId: "clientSpiderActionStop"
       tags:
-      - "codedx"
+      - "clientSpider"
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
     parameters:
-    - name: "filePath"
+    - name: "scanId"
       in: "query"
       required: true
-      description: ""
+      description: "The ID of the client spider scan."
       schema:
         type: "string"
-    - name: "serverUrl"
-      in: "query"
-      required: true
-      description: ""
-      schema:
-        type: "string"
-    - name: "codeDxApiKey"
-      in: "query"
-      required: true
-      description: ""
-      schema:
-        type: "string"
-    - name: "projectId"
-      in: "query"
-      required: true
-      description: ""
-      schema:
-        type: "string"
-    - name: "fingerprint"
-      in: "query"
-      description: ""
-      schema:
-        type: "string"
-    - name: "acceptPermanently"
-      in: "query"
-      description: ""
-      schema:
-        type: "string"
-  /JSON/codedx/view/generateReport/:
+  /JSON/clientSpider/view/status/:
     get:
-      description: ""
-      operationId: "codedxViewGenerateReport"
+      description: "Gets the status of a client spider scan."
+      operationId: "clientSpiderViewStatus"
       tags:
-      - "codedx"
+      - "clientSpider"
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "scanId"
+      in: "query"
+      required: true
+      description: "The ID of the client spider scan."
+      schema:
+        type: "string"
   /JSON/context/action/excludeAllContextTechnologies/:
     get:
       description: "Excludes all built in technologies from a context"
@@ -4479,6 +4591,22 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/core/action/createSbomZip/:
+    get:
+      description: "Create a zip file of the ZAP core and add-on SBOMs"
+      operationId: "coreActionCreateSbomZip"
+      tags:
+      - "core"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "filePath"
+      in: "query"
+      required: true
+      description: "The path of the zip file to create"
+      schema:
+        type: "string"
   /JSON/core/action/deleteAlert/:
     get:
       description: "Use the API endpoint with the same name in the 'alert' component\
@@ -4779,6 +4907,28 @@ paths:
       in: "query"
       required: true
       description: ""
+      schema:
+        type: "string"
+  /JSON/core/action/setLogLevel/:
+    get:
+      description: "Sets the logging level for a given logger name."
+      operationId: "coreActionSetLogLevel"
+      tags:
+      - "core"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "name"
+      in: "query"
+      required: true
+      description: "The logger name for which the logging level should be set."
+      schema:
+        type: "string"
+    - name: "logLevel"
+      in: "query"
+      required: true
+      description: "The logging level which should be set."
       schema:
         type: "string"
   /JSON/core/action/setMode/:
@@ -5427,6 +5577,23 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/core/view/getLogLevel/:
+    get:
+      description: "The detailed logging config, optionally filtered based on a name\
+        \ (ex: starts with)."
+      operationId: "coreViewGetLogLevel"
+      tags:
+      - "core"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "name"
+      in: "query"
+      description: "The name for which the logger details should be provided (this\
+        \ value will be used as a case insensitive starts with filter)."
+      schema:
+        type: "string"
   /JSON/core/view/homeDirectory/:
     get:
       description: ""
@@ -5824,6 +5991,147 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/custompayloads/action/addCustomPayload/:
+    get:
+      description: "Adds a new payload."
+      operationId: "custompayloadsActionAddCustomPayload"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "category"
+      in: "query"
+      required: true
+      description: "The category for the new payload."
+      schema:
+        type: "string"
+    - name: "payload"
+      in: "query"
+      description: "The payload to be added."
+      schema:
+        type: "string"
+  /JSON/custompayloads/action/disableCustomPayload/:
+    get:
+      description: "Disables a given payload."
+      operationId: "custompayloadsActionDisableCustomPayload"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "category"
+      in: "query"
+      required: true
+      description: "The category for the payload being disabled."
+      schema:
+        type: "string"
+    - name: "payload"
+      in: "query"
+      description: "The payload being disabled."
+      schema:
+        type: "string"
+  /JSON/custompayloads/action/disableCustomPayloads/:
+    get:
+      description: "Disables payloads for a given category."
+      operationId: "custompayloadsActionDisableCustomPayloads"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "category"
+      in: "query"
+      description: "The category for which the payloads should be disabled (leave\
+        \ empty for all)."
+      schema:
+        type: "string"
+  /JSON/custompayloads/action/enableCustomPayload/:
+    get:
+      description: "Enables a given payload."
+      operationId: "custompayloadsActionEnableCustomPayload"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "category"
+      in: "query"
+      required: true
+      description: "The category for the payload being enabled."
+      schema:
+        type: "string"
+    - name: "payload"
+      in: "query"
+      description: "The payload being enabled."
+      schema:
+        type: "string"
+  /JSON/custompayloads/action/enableCustomPayloads/:
+    get:
+      description: "Enables payloads for a given category."
+      operationId: "custompayloadsActionEnableCustomPayloads"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "category"
+      in: "query"
+      description: "The category for which the payloads should be enabled (leave empty\
+        \ for all)."
+      schema:
+        type: "string"
+  /JSON/custompayloads/action/removeCustomPayload/:
+    get:
+      description: "Removes a payload."
+      operationId: "custompayloadsActionRemoveCustomPayload"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "category"
+      in: "query"
+      required: true
+      description: "The category of the payload being removed."
+      schema:
+        type: "string"
+    - name: "payload"
+      in: "query"
+      description: "The payload being removed."
+      schema:
+        type: "string"
+  /JSON/custompayloads/view/customPayloads/:
+    get:
+      description: "Lists all the payloads currently loaded (category, payload, enabled\
+        \ state). Optionally filtered by category."
+      operationId: "custompayloadsViewCustomPayloads"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "category"
+      in: "query"
+      description: "The category for which the payloads should be displayed."
+      schema:
+        type: "string"
+  /JSON/custompayloads/view/customPayloadsCategories/:
+    get:
+      description: "Lists all available categories."
+      operationId: "custompayloadsViewCustomPayloadsCategories"
+      tags:
+      - "custompayloads"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
   /OTHER/dev/other/openapi/:
     get:
       description: "Provides the OpenAPI definition of the ZAP API, in YAML format."
@@ -5833,6 +6141,22 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorOther"
+  /JSON/exim/action/exportSitesTree/:
+    get:
+      description: "Exports the Sites Tree in the Sites Tree YAML format."
+      operationId: "eximActionExportSitesTree"
+      tags:
+      - "exim"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "filePath"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
   /JSON/exim/action/importHar/:
     get:
       description: "Imports a HAR file."
@@ -5888,6 +6212,22 @@ paths:
       description: "Imports previously exported ZAP messages from the file with the\
         \ given file system path."
       operationId: "eximActionImportZapLogs"
+      tags:
+      - "exim"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "filePath"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+  /JSON/exim/action/pruneSitesTree/:
+    get:
+      description: "Prunes the Sites Tree based on a file in the Sites Tree YAML format."
+      operationId: "eximActionPruneSitesTree"
       tags:
       - "exim"
       responses:
@@ -6621,6 +6961,466 @@ paths:
       operationId: "httpSessionsViewSites"
       tags:
       - "httpSessions"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/action/log/:
+    get:
+      description: "Used by the HUD to log messages from the browser"
+      operationId: "hudActionLog"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "record"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+  /JSON/hud/action/recordRequest/:
+    get:
+      description: "Used by the HUD to cache a request the user wants to send in the\
+        \ browser"
+      operationId: "hudActionRecordRequest"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "header"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "body"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+  /JSON/hud/action/resetTutorialTasks/:
+    get:
+      description: "Reset the tutorial tasks so that they must be completed again"
+      operationId: "hudActionResetTutorialTasks"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/action/setOptionBaseDirectory/:
+    get:
+      description: "Set the base directory from which the HUD files are loaded"
+      operationId: "hudActionSetOptionBaseDirectory"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "String"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+  /JSON/hud/action/setOptionDevelopmentMode/:
+    get:
+      description: "Sets the boolean option 'Development mode'"
+      operationId: "hudActionSetOptionDevelopmentMode"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionEnableOnDomainMsgs/:
+    get:
+      description: ""
+      operationId: "hudActionSetOptionEnableOnDomainMsgs"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionEnabledForDaemon/:
+    get:
+      description: ""
+      operationId: "hudActionSetOptionEnabledForDaemon"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionEnabledForDesktop/:
+    get:
+      description: ""
+      operationId: "hudActionSetOptionEnabledForDesktop"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionInScopeOnly/:
+    get:
+      description: "Sets the boolean option 'In scope only'"
+      operationId: "hudActionSetOptionInScopeOnly"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionRemoveCSP/:
+    get:
+      description: "Sets the boolean option 'Remove CSP'"
+      operationId: "hudActionSetOptionRemoveCSP"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionShowWelcomeScreen/:
+    get:
+      description: ""
+      operationId: "hudActionSetOptionShowWelcomeScreen"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionSkipTutorialTasks/:
+    get:
+      description: ""
+      operationId: "hudActionSetOptionSkipTutorialTasks"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setOptionTutorialTaskDone/:
+    get:
+      description: ""
+      operationId: "hudActionSetOptionTutorialTaskDone"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "String"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+  /JSON/hud/action/setOptionTutorialTestMode/:
+    get:
+      description: ""
+      operationId: "hudActionSetOptionTutorialTestMode"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "boolean"
+  /JSON/hud/action/setUiOption/:
+    get:
+      description: "Sets a UI option with the given key and value. The key must be\
+        \ 50 or fewer alphanumeric characters"
+      operationId: "hudActionSetUiOption"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "key"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "value"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+  /OTHER/hud/other/changesInHtml/:
+    get:
+      description: "Returns the changelog in HTML format"
+      operationId: "hudOtherChangesInHtml"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorOther"
+  /JSON/hud/view/getUiOption/:
+    get:
+      description: "Gets a UI option set using setUiOption. If the supplied key is\
+        \ not set then an empty string is returned"
+      operationId: "hudViewGetUiOption"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "key"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+  /JSON/hud/view/heartbeat/:
+    get:
+      description: "Used by service workers to keep alive"
+      operationId: "hudViewHeartbeat"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/hudAlertData/:
+    get:
+      description: "Returns the alert summary needed by the HUD for the specified\
+        \ URL"
+      operationId: "hudViewHudAlertData"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "url"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+  /JSON/hud/view/optionAllowUnsafeEval/:
+    get:
+      description: "Returns true if the 'Allow unsafe-eval' option is set"
+      operationId: "hudViewOptionAllowUnsafeEval"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionBaseDirectory/:
+    get:
+      description: "Returns the base directory from which the HUD files are loaded"
+      operationId: "hudViewOptionBaseDirectory"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionDevelopmentMode/:
+    get:
+      description: "Returns true if the 'Development mode' option is set"
+      operationId: "hudViewOptionDevelopmentMode"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionEnableOnDomainMsgs/:
+    get:
+      description: ""
+      operationId: "hudViewOptionEnableOnDomainMsgs"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionEnableTelemetry/:
+    get:
+      description: ""
+      operationId: "hudViewOptionEnableTelemetry"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionEnabledForDaemon/:
+    get:
+      description: ""
+      operationId: "hudViewOptionEnabledForDaemon"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionEnabledForDesktop/:
+    get:
+      description: ""
+      operationId: "hudViewOptionEnabledForDesktop"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionInScopeOnly/:
+    get:
+      description: "Returns true if the 'In scope only' option is set"
+      operationId: "hudViewOptionInScopeOnly"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionRemoveCSP/:
+    get:
+      description: "Returns true if the 'Remove CSP' option is set"
+      operationId: "hudViewOptionRemoveCSP"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionShowWelcomeScreen/:
+    get:
+      description: ""
+      operationId: "hudViewOptionShowWelcomeScreen"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionSkipTutorialTasks/:
+    get:
+      description: ""
+      operationId: "hudViewOptionSkipTutorialTasks"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionTutorialHost/:
+    get:
+      description: ""
+      operationId: "hudViewOptionTutorialHost"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionTutorialPort/:
+    get:
+      description: ""
+      operationId: "hudViewOptionTutorialPort"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionTutorialTasksDone/:
+    get:
+      description: ""
+      operationId: "hudViewOptionTutorialTasksDone"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionTutorialTestMode/:
+    get:
+      description: ""
+      operationId: "hudViewOptionTutorialTestMode"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/optionTutorialUpdates/:
+    get:
+      description: ""
+      operationId: "hudViewOptionTutorialUpdates"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/tutorialUpdates/:
+    get:
+      description: ""
+      operationId: "hudViewTutorialUpdates"
+      tags:
+      - "hud"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/hud/view/upgradedDomains/:
+    get:
+      description: ""
+      operationId: "hudViewUpgradedDomains"
+      tags:
+      - "hud"
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
@@ -7540,6 +8340,170 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/oast/action/setActiveScanService/:
+    get:
+      description: "Sets the service used with the active scanner."
+      operationId: "oastActionSetActiveScanService"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "name"
+      in: "query"
+      required: true
+      description: "The name of the service."
+      schema:
+        type: "string"
+  /JSON/oast/action/setBoastOptions/:
+    get:
+      description: "Sets the BOAST options."
+      operationId: "oastActionSetBoastOptions"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "server"
+      in: "query"
+      required: true
+      description: "The server URL."
+      schema:
+        type: "string"
+    - name: "pollInSecs"
+      in: "query"
+      required: true
+      description: "The polling frequency."
+      schema:
+        type: "string"
+  /JSON/oast/action/setCallbackOptions/:
+    get:
+      description: "Sets the Callback options."
+      operationId: "oastActionSetCallbackOptions"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "localAddress"
+      in: "query"
+      required: true
+      description: "The local address"
+      schema:
+        type: "string"
+    - name: "remoteAddress"
+      in: "query"
+      required: true
+      description: "The remote address."
+      schema:
+        type: "string"
+    - name: "port"
+      in: "query"
+      required: true
+      description: "The port to listen on."
+      schema:
+        type: "string"
+  /JSON/oast/action/setDaysToKeepRecords/:
+    get:
+      description: "Sets the number of days the OAST records will be kept for."
+      operationId: "oastActionSetDaysToKeepRecords"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "days"
+      in: "query"
+      required: true
+      description: "The number of days."
+      schema:
+        type: "string"
+  /JSON/oast/action/setInteractshOptions/:
+    get:
+      description: "Sets the Interactsh options."
+      operationId: "oastActionSetInteractshOptions"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "server"
+      in: "query"
+      required: true
+      description: "The server URL."
+      schema:
+        type: "string"
+    - name: "pollInSecs"
+      in: "query"
+      required: true
+      description: "The polling frequency."
+      schema:
+        type: "string"
+    - name: "authToken"
+      in: "query"
+      required: true
+      description: "The Interactsh authentication token."
+      schema:
+        type: "string"
+  /JSON/oast/view/getActiveScanService/:
+    get:
+      description: "Gets the service used with the active scanner, if any."
+      operationId: "oastViewGetActiveScanService"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/oast/view/getBoastOptions/:
+    get:
+      description: "Gets the BOAST options."
+      operationId: "oastViewGetBoastOptions"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/oast/view/getCallbackOptions/:
+    get:
+      description: "Gets the Callback options."
+      operationId: "oastViewGetCallbackOptions"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/oast/view/getDaysToKeepRecords/:
+    get:
+      description: "Gets the number of days the OAST records will be kept for."
+      operationId: "oastViewGetDaysToKeepRecords"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/oast/view/getInteractshOptions/:
+    get:
+      description: "Gets the Interactsh options."
+      operationId: "oastViewGetInteractshOptions"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+  /JSON/oast/view/getServices/:
+    get:
+      description: "Gets all of the services."
+      operationId: "oastViewGetServices"
+      tags:
+      - "oast"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
   /JSON/openapi/action/importFile/:
     get:
       description: "Imports an OpenAPI definition from a local file."
@@ -7563,7 +8527,12 @@ paths:
         type: "string"
     - name: "contextId"
       in: "query"
-      description: ""
+      description: "The ID of the context. Defaults to the first context, if any."
+      schema:
+        type: "string"
+    - name: "userId"
+      in: "query"
+      description: "The ID of the user."
       schema:
         type: "string"
   /JSON/openapi/action/importUrl/:
@@ -7590,7 +8559,12 @@ paths:
         type: "string"
     - name: "contextId"
       in: "query"
-      description: ""
+      description: "The ID of the context. Defaults to the first context, if any."
+      schema:
+        type: "string"
+    - name: "userId"
+      in: "query"
+      description: "The ID of the user."
       schema:
         type: "string"
   /JSON/paramDigger/action/helloWorld/:
@@ -7602,6 +8576,22 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/params/view/params/:
+    get:
+      description: "Shows the parameters for the specified site, or for all sites\
+        \ if the site is not specified"
+      operationId: "paramsViewParams"
+      tags:
+      - "params"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "site"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
   /JSON/pnh/action/monitor/:
     get:
       description: ""
@@ -7761,7 +8751,7 @@ paths:
           $ref: "#/components/responses/ErrorJson"
   /JSON/pscan/action/disableAllScanners/:
     get:
-      description: "Disables all passive scan rules"
+      description: "Disables all passive scan rules."
       operationId: "pscanActionDisableAllScanners"
       tags:
       - "pscan"
@@ -7779,8 +8769,7 @@ paths:
           $ref: "#/components/responses/ErrorJson"
   /JSON/pscan/action/disableScanners/:
     get:
-      description: "Disables all passive scan rules with the given IDs (comma separated\
-        \ list of IDs)"
+      description: "Disables passive scan rules."
       operationId: "pscanActionDisableScanners"
       tags:
       - "pscan"
@@ -7791,12 +8780,12 @@ paths:
     - name: "ids"
       in: "query"
       required: true
-      description: ""
+      description: "A comma separated list of scan rule IDs."
       schema:
         type: "string"
   /JSON/pscan/action/enableAllScanners/:
     get:
-      description: "Enables all passive scan rules"
+      description: "Enables all passive scan rules."
       operationId: "pscanActionEnableAllScanners"
       tags:
       - "pscan"
@@ -7814,8 +8803,7 @@ paths:
           $ref: "#/components/responses/ErrorJson"
   /JSON/pscan/action/enableScanners/:
     get:
-      description: "Enables all passive scan rules with the given IDs (comma separated\
-        \ list of IDs)"
+      description: "Enables passive scan rules."
       operationId: "pscanActionEnableScanners"
       tags:
       - "pscan"
@@ -7826,7 +8814,7 @@ paths:
     - name: "ids"
       in: "query"
       required: true
-      description: ""
+      description: "A comma separated list of scan rule IDs."
       schema:
         type: "string"
   /JSON/pscan/action/setEnabled/:
@@ -7843,12 +8831,12 @@ paths:
     - name: "enabled"
       in: "query"
       required: true
-      description: ""
+      description: "The enabled state, true or false."
       schema:
         type: "string"
   /JSON/pscan/action/setMaxAlertsPerRule/:
     get:
-      description: "Sets the maximum number of alerts a passive scan rule should raise."
+      description: "Sets the maximum number of alerts a passive scan rule can raise."
       operationId: "pscanActionSetMaxAlertsPerRule"
       tags:
       - "pscan"
@@ -7859,7 +8847,7 @@ paths:
     - name: "maxAlerts"
       in: "query"
       required: true
-      description: ""
+      description: "The maximum number of alerts."
       schema:
         type: "string"
   /JSON/pscan/action/setScanOnlyInScope/:
@@ -7876,13 +8864,12 @@ paths:
     - name: "onlyInScope"
       in: "query"
       required: true
-      description: ""
+      description: "The scan state, true or false."
       schema:
         type: "string"
   /JSON/pscan/action/setScannerAlertThreshold/:
     get:
-      description: "Sets the alert threshold of the passive scan rule with the given\
-        \ ID, accepted values for alert threshold: OFF, DEFAULT, LOW, MEDIUM and HIGH"
+      description: "Sets the alert threshold of a passive scan rule."
       operationId: "pscanActionSetScannerAlertThreshold"
       tags:
       - "pscan"
@@ -7893,13 +8880,13 @@ paths:
     - name: "id"
       in: "query"
       required: true
-      description: ""
+      description: "The ID of the scan rule."
       schema:
         type: "string"
     - name: "alertThreshold"
       in: "query"
       required: true
-      description: ""
+      description: "The alert threshold: OFF, DEFAULT, LOW, MEDIUM and HIGH"
       schema:
         type: "string"
   /JSON/pscan/view/currentRule/:
@@ -7914,7 +8901,7 @@ paths:
           $ref: "#/components/responses/ErrorJson"
   /JSON/pscan/view/currentTasks/:
     get:
-      description: "Show information about the passive scan tasks currently being\
+      description: "Shows information about the passive scan tasks currently being\
         \ run (if any)."
       operationId: "pscanViewCurrentTasks"
       tags:
@@ -7933,7 +8920,7 @@ paths:
           $ref: "#/components/responses/ErrorJson"
   /JSON/pscan/view/recordsToScan/:
     get:
-      description: "The number of records the passive scanner still has to scan"
+      description: "The number of records the passive scanner still has to scan."
       operationId: "pscanViewRecordsToScan"
       tags:
       - "pscan"
@@ -7978,8 +8965,8 @@ paths:
         \ otherwise false, matchString is the string that will be matched against,\
         \ replacement is the replacement string, initiators may be blank (for all\
         \ initiators) or a comma separated list of integers as defined in <a href=\"\
-        https://github.com/zaproxy/zaproxy/blob/main/zap/src/main/java/org/parosproxy/paros/network/HttpSender.java\"\
-        >HttpSender</a>  "
+        https://www.zaproxy.org/docs/constants/\">Request Initiator Constants</a>\
+        \  "
       operationId: "replacerActionAddRule"
       tags:
       - "replacer"
@@ -8816,6 +9803,39 @@ paths:
       description: ""
       schema:
         type: "string"
+  /OTHER/search/other/harByNoteRegex/:
+    get:
+      description: "Returns the HTTP messages, in HAR format, that match the given\
+        \ regular expression in their note optionally filtered by URL and paginated\
+        \ with 'start' position and 'count' of messages."
+      operationId: "searchOtherHarByNoteRegex"
+      tags:
+      - "search"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorOther"
+    parameters:
+    - name: "regex"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "baseurl"
+      in: "query"
+      description: "The highest URL in the Sites tree under which URLs should be included."
+      schema:
+        type: "string"
+    - name: "start"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+    - name: "count"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
   /OTHER/search/other/harByRequestRegex/:
     get:
       description: "Returns the HTTP messages, in HAR format, that match the given\
@@ -8882,6 +9902,39 @@ paths:
       description: ""
       schema:
         type: "string"
+  /OTHER/search/other/harByTagRegex/:
+    get:
+      description: "Returns the HTTP messages, in HAR format, that match the given\
+        \ regular expression in their history Tags optionally filtered by URL and\
+        \ paginated with 'start' position and 'count' of messages."
+      operationId: "searchOtherHarByTagRegex"
+      tags:
+      - "search"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorOther"
+    parameters:
+    - name: "regex"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "baseurl"
+      in: "query"
+      description: "The highest URL in the Sites tree under which URLs should be included."
+      schema:
+        type: "string"
+    - name: "start"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+    - name: "count"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
   /OTHER/search/other/harByUrlRegex/:
     get:
       description: "Returns the HTTP messages, in HAR format, that match the given\
@@ -8921,6 +9974,40 @@ paths:
         \ in the header(s) optionally filtered by URL and paginated with 'start' position\
         \ and 'count' of messages."
       operationId: "searchViewMessagesByHeaderRegex"
+      tags:
+      - "search"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "regex"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "baseurl"
+      in: "query"
+      description: "The highest URL in the Sites tree under which messages should\
+        \ be included."
+      schema:
+        type: "string"
+    - name: "start"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+    - name: "count"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+  /JSON/search/view/messagesByNoteRegex/:
+    get:
+      description: "Returns the HTTP messages that match the given regular expression\
+        \ in their note optionally filtered by URL and paginated with 'start' position\
+        \ and 'count' of messages."
+      operationId: "searchViewMessagesByNoteRegex"
       tags:
       - "search"
       responses:
@@ -9017,6 +10104,40 @@ paths:
       description: ""
       schema:
         type: "string"
+  /JSON/search/view/messagesByTagRegex/:
+    get:
+      description: "Returns the HTTP messages that match the given regular expression\
+        \ in their history Tags optionally filtered by URL and paginated with 'start'\
+        \ position and 'count' of messages."
+      operationId: "searchViewMessagesByTagRegex"
+      tags:
+      - "search"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "regex"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "baseurl"
+      in: "query"
+      description: "The highest URL in the Sites tree under which messages should\
+        \ be included."
+      schema:
+        type: "string"
+    - name: "start"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+    - name: "count"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
   /JSON/search/view/messagesByUrlRegex/:
     get:
       description: "Returns the HTTP messages that match the given regular expression\
@@ -9057,6 +10178,39 @@ paths:
         \ expression in the header(s) optionally filtered by URL and paginated with\
         \ 'start' position and 'count' of messages."
       operationId: "searchViewUrlsByHeaderRegex"
+      tags:
+      - "search"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "regex"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "baseurl"
+      in: "query"
+      description: "The highest URL in the Sites tree under which URLs should be included."
+      schema:
+        type: "string"
+    - name: "start"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+    - name: "count"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+  /JSON/search/view/urlsByNoteRegex/:
+    get:
+      description: "Returns the URLs of the HTTP messages that match the given regular\
+        \ expression in their note optionally filtered by URL and paginated with 'start'\
+        \ position and 'count' of messages."
+      operationId: "searchViewUrlsByNoteRegex"
       tags:
       - "search"
       responses:
@@ -9150,6 +10304,39 @@ paths:
       description: ""
       schema:
         type: "string"
+  /JSON/search/view/urlsByTagRegex/:
+    get:
+      description: "Returns the URLs of the HTTP messages that match the given regular\
+        \ expression in their history Tags optionally filtered by URL and paginated\
+        \ with 'start' position and 'count' of messages."
+      operationId: "searchViewUrlsByTagRegex"
+      tags:
+      - "search"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "regex"
+      in: "query"
+      required: true
+      description: ""
+      schema:
+        type: "string"
+    - name: "baseurl"
+      in: "query"
+      description: "The highest URL in the Sites tree under which URLs should be included."
+      schema:
+        type: "string"
+    - name: "start"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
+    - name: "count"
+      in: "query"
+      description: ""
+      schema:
+        type: "string"
   /JSON/search/view/urlsByUrlRegex/:
     get:
       description: "Returns the URLs of the HTTP messages that match the given regular\
@@ -9208,6 +10395,22 @@ paths:
     - name: "enabled"
       in: "query"
       description: "The enabled state, true or false."
+      schema:
+        type: "string"
+  /JSON/selenium/action/launchBrowser/:
+    get:
+      description: "Launches a browser proxying through ZAP, for manual usage."
+      operationId: "seleniumActionLaunchBrowser"
+      tags:
+      - "selenium"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "browser"
+      in: "query"
+      required: true
+      description: "The browser, chrome or firefox."
       schema:
         type: "string"
   /JSON/selenium/action/removeBrowserArgument/:
@@ -9920,6 +11123,24 @@ paths:
       description: ""
       schema:
         type: "string"
+  /JSON/spider/action/setOptionLogoutAvoidance/:
+    get:
+      description: "Sets whether or not the Spider should attempt to avoid logout\
+        \ related paths/functionality."
+      operationId: "spiderActionSetOptionLogoutAvoidance"
+      tags:
+      - "spider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
+    parameters:
+    - name: "Boolean"
+      in: "query"
+      required: true
+      description: "A boolean (true/false) indicating if seeming logout paths/functionality\
+        \ should be avoided (default is false)."
+      schema:
+        type: "boolean"
   /JSON/spider/action/setOptionMaxChildren/:
     get:
       description: "Sets the maximum number of child nodes (per node) that can be\
@@ -9983,7 +11204,7 @@ paths:
     - name: "Integer"
       in: "query"
       required: true
-      description: ""
+      description: "The maximum size or 0 for unlimited."
       schema:
         type: "integer"
   /JSON/spider/action/setOptionMaxScansInUI/:
@@ -10130,22 +11351,6 @@ paths:
       description: ""
       schema:
         type: "boolean"
-  /JSON/spider/action/setOptionRequestWaitTime/:
-    get:
-      description: ""
-      operationId: "spiderActionSetOptionRequestWaitTime"
-      tags:
-      - "spider"
-      responses:
-        default:
-          $ref: "#/components/responses/ErrorJson"
-    parameters:
-    - name: "Integer"
-      in: "query"
-      required: true
-      description: ""
-      schema:
-        type: "integer"
   /JSON/spider/action/setOptionSendRefererHeader/:
     get:
       description: "Sets whether or not the 'Referer' header should be sent while\
@@ -10361,6 +11566,16 @@ paths:
       responses:
         default:
           $ref: "#/components/responses/ErrorJson"
+  /JSON/spider/view/optionLogoutAvoidance/:
+    get:
+      description: "Gets whether or not the spider should attempt to avoid logout\
+        \ related paths/functionality."
+      operationId: "spiderViewOptionLogoutAvoidance"
+      tags:
+      - "spider"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
   /JSON/spider/view/optionMaxChildren/:
     get:
       description: "Gets the maximum number of child nodes (per node) that can be\
@@ -10392,7 +11607,7 @@ paths:
   /JSON/spider/view/optionMaxParseSizeBytes/:
     get:
       description: "Gets the maximum size, in bytes, that a response might have to\
-        \ be parsed."
+        \ be parsed, or 0 for unlimited."
       operationId: "spiderViewOptionMaxParseSizeBytes"
       tags:
       - "spider"
@@ -10475,15 +11690,6 @@ paths:
     get:
       description: ""
       operationId: "spiderViewOptionProcessForm"
-      tags:
-      - "spider"
-      responses:
-        default:
-          $ref: "#/components/responses/ErrorJson"
-  /JSON/spider/view/optionRequestWaitTime/:
-    get:
-      description: ""
-      operationId: "spiderViewOptionRequestWaitTime"
       tags:
       - "spider"
       responses:
@@ -11178,7 +12384,7 @@ paths:
         type: "string"
   /JSON/wappalyzer/view/listSites/:
     get:
-      description: "Lists all the sites recognized by the wappalyzer addon."
+      description: "Lists all the sites recognized by the Technology Detection add-on."
       operationId: "wappalyzerViewListSites"
       tags:
       - "wappalyzer"
