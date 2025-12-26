@@ -390,6 +390,10 @@ html, body {
     margin-bottom: 0.8em;
   }
 
+  // Ensure long operation names wrap on small screens
+  h1, h2, h3 {
+    overflow-wrap: anywhere;
+  }
 
   h4, h5, h6 {
     font-size: 15px;
