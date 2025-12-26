@@ -22,6 +22,8 @@
   var closeToc = function() {
     $(".toc-wrapper").removeClass('open');
     $("#nav-button").removeClass('open');
+    // Ensure ARIA state is synced
+    $("#nav-button").attr("aria-expanded", "false");
   };
 
   function loadToc($toc, tocLinkSelector, tocListSelector, scrollOffset) {
@@ -70,9 +72,9 @@
       if (!$best.hasClass("active")) {
         // .active is applied to the ToC link we're currently on, and its parent <ul>s selected by tocListSelector
         // .active-expanded is applied to the ToC links that are parents of this one
-        $toc.find(".active").removeClass("active");
+        $toc.find(".active").removeClass("active").removeAttr("aria-current");
         $toc.find(".active-parent").removeClass("active-parent");
-        $best.addClass("active");
+        $best.addClass("active").attr("aria-current", "location");
         $best.parents(tocListSelector).addClass("active").siblings(tocLinkSelector).addClass('active-parent');
         $best.siblings(tocListSelector).addClass("active");
         $toc.find(tocListSelector).filter(":not(.active)").slideUp(150);
@@ -96,8 +98,22 @@
       $("#nav-button").click(function() {
         $(".toc-wrapper").toggleClass('open');
         $("#nav-button").toggleClass('open');
+
+        // Update ARIA state
+        var isOpen = $("#nav-button").hasClass('open');
+        $("#nav-button").attr("aria-expanded", isOpen ? "true" : "false");
+
         return false;
       });
+
+      $(document).keyup(function(e) {
+        // Escape key closes the ToC (mobile/tablet only)
+        // Only trigger if nav-button is visible (mobile/tablet)
+        if (e.key === "Escape" && $("#nav-button").is(":visible")) {
+          closeToc();
+        }
+      });
+
       $(".page-wrapper").click(closeToc);
       $(".toc-link").click(closeToc);
 
