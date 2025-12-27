@@ -1359,15 +1359,25 @@ paths:
       description: ""
       schema:
         type: "string"
-  /JSON/alertFilter/action/addAlertFilter/:
-    get:
-      description: "Adds a new alert filter for the context with the given ID."
-      operationId: "alertFilterActionAddAlertFilter"
-      tags:
-      - "alertFilter"
-      responses:
-        default:
-          $ref: "#/components/responses/ErrorJson"
+/JSON/alertFilter/action/addAlertFilter/:
+  get:
+    description: |
+      Adds a new alert filter for the context with the given ID.
+
+      This filter only applies to alerts raised within the specified context.
+
+      Notes:
+      - 'contextId' is required and must refer to an existing context.
+      - 'ruleId' must match the alert rule ID from ZAP.
+      - Set 'enabled=true' for the filter to take effect.
+      - Parameters passed via curl must be URL-encoded.
+    operationId: "alertFilterActionAddAlertFilter"
+    tags:
+    - "alertFilter"
+    responses:
+      default:
+        $ref: "#/components/responses/ErrorJson"
+
     parameters:
     - name: "contextId"
       in: "query"
