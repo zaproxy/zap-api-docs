@@ -47,13 +47,25 @@ The API documentation is divided into nine main sections.
 The examples show some usages with the minimal required arguments. However, this is not a reference, and not all APIs 
 nor arguments are shown. View the API catalogue to see all the parameters and scope of each API.
 </aside>
-
 ## Basics on the API Request
 
-ZAP APIs provide access to most of the core features of ZAP such as the active scanner and spider. ZAP API is enabled by default
-in the daemon mode and the desktop mode. If you are using ZAP desktop, then the API can be configured by visiting the following screen: 
+The ZAP API is a REST based API.
+It can be accessed via HTTP/HTTPS and supports JSON, XML and other formats.
+...
 
-`Tools -> Options -> API`.
+## Using the ZAP API with curl
+
+When interacting with the ZAP API using curl, keep the following points in mind:
+
+- All parameter values must be URL-encoded.
+- Boolean parameters (for example `enabled`) must be explicitly provided.
+- Special characters such as `:` or `*` must be URL-encoded.
+- API actions generally apply to newly raised alerts, not existing ones.
+- Use the appropriate API view endpoints to verify applied changes.
+
+```bash
+curl "http://zap/<format>/<component>/<operation>/<operation-name>/?param1=value1&param2=value2"
+```
 
 ![zap_desktop_api](../images/zap_desktop_api.png)
 
