@@ -53,22 +53,6 @@ The ZAP API is a REST based API.
 It can be accessed via HTTP/HTTPS and supports JSON, XML and other formats.
 ...
 
-## Using the ZAP API with curl
-
-When interacting with the ZAP API using curl, keep the following points in mind:
-
-- All parameter values must be URL-encoded.
-- Boolean parameters (for example `enabled`) must be explicitly provided.
-- Special characters such as `:` or `*` must be URL-encoded.
-- API actions generally apply to newly raised alerts, not existing ones.
-- Use the appropriate API view endpoints to verify applied changes.
-
-```bash
-curl "http://zap/<format>/<component>/<operation>/<operation-name>/?param1=value1&param2=value2"
-```
-
-![zap_desktop_api](../images/zap_desktop_api.png)
-
 <aside class="notice">
 ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations. 
 The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key 
@@ -100,17 +84,28 @@ browsing the [API Catalogue](#api-catalogue).
 
 ### Access the API
 
+...
 The REST API can be accessed directly or via one of the [client implementations](#client_sdk) detailed below.  
 A simple web UI is also available to explore and use the APIs via the browser. This web UI can be accessed via [http://zap/](http://zap/) 
 when you are proxying through ZAP, or via the host and port ZAP is listening on, e.g. [http://localhost:8080/](http://localhost:8080/). 
 
-![zap_api_ui](../images/zap_api_ui.png)
-
 By default only the machine ZAP is running on is able to access the APIs. You can [allow other machines](https://www.zaproxy.org/faq/how-can-i-connect-to-zap-remotely/), 
 that are able to use ZAP as a proxy, access to the API.
 
-### Client SDKs
+### Using the ZAP API with curl
 
+When interacting with the ZAP API using curl, keep the following points in mind:
+
+- All parameter values must be URL-encoded.
+- Boolean parameters (for example `enabled`) must be explicitly provided.
+- Special characters such as `:` or `*` must be URL-encoded.
+- API actions generally apply to newly raised alerts, not existing ones.
+- Use the appropriate API view endpoints to verify applied changes.
+
+```bash
+curl "http://zap/<format>/<component>/<operation>/<operation-name>/?param1=value1&param2=value2"
+```
+### Client SDKs
 API clients are available for the following languages:
 
 | **Language** | **Download links** | **Notes** |
