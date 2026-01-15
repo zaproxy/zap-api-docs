@@ -97,10 +97,7 @@ that are able to use ZAP as a proxy, access to the API.
 When interacting with the ZAP API using curl, keep the following points in mind:
 
 - All parameter values must be URL-encoded.
-- Boolean parameters (for example `enabled`) must be explicitly provided.
-- Special characters such as `:` or `*` must be URL-encoded.
-- API actions generally apply to newly raised alerts, not existing ones.
-- Use the appropriate API view endpoints to verify applied changes.
+- Some boolean parameters (for example `enabled`) may need to be explicitly provided when deviating from default values.
 
 ```bash
 curl "http://zap/<format>/<component>/<operation>/<operation-name>/?param1=value1&param2=value2"
