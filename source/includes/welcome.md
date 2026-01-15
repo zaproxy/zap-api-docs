@@ -49,10 +49,6 @@ nor arguments are shown. View the API catalogue to see all the parameters and sc
 </aside>
 ## Basics on the API Request
 
-The ZAP API is a REST based API.
-It can be accessed via HTTP/HTTPS and supports JSON, XML and other formats.
-...
-
 <aside class="notice">
 ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations. 
 The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key 
