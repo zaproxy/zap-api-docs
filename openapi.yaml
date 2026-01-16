@@ -1359,20 +1359,19 @@ paths:
       description: ""
       schema:
         type: "string"
-/JSON/alertFilter/action/addAlertFilter/:
-  get:
-    description: "Adds a new alert filter for the context with the given ID."
-    operationId: "alertFilterActionAddAlertFilter"
-    tags:
+  /JSON/alertFilter/action/addAlertFilter/:
+    get:
+      description: "Adds a new alert filter for the context with the given ID."
+      operationId: "alertFilterActionAddAlertFilter"
+      tags:
       - "alertFilter"
-    responses:
-      default:
-        $ref: "#/components/responses/ErrorJson"
+      responses:
+        default:
+          $ref: "#/components/responses/ErrorJson"
     parameters:
-      - name: "contextId"
-        in: "query"
-        required: true
-
+    - name: "contextId"
+      in: "query"
+      required: true
       description: "The numeric ID of the context for which the filter should be added."
       schema:
         type: "string"
