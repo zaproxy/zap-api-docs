@@ -46,19 +46,21 @@ The API documentation is divided into nine main sections.
 <aside class="notice">
 The examples show some usages with the minimal required arguments. However, this is not a reference, and not all APIs 
 nor arguments are shown. View the API catalogue to see all the parameters and scope of each API.
-</a![zap_api_ui](../images/zap_api_ui.png)
-Basics on the API Request
+</aside>
+
+## Basics on the API Request
 
 ZAP APIs provide access to most of the core features of ZAP such as the active scanner and spider. ZAP API is enabled by default
-in the daemon mode and the desktop mode. If you are using ZAP desktop, then the API can be configured by visiting the following screen:
+in the daemon mode and the desktop mode. If you are using ZAP desktop, then the API can be configured by visiting the following screen: 
 
 `Tools -> Options -> API`.
 
 ![zap_desktop_api](../images/zap_desktop_api.png)
 
 <aside class="notice">
-ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations.
-The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key unless you are using ZAP in a completely isolated environment.
+ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations. 
+The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key 
+unless you are using ZAP in a completely isolated environment.
 </aside>
 
 <aside class="warning">
@@ -66,9 +68,8 @@ Also make sure that you have installed the necessary add-ons while invoking feat
 For example, if you receive "no_implementor error" in relation to Ajax Spider calls, perhaps the Ajax Spider add-on isn't installed.
 </aside>
 
-Please note that not all the operations which are available in the desktop interface are available via the APIs.
+Please note that not all the operations which are available in the desktop interface are available via the APIs. 
 Future versions of ZAP will increase the functionality/scope available via the APIs.
-
 
 ### API URL Format
 
@@ -87,10 +88,11 @@ browsing the [API Catalogue](#api-catalogue).
 
 ### Access the API
 
-...
 The REST API can be accessed directly or via one of the [client implementations](#client_sdk) detailed below.  
 A simple web UI is also available to explore and use the APIs via the browser. This web UI can be accessed via [http://zap/](http://zap/) 
 when you are proxying through ZAP, or via the host and port ZAP is listening on, e.g. [http://localhost:8080/](http://localhost:8080/). 
+
+![zap_api_ui](../images/zap_api_ui.png)
 
 By default only the machine ZAP is running on is able to access the APIs. You can [allow other machines](https://www.zaproxy.org/faq/how-can-i-connect-to-zap-remotely/), 
 that are able to use ZAP as a proxy, access to the API.
@@ -106,6 +108,7 @@ When interacting with the ZAP API using curl, keep the following points in mind:
 curl "http://zap/<format>/<component>/<operation>/<operation-name>/?param1=value1&param2=value2"
 ```
 ### Client SDKs
+
 API clients are available for the following languages:
 
 | **Language** | **Download links** | **Notes** |
