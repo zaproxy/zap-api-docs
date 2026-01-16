@@ -46,13 +46,19 @@ The API documentation is divided into nine main sections.
 <aside class="notice">
 The examples show some usages with the minimal required arguments. However, this is not a reference, and not all APIs 
 nor arguments are shown. View the API catalogue to see all the parameters and scope of each API.
-</aside>
-## Basics on the API Request
+</a![zap_api_ui](../images/zap_api_ui.png)
+Basics on the API Request
+
+ZAP APIs provide access to most of the core features of ZAP such as the active scanner and spider. ZAP API is enabled by default
+in the daemon mode and the desktop mode. If you are using ZAP desktop, then the API can be configured by visiting the following screen:
+
+`Tools -> Options -> API`.
+
+![zap_desktop_api](../images/zap_desktop_api.png)
 
 <aside class="notice">
-ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations. 
-The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key 
-unless you are using ZAP in a completely isolated environment.
+ZAP requires an API Key to perform specific actions via the REST API. The API key must be specified on all API 'actions' and some 'other' operations.
+The API key is used to prevent malicious sites from accessing ZAP APIs. It is strongly recommended that you set a key unless you are using ZAP in a completely isolated environment.
 </aside>
 
 <aside class="warning">
@@ -60,8 +66,9 @@ Also make sure that you have installed the necessary add-ons while invoking feat
 For example, if you receive "no_implementor error" in relation to Ajax Spider calls, perhaps the Ajax Spider add-on isn't installed.
 </aside>
 
-Please note that not all the operations which are available in the desktop interface are available via the APIs. 
+Please note that not all the operations which are available in the desktop interface are available via the APIs.
 Future versions of ZAP will increase the functionality/scope available via the APIs.
+
 
 ### API URL Format
 
