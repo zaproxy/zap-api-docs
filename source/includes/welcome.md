@@ -107,6 +107,7 @@ When interacting with the ZAP API using curl, keep the following points in mind:
 ```bash
 curl "http://zap/<format>/<component>/<operation>/<operation-name>/?param1=value1&param2=value2"
 ```
+
 ### Client SDKs
 
 API clients are available for the following languages:
