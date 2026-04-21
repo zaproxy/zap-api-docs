@@ -12,14 +12,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.2
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       with:
-        node-version: '20'
-    - uses: actions/checkout@v4
+        node-version: '24'
+    - uses: actions/checkout@v6
       with:
         path: zap-api-docs
     - name: Checkout zaproxy.github.io
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: zaproxy/zaproxy.github.io
         persist-credentials: false
