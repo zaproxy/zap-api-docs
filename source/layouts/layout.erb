@@ -46,13 +46,13 @@ under the License.
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
-    <a href="#" id="nav-button">
+    <a href="#" id="nav-button" role="button" aria-label="Toggle Navigation" aria-expanded="false" aria-controls="toc-wrapper">
       <span>
         NAV
         <%= image_tag('navbar.png') %>
       </span>
     </a>
-    <div class="toc-wrapper">
+    <nav class="toc-wrapper" id="toc-wrapper" aria-label="Table of Contents">
       <%= link_to(image_tag("logo.png", :title => "Click here to return to ZAP home page"), "/") %>
       <% if language_tabs.any? %>
         <div class="lang-selector">
@@ -94,7 +94,7 @@ under the License.
           <% end %>
         </ul>
       <% end %>
-    </div>
+    </nav>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
