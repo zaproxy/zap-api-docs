@@ -100,7 +100,9 @@ View the [advanced section](#passive-scan-settings) to know how to configure add
 ## Using Active Scan
 
 Active scanning attempts to find potential vulnerabilities by using known attacks against the selected targets. Active scanning 
-is an attack on those targets. You should **NOT** use it on applications that you do not have permission to. 
+is an attack on those targets. You should **NOT** use it on applications that you do not have permission to.
+
+For a practical walkthrough covering ZAP crawling, active scanning, parameter fuzzing, authenticated testing, and API automation, see this [community-written ZAP testing guide](https://en.hackita.it/articoli/owasp-zap/). It complements these API examples and does not replace the official API reference.
 
 ### Start Active Scanner
 
